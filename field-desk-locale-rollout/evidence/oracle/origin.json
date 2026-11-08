@@ -1,0 +1,19 @@
+{
+  "job": "oracle-04",
+  "trial": "field-desk-locale-rollout__akTMgPU",
+  "command": "harbor run -p field-desk-locale-rollout -a oracle --job-name oracle-04",
+  "harbor_version": "0.25.0",
+  "started_at": "2026-11-08T20:30:51.345846Z",
+  "finished_at": "2026-11-08T20:31:39.946370Z",
+  "task_checksum": "3f4a747ae57039090cb0dbade49c925d16ff817e72ae003ab952973158a912d1",
+  "exception_info": null,
+  "verifier_result": {
+    "rewards": {
+      "overall": 1.0,
+      "functional_correctness": 1.0,
+      "constraint_satisfaction": 1.0,
+      "robustness": 1.0,
+      "artifact_quality": 1.0
+    }
+  }
+}

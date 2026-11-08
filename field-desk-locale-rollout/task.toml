@@ -1,0 +1,25 @@
+schema_version = "1.4"
+artifacts = ["/app/static", "/app/serve.py", "/app/output"]
+[task]
+name = "collinear-candidate/field-desk-locale-rollout"
+authors = [{name = "Shiv Shankar Keshari"}]
+description = "Complete a locale rollout throughout an original work-order application."
+[metadata]
+category = "software-engineering"
+difficulty = "hard"
+tags = ["javascript", "python", "localization", "state", "browser"]
+provenance = "Application, catalogs, data, oracle and verifier authored from scratch for this exercise, with AI assistance. No existing app repository used."
+[agent]
+timeout_sec = 7200.0
+network_mode = "public"
+[verifier]
+timeout_sec = 900.0
+network_mode = "public"
+environment_mode = "shared"
+[environment]
+build_timeout_sec = 1200.0
+cpus = 4
+memory_mb = 4096
+storage_mb = 10240
+network_mode = "public"
+workdir = "/app"

@@ -1,0 +1,7 @@
+jobs/
+validation/
+dist/
+authoring/
+__pycache__/
+*.pyc
+.env

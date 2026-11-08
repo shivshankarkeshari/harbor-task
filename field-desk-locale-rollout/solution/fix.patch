@@ -1,0 +1,303 @@
+--- a/static/app.js
++++ b/static/app.js
+@@ -1,6 +1,6 @@
+ import {state, api, reload} from './core/state.js';
+ import {loadCatalogs, t, setLanguage, applyDirection} from './core/locale.js';
+-import {parseAmount, inputAmount} from './core/format.js';
++import {parseAmount, inputAmount, localizeDraft} from './core/format.js';
+ import {header, navigation} from './core/shell.js';
+ import * as orders from './views/orders.js';
+ import * as dispatch from './views/dispatch.js';
+@@ -12,7 +12,9 @@
+ import * as help from './views/help.js';
+ 
+ const views = {orders,dispatch,parts,billing,activity,reports,settings,help};
++let rendering=false;
+ function render() {
++  rendering=true;
+   const active = document.activeElement;
+   const focus = active?.id;
+   const selection = typeof active?.selectionStart === 'number' ? [active.selectionStart,active.selectionEnd] : null;
+@@ -29,6 +31,7 @@
+     next?.focus();
+     if (selection && next?.setSelectionRange) try {next.setSelectionRange(...selection);} catch {}
+   }
++  rendering=false;
+ }
+ function open(kind, form={}) {state.modal=kind;state.form=form;state.error=null;render();}
+ function close() {state.modal=null;state.form={};state.error=null;render();}
+@@ -76,10 +79,10 @@
+       const link=document.createElement('a');link.href=url;link.download='work-orders.csv';link.click();URL.revokeObjectURL(url);
+       notice('notice.exported');
+     } else if (name==='copy-help') {
+-      const text="Field Desk: plan, assign, reserve, record, and export.";
++      const text=t('help.copyText');
+       if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(text);
+       notice('common.copied');render();
+-      document.querySelector('[data-testid="help-copy-result"]').textContent="Copied to clipboard";return;
++      document.querySelector('[data-testid="help-copy-result"]').textContent=t('common.copied');return;
+     } else return;
+     await reload();close();
+   } catch (error) {state.error=error;render();}
+@@ -91,6 +94,7 @@
+ });
+ document.addEventListener('input',event=>{
+   const element=event.target;
++  if(rendering || !element.isConnected)return;
+   if (element.dataset.field) {
+     state.form[element.dataset.field]=element.value;
+     if (['budget','amount'].includes(element.dataset.field)) state.form.amountLocale=state.locale;
+@@ -99,12 +103,14 @@
+ });
+ document.addEventListener('change',async event=>{
+   const element=event.target;
++  if(rendering || !element.isConnected)return;
+   if (element.id==='language') {
+-    await setLanguage(element.value);
++    const previous=state.locale;
++    await setLanguage(element.value);localizeDraft(previous);render();
+   } else if (element.id==='operator') {
+     state.operator=element.value;localStorage.setItem('field-desk.operator',state.operator);
+     state.modal=null;state.notice=null;state.error=null;state.selected=[];
+-    await reload();state.locale=localStorage.getItem('field-desk.locale')||'en';applyDirection();render();
++    await reload();state.locale=state.data.preferences.locale;applyDirection();render();
+   } else if (element.dataset.select) {
+     const id=Number(element.dataset.select);
+     state.selected=element.checked?[...new Set([...state.selected,id])]:state.selected.filter(value=>value!==id);render();
+@@ -112,4 +118,4 @@
+   else if (element.dataset.viewField) {state[element.dataset.viewField]=element.value;render();}
+ });
+ window.addEventListener('hashchange',()=>{state.route=location.hash.slice(1)||'orders';state.modal=null;state.error=null;render();});
+-await loadCatalogs();await reload();state.locale=localStorage.getItem('field-desk.locale')||'en';applyDirection();render();
++await loadCatalogs();await reload();state.locale=state.data.preferences.locale;applyDirection();render();
+--- a/static/core/format.js
++++ b/static/core/format.js
+@@ -1,7 +1,28 @@
+-export const money=minor=>new Intl.NumberFormat('en',{style:'currency',currency:'EUR'}).format(minor/100);
+-export const number=value=>new Intl.NumberFormat('en').format(value);
+-export function parseAmount(raw) {
+-  const text=String(raw).trim().replace(/,/g,'');
+-  return /^\d+(?:\.\d{1,2})?$/.test(text)?Math.round(Number(text)*100):null;
++import {state} from './state.js';
++export const money = minor => new Intl.NumberFormat(state.locale, {style:'currency',currency:'EUR'}).format(minor/100);
++export const number = value => new Intl.NumberFormat(state.locale).format(value);
++export function parseAmount(raw, locale = state.locale) {
++  let text = String(raw).trim().replace(/[٠-٩]/g, ch => String(ch.charCodeAt(0)-0x660));
++  const arabicSeparators = locale === 'ar' && /[٬٫]/.test(text);
++  const group = locale === 'de' ? '.' : arabicSeparators ? '٬' : ',';
++  const decimal = locale === 'de' ? ',' : arabicSeparators ? '٫' : '.';
++  const originalPieces = text.split(decimal);
++  if (originalPieces.length > 2) return null;
++  const groups = originalPieces[0].split(group);
++  if (groups.length > 1 && (!/^\d{1,3}$/.test(groups[0]) || groups.slice(1).some(piece => !/^\d{3}$/.test(piece)))) return null;
++  text = text.split(group).join('');
++  const pieces = text.split(decimal);
++  if (pieces.length > 2 || !/^\d+$/.test(pieces[0]) || (pieces.length===2 && !/^\d{1,2}$/.test(pieces[1]))) return null;
++  const minor = Number(pieces[0])*100 + Number((pieces[1] || '').padEnd(2,'0'));
++  return Number.isSafeInteger(minor) && minor <= 99999999 ? minor : null;
+ }
+-export function inputAmount(minor) {return (minor/100).toFixed(2);}
++export function inputAmount(minor, locale=state.locale) {
++  return new Intl.NumberFormat(locale,{minimumFractionDigits:2,maximumFractionDigits:2,useGrouping:false}).format(minor/100);
++}
++export function localizeDraft(previousLocale) {
++  for (const key of ['budget','amount']) {
++    if (!(key in state.form)) continue;
++    const minor = parseAmount(state.form[key], state.form.amountLocale || previousLocale);
++    if (minor !== null) {state.form[key] = inputAmount(minor); state.form.amountLocale = state.locale;}
++  }
++}
+--- a/static/core/locale.js
++++ b/static/core/locale.js
+@@ -1,20 +1,26 @@
+-import {state} from './state.js';
++import {state, api} from './state.js';
+ export const catalogs = {};
+ export async function loadCatalogs() {
+   for (const locale of ['en','de','ar']) catalogs[locale] = await (await fetch(`/locales/${locale}.json`)).json();
+ }
+-export function t(key, args={}) {
+-  let text=catalogs.en[key];
+-  if (typeof text==='object') text=text[new Intl.PluralRules('en').select(args.count)] ?? text.other;
+-  return text.replace(/\{(\w+)\}/g,(_,name)=>typeof args[name]==='number'?new Intl.NumberFormat('en').format(args[name]):String(args[name]??`{${name}}`));
++export function t(key, args = {}) {
++  let text = catalogs[state.locale]?.[key] ?? catalogs.en[key];
++  if (typeof text === 'object') text = text[new Intl.PluralRules(state.locale).select(args.count)] ?? text.other;
++  if (typeof text !== 'string') throw new Error(`Missing UI message: ${key}`);
++  return text.replace(/\{(\w+)\}/g, (_, name) => typeof args[name] === 'number'
++    ? new Intl.NumberFormat(state.locale).format(args[name]) : String(args[name] ?? `{${name}}`));
+ }
+ export function applyDirection() {
+-  document.documentElement.lang=state.locale;
+-  document.documentElement.dir='ltr';
++  document.documentElement.lang = state.locale;
++  document.documentElement.dir = state.locale === 'ar' ? 'rtl' : 'ltr';
+ }
+ export async function setLanguage(locale) {
+-  state.locale=locale;
+-  localStorage.setItem('field-desk.locale',locale);
++  if (!catalogs[locale]) return;
++  await api('preferences', {locale, notifications: state.data.preferences.notifications});
++  state.data.preferences.locale = locale;
++  state.locale = locale;
+   applyDirection();
+ }
+-export function errorText(error) {return t(`error.${error?.code || 'REQUEST_FAILED'}`,error || {});}
++export function errorText(error) {
++  return t(`error.${error?.code || 'REQUEST_FAILED'}`, error || {});
++}
+--- a/static/core/shell.js
++++ b/static/core/shell.js
+@@ -1,19 +1,19 @@
+ import {state, escape} from './state.js';
+ import {t, errorText} from './locale.js';
+ export function header() {
+-  return `<h1>Field Desk</h1><label>Operator<select id="operator" data-testid="operator">${state.data.operators.map(user=>`<option value="${user.id}" ${state.operator===user.id?'selected':''}>${escape(user.name)}</option>`).join('')}</select></label>
+-    <label>Language<select id="language" data-testid="language">${[['en','English'],['de','Deutsch'],['ar','العربية']].map(([code,name])=>`<option value="${code}" ${state.locale===code?'selected':''}>${name}</option>`).join('')}</select></label>`;
++  return `<h1>Field Desk</h1><label>${t('app.operator')}<select id="operator" data-testid="operator">${state.data.operators.map(user=>`<option value="${user.id}" ${state.operator===user.id?'selected':''}>${escape(user.name)}</option>`).join('')}</select></label>
++    <label>${t('app.language')}<select id="language" data-testid="language">${[['en','English'],['de','Deutsch'],['ar','العربية']].map(([code,name])=>`<option value="${code}" ${state.locale===code?'selected':''}>${name}</option>`).join('')}</select></label>`;
+ }
+ export function navigation() {
+   const links = [
+-    ['orders', "Work orders"], ['dispatch', "Dispatch"], ['parts', "Parts"],
+-    ['billing', "Billing"], ['activity', "Activity"], ['reports', "Reports"],
+-    ['settings', "Settings"], ['help', "Help"],
++    ['orders', t('nav.orders')], ['dispatch', t('nav.dispatch')], ['parts', t('nav.parts')],
++    ['billing', t('nav.billing')], ['activity', t('nav.activity')], ['reports', t('nav.reports')],
++    ['settings', t('nav.settings')], ['help', t('nav.help')],
+   ];
+   return links.map(([route,label])=>`<a data-testid="nav-${route}" href="#${route}" class="${state.route===route?'active':''}">${label}</a>`).join('');
+ }
+ export function status(code) {return t(`status.${code}`);}
+ export function modal(title, body, action) {
+-  return `<div class="modal-overlay"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="dialog-title"><button class="close" data-action="close" data-testid="dialog-x" aria-label="Close">×</button><h2 id="dialog-title" data-testid="dialog-title">${title}</h2>${body}<div role="alert" data-testid="dialog-error" class="error">${state.error?escape(errorText(state.error)):''}</div><div class="modal-actions"><button data-action="close" data-testid="cancel">Cancel</button><button class="primary" data-action="${action}" data-testid="submit">Confirm</button></div></section></div>`;
++  return `<div class="modal-overlay"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="dialog-title"><button class="close" data-action="close" data-testid="dialog-x" aria-label="${t('common.close')}">×</button><h2 id="dialog-title" data-testid="dialog-title">${title}</h2>${body}<div role="alert" data-testid="dialog-error" class="error">${state.error?escape(errorText(state.error)):''}</div><div class="modal-actions"><button data-action="close" data-testid="cancel">${t('common.cancel')}</button><button class="primary" data-action="${action}" data-testid="submit">${t('common.confirm')}</button></div></section></div>`;
+ }
+ export function orderOptions() {return state.data.orders.map(order=>`<option value="${order.id}" ${String(state.form.order_id)===String(order.id)?'selected':''}>#${order.id} ${escape(order.title)}</option>`).join('');}
+--- a/static/style.css
++++ b/static/style.css
+@@ -1 +1 @@
+-:root{font:16px system-ui,sans-serif;color:#1d2939;background:#f4f6fa}*{box-sizing:border-box}body{margin:0}header{position:relative;z-index:20;display:flex;align-items:center;gap:18px;background:#162536;color:white;padding:18px 24px}header h1{margin:0;margin-inline-end:auto;font-size:22px}label{display:inline-flex;flex-direction:column;gap:6px}button,input,select,textarea{font:inherit;padding:9px;border:1px solid #a9b6c5;border-radius:6px}button{background:white;color:#143558;cursor:pointer}button:hover{background:#e6effb}button.primary{background:#225fa3;color:white}button:disabled{opacity:.5;cursor:default}.layout{display:flex;min-height:85vh;direction:ltr}nav{width:205px;flex-shrink:0;padding:20px;background:#e5eaf2}nav a{display:block;padding:12px;color:#173c68;text-decoration:none;border-radius:7px}nav a.active{background:#c8daf0;font-weight:700}main{padding:28px;flex:1;min-width:0}h2{margin-top:0}.toolbar,.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0}.card{background:white;border:1px solid #d8e0e9;border-radius:10px;padding:20px;margin:16px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}table{width:100%;border-collapse:collapse;background:white}th,td{text-align:start;border-bottom:1px solid #e3e7ed;padding:12px}small,.muted{color:#5a6d83}.badge{border-radius:20px;background:#e8eff7;padding:4px 10px}.modal-overlay{position:fixed;inset:0;background:#16253666;display:flex;align-items:center;justify-content:center;z-index:10}.modal{width:min(600px,92vw);max-height:90vh;overflow:auto;background:white;border-radius:12px;padding:24px}.modal label{display:flex;margin:12px 0}.modal-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:20px}.error{color:#b32035;padding:9px;background:#fff0f2;min-height:1em}.success{color:#196b43}.close{float:right}.link-arrow{display:inline-block}#toast:empty{display:none}#toast{position:fixed;bottom:20px;right:24px;padding:16px;background:#132f4d;color:white;border-radius:10px;z-index:15}pre{white-space:pre-wrap}.help-list li{margin:10px 0}textarea{min-height:70px}.money{font-variant-numeric:tabular-nums}
++:root{font:16px system-ui,sans-serif;color:#1d2939;background:#f4f6fa}*{box-sizing:border-box}body{margin:0}header{position:relative;z-index:20;display:flex;align-items:center;gap:18px;background:#162536;color:white;padding:18px 24px}header h1{margin:0;margin-inline-end:auto;font-size:22px}label{display:inline-flex;flex-direction:column;gap:6px}button,input,select,textarea{font:inherit;padding:9px;border:1px solid #a9b6c5;border-radius:6px}button{background:white;color:#143558;cursor:pointer}button:hover{background:#e6effb}button.primary{background:#225fa3;color:white}button:disabled{opacity:.5;cursor:default}.layout{display:flex;min-height:85vh;direction:inherit}nav{width:205px;flex-shrink:0;padding:20px;background:#e5eaf2}nav a{display:block;padding:12px;color:#173c68;text-decoration:none;border-radius:7px}nav a.active{background:#c8daf0;font-weight:700}main{padding:28px;flex:1;min-width:0}h2{margin-top:0}.toolbar,.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0}.card{background:white;border:1px solid #d8e0e9;border-radius:10px;padding:20px;margin:16px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}table{width:100%;border-collapse:collapse;background:white}th,td{text-align:start;border-bottom:1px solid #e3e7ed;padding:12px}small,.muted{color:#5a6d83}.badge{border-radius:20px;background:#e8eff7;padding:4px 10px}.modal-overlay{position:fixed;inset:0;background:#16253666;display:flex;align-items:center;justify-content:center;z-index:10}.modal{width:min(600px,92vw);max-height:90vh;overflow:auto;background:white;border-radius:12px;padding:24px}.modal label{display:flex;margin:12px 0}.modal-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:20px}.error{color:#b32035;padding:9px;background:#fff0f2;min-height:1em}.success{color:#196b43}.close{float:inline-end}.link-arrow{display:inline-block}#toast:empty{display:none}#toast{position:fixed;bottom:20px;inset-inline-end:24px;padding:16px;background:#132f4d;color:white;border-radius:10px;z-index:15}pre{white-space:pre-wrap}.help-list li{margin:10px 0}textarea{min-height:70px}.money{font-variant-numeric:tabular-nums}
+--- a/static/views/activity.js
++++ b/static/views/activity.js
+@@ -1,5 +1,5 @@
+ import {state, escape} from '../core/state.js';
+ import {t} from '../core/locale.js';
+ export function render() {
+-  return `<h2 data-testid="page-title">Activity log</h2><p>Events describe actions; customer wording stays unchanged.</p><section class="card"><ul>${state.data.activity.map(event=>`<li data-testid="event-${event.id}">${escape(t(`event.${event.kind}`,{...JSON.parse(event.payload),actor:event.actor==='robin'?'Robin':'Amal'}))}</li>`).join('')}</ul></section>`;
++  return `<h2 data-testid="page-title">${t('activity.title')}</h2><p>${t('activity.subtitle')}</p><section class="card"><ul>${state.data.activity.map(event=>`<li data-testid="event-${event.id}">${escape(t(`event.${event.kind}`,{...JSON.parse(event.payload),actor:event.actor==='robin'?'Robin':'Amal'}))}</li>`).join('')}</ul></section>`;
+ }
+--- a/static/views/billing.js
++++ b/static/views/billing.js
+@@ -3,12 +3,12 @@
+ import {money} from '../core/format.js';
+ import {modal, orderOptions} from '../core/shell.js';
+ export function render() {
+-  return `<h2 data-testid="page-title">Work-order billing</h2><p>Record charges in euros; stored amounts use integer cents.</p><button data-action="charge" data-testid="charge">Record charge</button>
+-    <section class="card"><h3>Total recorded charges</h3><strong data-testid="charge-total" class="money">${money(state.data.charges.reduce((total,row)=>total+row.amount_minor,0))}</strong></section>
+-    ${state.data.charges.length?`<table><thead><tr><th>Work order</th><th>Amount (EUR)</th><th>Internal memo</th></tr></thead><tbody>${state.data.charges.map(row=>`<tr><td>#${row.order_id}</td><td>${money(row.amount_minor)}</td><td class="user-content">${escape(row.memo)}</td></tr>`).join('')}</tbody></table>`:`<p data-testid="charges-empty">No charges recorded</p>`}`;
++  return `<h2 data-testid="page-title">${t('billing.title')}</h2><p>${t('billing.subtitle')}</p><button data-action="charge" data-testid="charge">${t('billing.record')}</button>
++    <section class="card"><h3>${t('billing.total')}</h3><strong data-testid="charge-total" class="money">${money(state.data.charges.reduce((total,row)=>total+row.amount_minor,0))}</strong></section>
++    ${state.data.charges.length?`<table><thead><tr><th>${t('field.order')}</th><th>${t('billing.amount')}</th><th>${t('billing.memo')}</th></tr></thead><tbody>${state.data.charges.map(row=>`<tr><td>#${row.order_id}</td><td>${money(row.amount_minor)}</td><td class="user-content">${escape(row.memo)}</td></tr>`).join('')}</tbody></table>`:`<p data-testid="charges-empty">${t('billing.empty')}</p>`}`;
+ }
+ export function dialog() {
+-  return modal("Record a charge",`<label>Work order<select id="order-id" data-field="order_id" data-testid="order-id">${orderOptions()}</select></label>
+-    <label>Amount (EUR)<input id="amount" data-field="amount" data-testid="amount" value="${value('amount')}" inputmode="decimal"></label>
+-    <label>Internal memo<textarea id="memo" data-field="memo" data-testid="memo" placeholder="Keep the customer's wording">${value('memo')}</textarea></label>`,'save-charge');
++  return modal(t('billing.dialogTitle'),`<label>${t('field.order')}<select id="order-id" data-field="order_id" data-testid="order-id">${orderOptions()}</select></label>
++    <label>${t('billing.amount')}<input id="amount" data-field="amount" data-testid="amount" value="${value('amount')}" inputmode="decimal"></label>
++    <label>${t('billing.memo')}<textarea id="memo" data-field="memo" data-testid="memo" placeholder="${t('billing.memoHint')}">${value('memo')}</textarea></label>`,'save-charge');
+ }
+--- a/static/views/dispatch.js
++++ b/static/views/dispatch.js
+@@ -2,9 +2,9 @@
+ import {t} from '../core/locale.js';
+ import {modal, orderOptions} from '../core/shell.js';
+ export function render() {
+-  return `<h2 data-testid="page-title">Crew dispatch</h2><p>Assign an available crew to an existing work order.</p><div class="grid">${state.data.crews.map(crew=>`<article class="card"><h3 class="user-content">${escape(crew.name)}</h3><p data-testid="crew-${crew.id}-status">${crew.available?"Available":"Unavailable"}</p><button data-action="assign" data-id="${crew.id}" data-testid="assign-${crew.id}">Assign crew <span class="link-arrow">→</span></button></article>`).join('')}</div>`;
++  return `<h2 data-testid="page-title">${t('dispatch.title')}</h2><p>${t('dispatch.subtitle')}</p><div class="grid">${state.data.crews.map(crew=>`<article class="card"><h3 class="user-content">${escape(crew.name)}</h3><p data-testid="crew-${crew.id}-status">${crew.available?t('dispatch.available'):t('dispatch.unavailable')}</p><button data-action="assign" data-id="${crew.id}" data-testid="assign-${crew.id}">${t('dispatch.assign')} <span class="link-arrow">→</span></button></article>`).join('')}</div>`;
+ }
+ export function dialog() {
+   const crew = state.data.crews.find(row=>row.id===state.form.crew_id);
+-  return modal("Assign work order",`<p>${t('dispatch.assignTo',{name:crew.name})}</p><label>Work order<select id="order-id" data-field="order_id" data-testid="order-id">${orderOptions()}</select></label>`,'save-assignment');
++  return modal(t('dispatch.dialogTitle'),`<p>${t('dispatch.assignTo',{name:crew.name})}</p><label>${t('field.order')}<select id="order-id" data-field="order_id" data-testid="order-id">${orderOptions()}</select></label>`,'save-assignment');
+ }
+--- a/static/views/help.js
++++ b/static/views/help.js
+@@ -1,5 +1,5 @@
+ import {t} from '../core/locale.js';
+ export function render() {
+-  const topics = ["Create or edit a work order without losing customer text.","Unavailable crews cannot receive assignments.","Stock reservations require a positive whole quantity.","Charges are stored as integer cents, regardless of language.","Exported CSV uses the same machine format in every language."];
+-  return `<h2 data-testid="page-title">Using Field Desk</h2><p>A short guide to the operational workflow.</p><ul class="help-list">${topics.map(text=>`<li>${text}</li>`).join('')}</ul><button data-action="copy-help" data-testid="copy-help">Copy quick guide</button><p data-testid="help-copy-result"></p>`;
++  const topics = [t('help.orders'),t('help.dispatch'),t('help.parts'),t('help.billing'),t('help.export')];
++  return `<h2 data-testid="page-title">${t('help.title')}</h2><p>${t('help.subtitle')}</p><ul class="help-list">${topics.map(text=>`<li>${text}</li>`).join('')}</ul><button data-action="copy-help" data-testid="copy-help">${t('help.copy')}</button><p data-testid="help-copy-result"></p>`;
+ }
+--- a/static/views/orders.js
++++ b/static/views/orders.js
+@@ -5,19 +5,19 @@
+ export function render() {
+   const rows = state.data.orders.filter(order=>(state.filter==='ALL'||order.status===state.filter)
+     && `${order.title} ${order.customer}`.toLowerCase().includes(state.search.toLowerCase()));
+-  return `<h2 data-testid="page-title">Work orders</h2><p data-testid="orders-subtitle">Plan work, assign crews, and preserve the job details.</p>
+-    <div class="toolbar"><label>Search orders<input id="search" data-testid="search" data-view-field="search" value="${escape(state.search)}" placeholder="Search title or customer"></label>
+-    <label>Status filter<select id="filter" data-testid="filter" data-view-field="filter">${[['ALL',"All statuses"],['OPEN',status('OPEN')],['ASSIGNED',status('ASSIGNED')],['DONE',status('DONE')]].map(([v,l])=>`<option value="${v}" ${state.filter===v?'selected':''}>${l}</option>`).join('')}</select></label>
+-    <button data-action="new-order" data-testid="new-order">New work order</button><button data-action="bulk" data-testid="bulk">Complete selected</button></div>
++  return `<h2 data-testid="page-title">${t('orders.title')}</h2><p data-testid="orders-subtitle">${t('orders.subtitle')}</p>
++    <div class="toolbar"><label>${t('orders.search')}<input id="search" data-testid="search" data-view-field="search" value="${escape(state.search)}" placeholder="${t('orders.searchHint')}"></label>
++    <label>${t('orders.filter')}<select id="filter" data-testid="filter" data-view-field="filter">${[['ALL',t('orders.all')],['OPEN',status('OPEN')],['ASSIGNED',status('ASSIGNED')],['DONE',status('DONE')]].map(([v,l])=>`<option value="${v}" ${state.filter===v?'selected':''}>${l}</option>`).join('')}</select></label>
++    <button data-action="new-order" data-testid="new-order">${t('orders.new')}</button><button data-action="bulk" data-testid="bulk">${t('orders.complete')}</button></div>
+     <p data-testid="selection-count">${t('orders.selected',{count:state.selected.length})}</p>
+-    ${rows.length?`<table><thead><tr><th>Select</th><th>Title</th><th>Customer</th><th>Status</th><th>Budget (EUR)</th><th>Actions</th></tr></thead><tbody>${rows.map(order=>`<tr data-testid="order-${order.id}"><td><input type="checkbox" data-select="${order.id}" data-testid="select-${order.id}" ${state.selected.includes(order.id)?'checked':''} aria-label="${escape(t('orders.selectOne',{title:order.title}))}"></td><td class="user-content">${escape(order.title)}</td><td class="user-content">${escape(order.customer)}</td><td data-testid="status-${order.id}" class="badge">${status(order.status)}</td><td class="money">${money(order.budget_minor)}</td><td><button data-action="edit-order" data-id="${order.id}" data-testid="edit-${order.id}">Edit</button></td></tr>`).join('')}</tbody></table>`:`<section class="card" data-testid="empty"><h3>No matching work orders</h3><p>Try a different search or clear the filters.</p><button data-action="clear-search" data-testid="clear-search">Clear search</button></section>`}`;
++    ${rows.length?`<table><thead><tr><th>${t('orders.choose')}</th><th>${t('field.title')}</th><th>${t('field.customer')}</th><th>${t('field.status')}</th><th>${t('field.budget')}</th><th>${t('field.actions')}</th></tr></thead><tbody>${rows.map(order=>`<tr data-testid="order-${order.id}"><td><input type="checkbox" data-select="${order.id}" data-testid="select-${order.id}" ${state.selected.includes(order.id)?'checked':''} aria-label="${escape(t('orders.selectOne',{title:order.title}))}"></td><td class="user-content">${escape(order.title)}</td><td class="user-content">${escape(order.customer)}</td><td data-testid="status-${order.id}" class="badge">${status(order.status)}</td><td class="money">${money(order.budget_minor)}</td><td><button data-action="edit-order" data-id="${order.id}" data-testid="edit-${order.id}">${t('orders.edit')}</button></td></tr>`).join('')}</tbody></table>`:`<section class="card" data-testid="empty"><h3>${t('orders.emptyTitle')}</h3><p>${t('orders.emptyBody')}</p><button data-action="clear-search" data-testid="clear-search">${t('common.clear')}</button></section>`}`;
+ }
+ export function orderDialog() {
+-  return modal(state.form.id?"Edit work order":"Create work order",
+-    `<label>Title<input id="title" data-field="title" data-testid="title" value="${value('title')}" placeholder="Describe the work"></label>
+-    <label>Customer<input id="customer" data-field="customer" data-testid="customer" value="${value('customer')}"></label>
+-    <label>Budget (EUR)<input id="budget" data-field="budget" data-testid="budget" value="${value('budget')}" inputmode="decimal"></label><small data-testid="amount-hint">Use your language's decimal separator; at most two decimal places.</small>`, 'save-order');
++  return modal(state.form.id?t('order.editTitle'):t('order.createTitle'),
++    `<label>${t('field.title')}<input id="title" data-field="title" data-testid="title" value="${value('title')}" placeholder="${t('order.titleHint')}"></label>
++    <label>${t('field.customer')}<input id="customer" data-field="customer" data-testid="customer" value="${value('customer')}"></label>
++    <label>${t('field.budget')}<input id="budget" data-field="budget" data-testid="budget" value="${value('budget')}" inputmode="decimal"></label><small data-testid="amount-hint">${t('order.amountHint')}</small>`, 'save-order');
+ }
+ export function bulkDialog() {
+-  return modal("Complete work orders",`<p data-testid="bulk-question">${t('bulk.question',{count:state.selected.length})}</p><p>Customer titles and stored codes will not be changed.</p>`,'complete');
++  return modal(t('bulk.title'),`<p data-testid="bulk-question">${t('bulk.question',{count:state.selected.length})}</p><p>${t('bulk.warning')}</p>`,'complete');
+ }
+--- a/static/views/parts.js
++++ b/static/views/parts.js
+@@ -2,9 +2,9 @@
+ import {t} from '../core/locale.js';
+ import {modal} from '../core/shell.js';
+ export function render() {
+-  return `<h2 data-testid="page-title">Parts inventory</h2><p>Reserve stock without changing part names.</p><div class="grid">${state.data.parts.map(part=>`<article class="card"><h3 class="user-content">${escape(part.name)}</h3><p data-testid="stock-${part.id}">${t('parts.stock',{count:part.stock})}</p><button data-action="reserve" data-id="${part.id}" data-testid="reserve-${part.id}">Reserve parts</button></article>`).join('')}</div>`;
++  return `<h2 data-testid="page-title">${t('parts.title')}</h2><p>${t('parts.subtitle')}</p><div class="grid">${state.data.parts.map(part=>`<article class="card"><h3 class="user-content">${escape(part.name)}</h3><p data-testid="stock-${part.id}">${t('parts.stock',{count:part.stock})}</p><button data-action="reserve" data-id="${part.id}" data-testid="reserve-${part.id}">${t('parts.reserve')}</button></article>`).join('')}</div>`;
+ }
+ export function dialog() {
+   const part = state.data.parts.find(row=>row.id===state.form.part_id);
+-  return modal("Reserve inventory",`<p class="user-content">${escape(part.name)}</p><label>Quantity<input id="units" data-field="units" data-testid="units" value="${value('units')}" inputmode="numeric"></label><small>Enter a positive whole quantity.</small>`,'save-reservation');
++  return modal(t('parts.dialogTitle'),`<p class="user-content">${escape(part.name)}</p><label>${t('parts.quantity')}<input id="units" data-field="units" data-testid="units" value="${value('units')}" inputmode="numeric"></label><small>${t('parts.hint')}</small>`,'save-reservation');
+ }
+--- a/static/views/reports.js
++++ b/static/views/reports.js
+@@ -3,7 +3,7 @@
+ import {money} from '../core/format.js';
+ import {modal} from '../core/shell.js';
+ export function render() {
+-  return `<h2 data-testid="page-title">Operational reports</h2><p>Review progress and export stable machine-readable data.</p><div class="grid"><section class="card"><h3>Active work</h3><p data-testid="open-count">${t('reports.count',{count:state.data.orders.filter(row=>row.status!=='DONE').length})}</p></section><section class="card"><h3>Total planned budget</h3><p class="money">${money(state.data.orders.reduce((n,row)=>n+row.budget_minor,0))}</p></section></div>
+-    <button data-action="export" data-testid="export">Export CSV</button><p data-testid="export-note">CSV headers, status codes, user text, and cent amounts stay unchanged.</p>`;
++  return `<h2 data-testid="page-title">${t('reports.title')}</h2><p>${t('reports.subtitle')}</p><div class="grid"><section class="card"><h3>${t('reports.open')}</h3><p data-testid="open-count">${t('reports.count',{count:state.data.orders.filter(row=>row.status!=='DONE').length})}</p></section><section class="card"><h3>${t('reports.budget')}</h3><p class="money">${money(state.data.orders.reduce((n,row)=>n+row.budget_minor,0))}</p></section></div>
++    <button data-action="export" data-testid="export">${t('reports.export')}</button><p data-testid="export-note">${t('reports.exportNote')}</p>`;
+ }
+-export function dialog() {return modal("Export work orders",`<p>Download all work orders using the documented CSV contract.</p>`,'download');}
++export function dialog() {return modal(t('reports.dialogTitle'),`<p>${t('reports.dialogBody')}</p>`,'download');}
+--- a/static/views/settings.js
++++ b/static/views/settings.js
+@@ -1,5 +1,5 @@
+ import {state} from '../core/state.js';
+ import {t} from '../core/locale.js';
+ export function render() {
+-  return `<h2 data-testid="page-title">Operator preferences</h2><p>Preferences belong to the selected operator.</p><section class="card"><label><span>Show operational notifications</span><input type="checkbox" data-testid="notifications" id="notifications" ${state.data.preferences.notifications?'checked':''}></label><p>Changing language must preserve this setting.</p><button data-action="save-settings" data-testid="save-settings">Save preferences</button></section><small data-testid="settings-operator">${t('settings.operatorNote',{name:state.operator==='robin'?'Robin':'Amal'})}</small>`;
++  return `<h2 data-testid="page-title">${t('settings.title')}</h2><p>${t('settings.subtitle')}</p><section class="card"><label><span>${t('settings.notifications')}</span><input type="checkbox" data-testid="notifications" id="notifications" ${state.data.preferences.notifications?'checked':''}></label><p>${t('settings.notificationsHint')}</p><button data-action="save-settings" data-testid="save-settings">${t('common.save')}</button></section><small data-testid="settings-operator">${t('settings.operatorNote',{name:state.operator==='robin'?'Robin':'Amal'})}</small>`;
+ }
