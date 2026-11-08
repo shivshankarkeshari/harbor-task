@@ -1,11 +1,11 @@
 {
-  "job": "starter-02",
-  "trial": "field-desk-locale-rollout__LN3eHEn",
-  "command": "harbor run -p field-desk-locale-rollout -a nop --job-name starter-02",
+  "job": "starter-03",
+  "trial": "field-desk-locale-rollout__X9yq7bG",
+  "command": "harbor run -p field-desk-locale-rollout -a nop --job-name starter-03",
   "harbor_version": "0.25.0",
-  "started_at": "2026-11-08T20:30:48.611314Z",
-  "finished_at": "2026-11-08T20:34:03.888619Z",
-  "task_checksum": "3f4a747ae57039090cb0dbade49c925d16ff817e72ae003ab952973158a912d1",
+  "started_at": "2026-11-08T20:54:38.515698Z",
+  "finished_at": "2026-11-08T20:57:51.828295Z",
+  "task_checksum": "d95efc585ad909242446087eef4d14a4160f8b7434f24e48ae92b7bb7b90f98a",
   "exception_info": null,
   "verifier_result": {
     "rewards": {
