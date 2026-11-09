@@ -1,0 +1,2 @@
+# Host runner; browser and application dependencies are installed in Docker.
+harbor==0.25.0
