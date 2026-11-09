@@ -148,7 +148,9 @@ def check(name,category,function):
 
 
 def language(page,locale):
-    page.get_by_test_id('language').select_option(locale)
+    # Native user interaction blurs the previous field before changing a select.
+    selector=page.get_by_test_id('language')
+    selector.focus();selector.select_option(locale)
     expect(page.locator('html')).to_have_attribute('lang',locale,timeout=4000)
 
 
@@ -329,10 +331,25 @@ def main():
             with scene('live-draft') as (page,server):
                 language(page,'de');page.get_by_test_id('search').fill('Ready');page.get_by_test_id('filter').select_option('OPEN');page.get_by_test_id('select-1').check();dialog(page,'edit-order')
                 page.get_by_test_id('title').fill('Open House: keep this wording');page.get_by_test_id('customer').fill('Ready for pickup');page.get_by_test_id('budget').fill('1.234,50')
-                language(page,'ar');text_is(page,page.get_by_test_id('dialog-title'),message(page,'ar','order.editTitle'))
+                # Hold only a successful preferences response. The still-enabled
+                # draft may be edited while a real language-keyboard action saves.
+                pending=[]
+                def hold_preference_response(route):
+                    if route.request.post_data_json.get('locale')=='ar':
+                        pending.append((route,route.fetch()))
+                    else:route.continue_()
+                page.route('**/api/preferences',hold_preference_response)
+                page.get_by_test_id('language').focus();page.get_by_test_id('language').press('End')
+                eventually(page,lambda:bool(pending),'Language preference request was not issued')
+                current=page.locator('html').get_attribute('lang')
+                page.get_by_test_id('budget').fill({'de':'1.234,51','ar':'١٢٣٤٫٥١','en':'1,234.51'}[current])
+                route,response=pending.pop(0);assert response.status==200
+                route.fulfill(response=response)
+                expect(page.locator('html')).to_have_attribute('lang','ar')
+                text_is(page,page.get_by_test_id('dialog-title'),message(page,'ar','order.editTitle'))
                 expect(page.get_by_test_id('title')).to_have_value('Open House: keep this wording');expect(page.get_by_test_id('customer')).to_have_value('Ready for pickup')
                 page.get_by_test_id('submit').click();expect(page.get_by_role('dialog')).to_have_count(0)
-                order=server.bootstrap()['orders'][0];assert order['budget_minor']==123450 and order['title']=='Open House: keep this wording',order
+                order=server.bootstrap()['orders'][0];assert order['budget_minor']==123451 and order['title']=='Open House: keep this wording',order
                 expect(page.get_by_test_id('search')).to_have_value('Ready');expect(page.get_by_test_id('filter')).to_have_value('OPEN')
                 text_is(page,page.get_by_test_id('selection-count'),message(page,'ar','orders.selected',count=1))
                 text_is(page,page.locator('#toast'),message(page,'ar','notice.saved',title=order['title']))
