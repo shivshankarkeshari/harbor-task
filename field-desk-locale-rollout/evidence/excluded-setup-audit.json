@@ -1,0 +1,92 @@
+{
+  "status": "setup_or_build_error_needs_triage",
+  "model": "gpt-6.1-sol",
+  "harness": "codex",
+  "high_reasoning_confirmed": false,
+  "overall_mean": null,
+  "critical_failure_count": 0,
+  "cases": [],
+  "same_check_ids": false,
+  "grading_consistency": {
+    "oracle": {
+      "reward_matches_checks": true,
+      "critical_report_matches_checks": true,
+      "complete_case_plan": true
+    },
+    "target": {
+      "reward_matches_checks": false,
+      "critical_report_matches_checks": false,
+      "complete_case_plan": false
+    }
+  },
+  "frozen_source": {
+    "verified": true,
+    "checked_files": 33,
+    "changed_or_missing_files": []
+  },
+  "failure_requirement_met": false,
+  "rubric": {
+    "Harbor compliance and reproducibility": {
+      "maximum": 20,
+      "reviewer_score": null
+    },
+    "Fairness and solvability": {
+      "maximum": 20,
+      "reviewer_score": null
+    },
+    "Verifier quality": {
+      "maximum": 20,
+      "reviewer_score": null
+    },
+    "Long-horizon difficulty": {
+      "maximum": 15,
+      "reviewer_score": null
+    },
+    "Evidence of frontier-model failure": {
+      "maximum": 15,
+      "reviewer_score": null
+    },
+    "Originality and realism": {
+      "maximum": 10,
+      "reviewer_score": null
+    }
+  },
+  "reviewer_total_out_of_100": null,
+  "cause_review": {
+    "wrong_hypothesis": {
+      "assigned": false,
+      "evidence_needed": "Needs an explicit hypothesis and a contradictory probe tied to the final artifact."
+    },
+    "incomplete_inspection": {
+      "assigned": false,
+      "evidence_needed": "Needs an omitted relevant workflow/dependency, not merely a file-read count."
+    },
+    "bad_state_tracking": {
+      "assigned": false,
+      "evidence_needed": "Needs before/after state and code showing lost or misinterpreted state."
+    },
+    "brittle_patch": {
+      "assigned": false,
+      "evidence_needed": "Needs a valid in-scope counterexample and passing oracle replay."
+    },
+    "skipped_verification": {
+      "assigned": false,
+      "evidence_needed": "Needs evidence of the verification performed and the missed case; absence alone is not proof."
+    },
+    "report_hallucination": {
+      "assigned": false,
+      "evidence_needed": "Needs an explicit claim contradicted by the same artifact/version."
+    },
+    "other_substantive_failure": {
+      "assigned": false,
+      "evidence_needed": "Needs a reproducible critical outcome violation and supported cause."
+    }
+  },
+  "validity_review": [
+    "Replay the failed case on the saved target artifact and the passing oracle.",
+    "Confirm the frozen source/test hashes and public requirement.",
+    "Inspect screenshots, visible text, form values and persisted state; exclude environment/verifier errors.",
+    "Write a short factual cause analysis; do not infer or score mental states from the trajectory."
+  ],
+  "note": "Mean reward is partial credit, not a substitute for critical outcomes. Cause labels and the 100-point rubric require evidence-based reviewer judgment."
+}

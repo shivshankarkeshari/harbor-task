@@ -1,0 +1,12 @@
+{
+  "real_controls_consistent": true,
+  "incorrect_mean_rejected": true,
+  "erased_critical_failures_rejected": true,
+  "missing_case_rejected": true,
+  "frozen_source": {
+    "verified": true,
+    "checked_files": 33,
+    "changed_or_missing_files": [],
+    "unexpected_task_files": []
+  }
+}

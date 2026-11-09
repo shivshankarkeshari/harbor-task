@@ -1,0 +1,71 @@
+{
+  "job": "codex-02",
+  "trial": "field-desk-locale-rollout__pQUApuW",
+  "command": "CODEX_FORCE_AUTH_JSON=1 harbor run -p field-desk-locale-rollout -a codex -m openai/gpt-6.1-sol --effort high --ak version=0.167.0 -k 1 -n 1 --job-name codex-02",
+  "harbor_version": "0.25.0",
+  "agent_info": {
+    "name": "codex",
+    "version": "0.167.0",
+    "model_info": {
+      "name": "gpt-6.1-sol",
+      "provider": "openai"
+    }
+  },
+  "started_at": "2026-11-08T21:01:17.199685Z",
+  "finished_at": "2026-11-08T21:14:37.267481Z",
+  "local_timezone": "Asia/Kolkata",
+  "task_checksum": "0fb0dd3fc02f999ec3787eeb62ab51939d4cce81a58ac210669e3332b6a92a89",
+  "exception_info": null,
+  "verifier_result": {
+    "rewards": {
+      "overall": 1.0,
+      "functional_correctness": 1.0,
+      "constraint_satisfaction": 1.0,
+      "robustness": 1.0,
+      "artifact_quality": 1.0
+    }
+  },
+  "observed_reasoning_efforts": [
+    "high"
+  ],
+  "turn_context_count": 1,
+  "outcome": "passed_no_demonstrated_failure",
+  "redactions": {
+    "codex/result.json": 3,
+    "oracle/result.json": 3,
+    "starter/result.json": 3
+  },
+  "source_file_sha256_before_redaction": {
+    "codex/checks.json": "2ea64e4bf01d40c84d5be0829638ebc148ee60cf49f278bca6102ee8bec5cd59",
+    "codex/reward.json": "7f1276dd23b2db992b1e8b20e694f10aa2cdaf2df30859a0699f4d204a786fe1",
+    "codex/critical-outcomes.json": "3dc12f9144fd66c57f9e856a4c8b9c5416c6a600f459716dcf80a9fe8220e635",
+    "codex/coverage.json": "7f4252d0d7743b8f757625ee05d1d7a5c473e94fb84d36bcccec72ef619feb16",
+    "codex/test-stdout.txt": "cad208b4edd61536b7fd914da7a7c4e11b7f6e98a0fafb90c2a4278a378d9f40",
+    "codex/layout-example.png": "cb50817828c535baf0f0380b2dc4872372cd1757ce433454dda088280fe9531a",
+    "codex/result.json": "cb7233842f1c291174089b3df57f5e93a5b45c7214fbcac5f20fe6c3d9561911",
+    "codex/trajectory.json": "5bf0747aa83e081e06b5dda05ca8bd8d55a0136b3b81adba2a79862ebc58eb55",
+    "codex/sessions/2026/11/08/rollout-2026-11-08T21-02-16-01a1bcf8-10c8-7e22-99c1-04b5565cb208.jsonl": "4b3029b0580f3ecc2b7d897cf93367b52e62272f3067432354e47e3f46280736",
+    "codex/LOCALE_AUDIT.md": "e64f321181efa9b81868596779d13a9647cfa26c6f3f9b8477c7ed56e3df0155",
+    "codex/locale-verification.txt": "34a9faa4cf51cbd61713b8f1627af4156e8b3b254c2f3d4f2a71a42ee8fab911",
+    "codex/locale-ar.png": "7d62894bd40bd223f4bc2b506fa1e5fc5cd8fa02391e8457f70d2768cd1b44c1",
+    "oracle/result.json": "fa1f36da41eceadab781bc9088ed56f5727e7125bebb826f3f9e0c814b83f6d6",
+    "starter/result.json": "9a615536ce4b55ba897e1ee8ed59daebe4ecfea228fc593eadc8c02babfa2a8a"
+  },
+  "file_sha256": {
+    "trajectory.json": "f2ba596d02f2a5d5bb04a3d829a277af278fa078ea4cc0ffb5d37cd4a1243704",
+    "model.patch": "c324f9309bc7ffb30b725171d20f79e96e059401b79a6bce18c1c89a52b29fc3",
+    "test-stdout.txt": "cad208b4edd61536b7fd914da7a7c4e11b7f6e98a0fafb90c2a4278a378d9f40",
+    "reward.json": "7f1276dd23b2db992b1e8b20e694f10aa2cdaf2df30859a0699f4d204a786fe1",
+    "result.json": "8b3fb55cbd80affa717c1362efda0012f5c3182d87d7ab80a296927eff9cb3b9",
+    "locale-ar.png": "7d62894bd40bd223f4bc2b506fa1e5fc5cd8fa02391e8457f70d2768cd1b44c1",
+    "final-response.txt": "a27b57b5d238b6029fd27b6657cd8ee986f3ec87ec2e5c17d6bda18f3724f6d4",
+    "layout-example.png": "cb50817828c535baf0f0380b2dc4872372cd1757ce433454dda088280fe9531a",
+    "checks.json": "2ea64e4bf01d40c84d5be0829638ebc148ee60cf49f278bca6102ee8bec5cd59",
+    "locale-verification.txt": "34a9faa4cf51cbd61713b8f1627af4156e8b3b254c2f3d4f2a71a42ee8fab911",
+    "critical-outcomes.json": "3dc12f9144fd66c57f9e856a4c8b9c5416c6a600f459716dcf80a9fe8220e635",
+    "coverage.json": "7f4252d0d7743b8f757625ee05d1d7a5c473e94fb84d36bcccec72ef619feb16",
+    "LOCALE_AUDIT.md": "e64f321181efa9b81868596779d13a9647cfa26c6f3f9b8477c7ed56e3df0155",
+    "assignment-audit.json": "9927a7ca93653c0147a44e702e12a582b4233f0b05add0ff3e0fc074a64131c2",
+    "sessions/2026/11/08/rollout-2026-11-08T21-02-16-01a1bcf8-10c8-7e22-99c1-04b5565cb208.jsonl": "c4475f35cf69d60964409125f1144f452f1852f7ef0d1b97a2c5a82b19784a47"
+  }
+}

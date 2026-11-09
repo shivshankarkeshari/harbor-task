@@ -1,19 +1,54 @@
 #!/usr/bin/env python3
 """Post-run evidence audit for this original task. No LLM calls or trajectory score."""
 import argparse
+import hashlib
 import json
+import math
 from pathlib import Path
+import runpy
+
+ROOT=Path(__file__).resolve().parent
+if ROOT.name=='evidence':ROOT=ROOT.parent.parent
+TASK=ROOT/'field-desk-locale-rollout'
+GRADING=runpy.run_path(str(TASK/'tests/grade.py'))
+
+
+def consistency(run):
+    """Recompute rewards and critical outcomes from the fixed acceptance plan."""
+    plan=GRADING['PLAN'];checks=run['checks'];categories=GRADING['CATEGORIES']
+    expected={category:sum(checks.get(name,{}).get('passed') is True for name,group in plan.items() if group==category)/sum(group==category for group in plan.values()) for category in categories}
+    if 'infrastructure' in checks:expected=dict.fromkeys(categories,0.0)
+    expected['overall']=sum(expected.values())/len(categories)
+    reward_ok=set(run['reward'])==set(expected) and all(isinstance(run['reward'].get(key),(int,float)) and math.isclose(run['reward'][key],value,abs_tol=1e-9) for key,value in expected.items())
+    failed={name for name in GRADING['CRITICAL'] if checks.get(name,{}).get('passed') is not True}
+    return {'reward_matches_checks':reward_ok,
+            'critical_report_matches_checks':set(run['critical'].get('critical_failures',[]))==failed,
+            'complete_case_plan':set(checks)==set(plan)}
+
+
+def frozen_source():
+    manifest=ROOT/'dist/before-run-manifest.json'
+    if not manifest.exists():manifest=TASK/'evidence/pre-run-manifest.json'
+    if not manifest.exists():return {'verified':False,'reason':'Pre-run manifest unavailable; inspect the frozen archive.'}
+    expected=json.loads(manifest.read_text())['task_file_sha256']
+    changed=[name for name,digest in expected.items() if not (TASK/name).is_file() or hashlib.sha256((TASK/name).read_bytes()).hexdigest()!=digest]
+    actual={str(path.relative_to(TASK)) for path in TASK.rglob('*') if path.is_file()
+            and path.relative_to(TASK).parts[0]!='evidence' and '__pycache__' not in path.parts and path.name!='RUN_REPORT.md'}
+    added=sorted(actual-set(expected))
+    return {'verified':not changed and not added,'checked_files':len(expected),'changed_or_missing_files':changed,'unexpected_task_files':added}
 
 
 def load(job):
     job=job.resolve()
-    if not (job/'verifier/checks.json').is_file():
-        trials=list(job.glob('*/verifier/checks.json'))
+    if not ((job/'result.json').is_file() and ((job/'verifier').is_dir() or (job/'checks.json').is_file())):
+        trials=list(job.glob('*/result.json'))
         if len(trials)!=1:raise ValueError('Choose one completed Harbor job/trial: '+str(job))
-        job=trials[0].parent.parent
-    return {'path':job,'checks':json.loads((job/'verifier/checks.json').read_text()),
-            'critical':json.loads((job/'verifier/critical-outcomes.json').read_text()),
-            'reward':json.loads((job/'verifier/reward.json').read_text()),
+        job=trials[0].parent
+    base=job/'verifier' if (job/'verifier').is_dir() else job
+    checks=base/'checks.json';critical=base/'critical-outcomes.json';reward=base/'reward.json'
+    return {'path':job,'checks':json.loads(checks.read_text()) if checks.is_file() else {},
+            'critical':json.loads(critical.read_text()) if critical.is_file() else {'all_checks_passed':False,'infrastructure_error':True,'missing_checks':['verifier did not run'],'critical_failures':[]},
+            'reward':json.loads(reward.read_text()) if reward.is_file() else {'overall':None},
             'result':json.loads((job/'result.json').read_text())}
 
 
@@ -22,7 +57,9 @@ def audit(oracle,target):
     model=(result.get('agent_info',{}).get('model_info') or {}).get('name')
     harness=result.get('agent_info',{}).get('name')
     efforts=set()
-    for path in (target['path']/'agent/sessions').rglob('*.jsonl'):
+    session_dir=target['path']/'agent/sessions'
+    if not session_dir.exists():session_dir=target['path']/'sessions'
+    for path in session_dir.rglob('*.jsonl'):
         for line in path.open():
             try:event=json.loads(line)
             except ValueError:continue
@@ -32,8 +69,11 @@ def audit(oracle,target):
     oracle_ok=reference['all_checks_passed'] and not oracle['result'].get('exception_info')
     errors=bool(result.get('exception_info')) or observed['infrastructure_error']
     failures=observed['critical_failures']
+    control_consistency=consistency(oracle);target_consistency=consistency(target);frozen=frozen_source()
     if not oracle_ok:status='invalid_oracle_control'
     elif errors:status='setup_or_build_error_needs_triage'
+    elif not all(control_consistency.values()) or not all(target_consistency.values()):status='inconsistent_grading_evidence_needs_triage'
+    elif not frozen['verified']:status='frozen_source_needs_confirmation'
     elif observed['missing_checks']:status='incomplete_verifier_evidence'
     elif not accepted or not high:status='model_or_effort_needs_confirmation'
     elif observed['all_checks_passed']:status='target_passed_no_failure'
@@ -42,8 +82,9 @@ def audit(oracle,target):
     cases=[]
     for name in failures:
         item=target['checks'].get(name,{})
+        evidence_root=target['path']/'verifier' if (target['path']/'verifier').is_dir() else target['path']
         cases.append({'check':name,'oracle_passed':oracle['checks'].get(name,{}).get('passed'),
-            'error':item.get('error'),'evidence':[str(target['path']/'verifier'/ref) for ref in item.get('evidence',[])]})
+            'error':item.get('error'),'evidence':[str(evidence_root/ref) for ref in item.get('evidence',[])]})
     labels={
         'wrong_hypothesis':'Needs an explicit hypothesis and a contradictory probe tied to the final artifact.',
         'incomplete_inspection':'Needs an omitted relevant workflow/dependency, not merely a file-read count.',
@@ -58,7 +99,9 @@ def audit(oracle,target):
     return {'status':status,'model':model,'harness':harness,'high_reasoning_confirmed':high,
         'overall_mean':target['reward']['overall'],'critical_failure_count':len(failures),'cases':cases,
         'same_check_ids':set(oracle['checks'])==set(target['checks']),
-        'failure_requirement_met':False if not failures else None,
+        'grading_consistency':{'oracle':control_consistency,'target':target_consistency},
+        'frozen_source':frozen,
+        'failure_requirement_met':None if status=='critical_failure_observed_needs_reproduction_review' else False,
         'rubric':{name:{'maximum':weight,'reviewer_score':None} for name,weight in weights.items()},
         'reviewer_total_out_of_100':None,
         'cause_review':{name:{'assigned':False,'evidence_needed':evidence} for name,evidence in labels.items()},
