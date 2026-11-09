@@ -54,14 +54,16 @@
     "reward.json": "7f1276dd23b2db992b1e8b20e694f10aa2cdaf2df30859a0699f4d204a786fe1",
     "result.json": "5a4e69aab895a84d9362c0b9ae2aa7e1b0bf492ba3100f36fff05edec3e8cff1",
     "locale-ar.png": "7d62894bd40bd223f4bc2b506fa1e5fc5cd8fa02391e8457f70d2768cd1b44c1",
+    "reviewed_reward.json": "7f1276dd23b2db992b1e8b20e694f10aa2cdaf2df30859a0699f4d204a786fe1",
     "final-response.txt": "a27b57b5d238b6029fd27b6657cd8ee986f3ec87ec2e5c17d6bda18f3724f6d4",
     "layout-example.png": "cb50817828c535baf0f0380b2dc4872372cd1757ce433454dda088280fe9531a",
     "checks.json": "2ea64e4bf01d40c84d5be0829638ebc148ee60cf49f278bca6102ee8bec5cd59",
     "locale-verification.txt": "34a9faa4cf51cbd61713b8f1627af4156e8b3b254c2f3d4f2a71a42ee8fab911",
     "critical-outcomes.json": "3dc12f9144fd66c57f9e856a4c8b9c5416c6a600f459716dcf80a9fe8220e635",
+    "claim-review.json": "cba35a8dde5e671a7053cba98b54c459da634777383983e426df95720fac28b1",
     "coverage.json": "7f4252d0d7743b8f757625ee05d1d7a5c473e94fb84d36bcccec72ef619feb16",
     "LOCALE_AUDIT.md": "e64f321181efa9b81868596779d13a9647cfa26c6f3f9b8477c7ed56e3df0155",
-    "assignment-audit.json": "9927a7ca93653c0147a44e702e12a582b4233f0b05add0ff3e0fc074a64131c2",
+    "assignment-audit.json": "b4b4ee4ce0ef6874c82748235d062bf7edf98e9fa06d2b45cfe3b8daede87766",
     "sessions/2026/11/08/rollout-2026-11-08T21-02-16-01a1bcf8-10c8-7e22-99c1-04b5565cb208.jsonl": "c4475f35cf69d60964409125f1144f452f1852f7ef0d1b97a2c5a82b19784a47"
   },
   "redaction_filter_note": "Key-prefix matching requires a token boundary; project names containing desk- are preserved."

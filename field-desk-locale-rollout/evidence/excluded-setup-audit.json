@@ -6,6 +6,7 @@
   "overall_mean": null,
   "critical_failure_count": 0,
   "cases": [],
+  "reviewed_overall_mean": null,
   "same_check_ids": false,
   "grading_consistency": {
     "oracle": {
@@ -21,9 +22,18 @@
   },
   "frozen_source": {
     "verified": true,
+    "basis": "verified_pre_run_archive",
     "checked_files": 33,
-    "changed_or_missing_files": [],
+    "current_inputs_match_recorded_trial": false,
+    "changed_or_missing_files": [
+      "environment/seed/app/docs/architecture.md",
+      "instruction.md"
+    ],
     "unexpected_task_files": []
+  },
+  "claim_review": {
+    "status": "not_scored_invalid_runtime_evidence",
+    "reviewed_reward": null
   },
   "failure_requirement_met": false,
   "rubric": {

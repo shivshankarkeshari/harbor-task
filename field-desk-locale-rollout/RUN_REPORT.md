@@ -9,6 +9,8 @@
 | Target `codex-02` | 70/70 | 1.0 | 0 | Accepted model trial; passed |
 | Setup attempt `codex-01` | Verifier did not run | Unavailable | Unavailable | Excluded infrastructure error |
 
+The current working prompt was shortened after this recorded trial at the user's request. Detailed numeric/data rules were moved into the app's existing `docs/architecture.md`. Application code, oracle patch and the 70-case verifier are unchanged. The shortened prompt has not been run against a model. `evidence/pre-run-task.zip` preserves the exact original task revision used for the recorded result.
+
 ## Originality and realism
 
 The complete application, schema, seed data, English/German/Arabic copy, task prompt, verifier and oracle were authored from scratch for this exercise with AI assistance. No existing application repository, issue, benchmark, private task code or solution was used as a reference. Standard Python, SQLite, browser APIs and pinned Playwright are general dependencies. The scenario models a work-order application's multilingual release while preserving dispatch, inventory and billing data contracts.
@@ -19,7 +21,7 @@ The starting source has an incomplete locale-selector prototype and approved tra
 
 Python and Node base images are pinned by digest; Playwright is 1.56.0 and installs its matching Chromium. Codex CLI 0.167.0 is preinstalled from its official platform package with a pinned SHA-512 integrity check. No login is installed in the image. The app has no third-party runtime package or external service. SQLite databases are created in isolated temporary directories. The shared Docker network is public for native model access; the application/verifier use loopback. Validation used Harbor 0.25.0 on local Docker with Linux ARM64 containers. The native harness uses the operator's existing authenticated Codex client.
 
-From the task directory, with Harbor and Docker available, use fresh job names:
+From the task directory, with Harbor and Docker available, use fresh job names. These commands use the current prompt. To reproduce the recorded prompt exactly, first extract `evidence/pre-run-task.zip` into a separate empty directory and run Harbor against that extracted task.
 
 ```sh
 harbor run -p . -a oracle --job-name oracle-repro
@@ -59,11 +61,21 @@ Native oracle `oracle-05` passed 70/70 with no exceptions; `starter-03` passed 2
 
 Accepted target trial `codex-02/field-desk-locale-rollout__pQUApuW` used GPT-6.1-sol high in native Codex 0.167.0, one trial. Native session metadata confirms the model and high effort. The job ran on November 9, 2026, approximately 02:31–02:44 IST; agent execution took 11 minutes 42 seconds. There was no agent exception, timeout or verifier infrastructure error. All 70 cases and all 38 critical cases passed.
 
-The source was committed as `3cbd6d7` and archived before that trial. The pre-run ZIP SHA-256 is `fe35b2dfbfb8326e14d7434908183940da3e65b6b871d95bf29252feec811dc7`. `evidence/pre-run-manifest.json` contains the 33 frozen task-input hashes. They still match after the run; subsequent additions are this report and evidence. Native whole-directory Harbor checksums differ between the controls and target because the report/control-evidence packaging changed between those jobs; they include documentation and evidence as well as task inputs. The separate per-input manifest is the frozen instruction/environment/oracle/verifier comparison.
+The source was committed as `3cbd6d7` and archived before that trial. The pre-run ZIP SHA-256 is `fe35b2dfbfb8326e14d7434908183940da3e65b6b871d95bf29252feec811dc7`. `evidence/pre-run-manifest.json` contains the 33 frozen task-input hashes. They matched at trial completion and still match the preserved pre-run archive. The later working-copy edits to `instruction.md` and `environment/seed/app/docs/architecture.md` are reported separately by the auditor. Native whole-directory Harbor checksums differ between the controls and target because the report/control-evidence packaging changed between those jobs; they include documentation and evidence as well as task inputs.
 
 `evidence/codex/` contains per-case results, five-key reward, coverage, critical outcomes, native result/trajectory/session, final response, the model's patch against the starter, its audit, its browser verification output and screenshots. Native metadata was filtered for credential fields/patterns; none required redaction. Source and stored-file hashes are recorded in `origin.json`. No credential file is included. Apply `evidence/codex/model.patch` with `git apply` from a copy of `environment/seed/app` to reconstruct the collected final application source.
 
-`evidence/review_trial.py` independently recomputes category fractions and their mean, validates the exact case plan and critical-failure list, checks frozen source hashes and confirms native model/harness/high-effort evidence. Its saved outcome is `target_passed_no_failure`; `failure_requirement_met` is false. `evidence/auditor-selfcheck.json` records checks that an incorrect mean, erased critical failures and a missing case are rejected. The excluded setup attempt is correctly rejected as model-failure evidence.
+`evidence/review_trial.py` independently recomputes category fractions and their mean, validates the exact case plan and critical-failure list, checks the preserved pre-run archive and confirms native model/harness/high-effort evidence. It separately lists current working-copy edits. Its saved outcome is `target_passed_no_failure`; `failure_requirement_met` is false. `evidence/auditor-selfcheck.json` records checks that an incorrect mean, erased critical failures and a missing case are rejected. The excluded setup attempt is correctly rejected as model-failure evidence.
+
+## Local preview recheck and claim review
+
+The initially suggested local preview command served `environment/seed/app`, the intentionally incomplete starter. Direct inspection of port 8000 confirmed its hard-coded English catalog lookup. The parent repository now provides `python3 preview.py` for the recorded model output at port 8001, and `python3 preview.py --starter` for the starter at port 8000. The model launcher verifies the recorded patch hash and applies it to a temporary source copy; preview databases are separate.
+
+Both saved artifacts were replayed through the unchanged verifier in the existing task image with networking disabled and no model invocation. The model again passed 70/70, including Arabic; the starter passed 22/70 and failed the Arabic orders case with missing Arabic UI copy. `evidence/recheck/` contains fresh checks, rewards, critical outcomes and the starter's Arabic failure screenshot/state. This confirms that the specific untranslated starter behavior is rejected by the grader.
+
+An additional post-run claim-review policy was requested after the original trial. An unqualified completion claim contradicted by a verified critical defect, or an undisclosed critical defect, halves `artifact_quality`; overall is then recomputed as the mean of the four categories. This produces a separate `reviewed_reward.json` and preserves original Harbor rewards. Claim annotations must identify the exact trial, source hash and quotation; factual annotation is reviewed rather than guessed with language heuristics or an LLM trajectory judge. Missing annotations leave claim review pending.
+
+For this target the completion statement has no contradiction in the verified critical outcomes, so the reporting penalty is zero and reviewed overall remains 1.0. Synthetic policy checks confirm that a false completion claim with a critical failure lowers overall, a disclosed partial result gets no extra reporting penalty, and altered evidence hashes are rejected. These fixtures are policy checks, not model-failure evidence. The reviewer’s separate 100-point rubric remains unscored.
 
 ## Failure analysis and limits
 

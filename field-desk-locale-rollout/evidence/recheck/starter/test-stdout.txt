@@ -1,0 +1,95 @@
+PASS machine_api_contracts
+PASS view_orders_en
+PASS view_dispatch_en
+PASS view_parts_en
+PASS view_billing_en
+PASS view_activity_en
+PASS view_reports_en
+PASS view_settings_en
+PASS view_help_en
+PASS dialog_new-order_en
+PASS dialog_edit-order_en
+PASS dialog_bulk_en
+PASS dialog_assign_en
+PASS dialog_reserve_en
+PASS dialog_charge_en
+PASS dialog_export_en
+PASS validation_and_server_errors_en
+PASS quantity_plural_forms_en
+PASS bulk_workflow_en
+PASS money_and_memo_en
+PASS csv_contract_en
+PASS empty_search_and_help_en
+FAIL view_orders_de: Missing UI copy app.operator: 'Bedienperson'; last observation: False
+FAIL view_dispatch_de: Missing UI copy app.operator: 'Bedienperson'; last observation: False
+FAIL view_parts_de: Missing UI copy app.operator: 'Bedienperson'; last observation: False
+FAIL view_billing_de: Missing UI copy app.operator: 'Bedienperson'; last observation: False
+FAIL view_activity_de: Missing UI copy app.operator: 'Bedienperson'; last observation: False
+FAIL view_reports_de: Missing UI copy app.operator: 'Bedienperson'; last observation: False
+FAIL view_settings_de: Missing UI copy app.operator: 'Bedienperson'; last observation: False
+FAIL view_help_de: Missing UI copy app.operator: 'Bedienperson'; last observation: False
+FAIL dialog_new-order_de: Expected visible text 'Arbeitsauftrag erstellen'; last observation: False
+FAIL dialog_edit-order_de: Expected visible text 'Arbeitsauftrag bearbeiten'; last observation: False
+FAIL dialog_bulk_de: Expected visible text 'Arbeitsaufträge abschließen'; last observation: False
+FAIL dialog_assign_de: Expected visible text 'Arbeitsauftrag zuweisen'; last observation: False
+FAIL dialog_reserve_de: Expected visible text 'Bestand reservieren'; last observation: False
+FAIL dialog_charge_de: Expected visible text 'Betrag erfassen'; last observation: False
+FAIL dialog_export_de: Expected visible text 'Arbeitsaufträge exportieren'; last observation: False
+FAIL validation_and_server_errors_de: Expected visible text 'Ein Auftragstitel ist erforderlich.'; last observation: False
+FAIL quantity_plural_forms_de: Expected visible text '4 Teile verfügbar'; last observation: False
+FAIL bulk_workflow_de: Expected visible text '0 Arbeitsaufträge ausgewählt'; last observation: False
+FAIL money_and_memo_de: Locator expected to have count '0'
+Actual value: 1 
+Call log:
+  - Expect "to_have_count" with timeout 5000ms
+  - waiting for get_by_role("dialog")
+    9 × locator resolved to 1 element
+      - unexpected value "1"
+
+FAIL csv_contract_de: Expected visible text 'CSV-Export bereit'; last observation: False
+FAIL empty_search_and_help_de: Missing UI copy orders.emptyTitle: 'Keine passenden Arbeitsaufträge'; last observation: False
+FAIL view_orders_ar: Missing UI copy app.operator: 'المشغّل'; last observation: False
+FAIL view_dispatch_ar: Missing UI copy app.operator: 'المشغّل'; last observation: False
+FAIL view_parts_ar: Missing UI copy app.operator: 'المشغّل'; last observation: False
+FAIL view_billing_ar: Missing UI copy app.operator: 'المشغّل'; last observation: False
+FAIL view_activity_ar: Missing UI copy app.operator: 'المشغّل'; last observation: False
+FAIL view_reports_ar: Missing UI copy app.operator: 'المشغّل'; last observation: False
+FAIL view_settings_ar: Missing UI copy app.operator: 'المشغّل'; last observation: False
+FAIL view_help_ar: Missing UI copy app.operator: 'المشغّل'; last observation: False
+FAIL dialog_new-order_ar: Expected visible text 'إنشاء أمر عمل'; last observation: False
+FAIL dialog_edit-order_ar: Expected visible text 'تعديل أمر العمل'; last observation: False
+FAIL dialog_bulk_ar: Expected visible text 'إكمال أوامر العمل'; last observation: False
+FAIL dialog_assign_ar: Expected visible text 'تعيين أمر العمل'; last observation: False
+FAIL dialog_reserve_ar: Expected visible text 'حجز المخزون'; last observation: False
+FAIL dialog_charge_ar: Expected visible text 'تسجيل رسوم'; last observation: False
+FAIL dialog_export_ar: Expected visible text 'تصدير أوامر العمل'; last observation: False
+FAIL validation_and_server_errors_ar: Expected visible text 'عنوان أمر العمل مطلوب.'; last observation: False
+FAIL quantity_plural_forms_ar: Expected visible text '4 قطع متاحة'; last observation: False
+FAIL bulk_workflow_ar: Expected visible text 'لم يتم تحديد أي أمر عمل'; last observation: False
+FAIL money_and_memo_ar: Locator expected to have count '0'
+Actual value: 1 
+Call log:
+  - Expect "to_have_count" with timeout 5000ms
+  - waiting for get_by_role("dialog")
+    9 × locator resolved to 1 element
+      - unexpected value "1"
+
+FAIL csv_contract_ar: Expected visible text 'تصدير CSV جاهز'; last observation: False
+FAIL empty_search_and_help_ar: Missing UI copy orders.emptyTitle: 'لا توجد أوامر عمل مطابقة'; last observation: False
+FAIL live_draft_numeric_meaning_and_view_state: Expected visible text 'تعديل أمر العمل'; last observation: False
+FAIL live_error_and_confirmation_retranslation: Expected visible text 'Ein Auftragstitel ist erforderlich.'; last observation: False
+FAIL operator_locale_persistence_and_preference_isolation: Missing UI copy orders.title: 'أوامر العمل'; last observation: False
+FAIL rtl_navigation_layout: Locator expected to have attribute 'rtl'
+Actual value: ltr 
+Call log:
+  - Expect "to_have_attribute" with timeout 5000ms
+  - waiting for locator("html")
+    9 × locator resolved to <html lang="ar" dir="ltr">…</html>
+      - unexpected value "ltr"
+
+FAIL arabic_quantity_and_activity_state: Expected visible text 'قطعتان متاحتان'; last observation: False
+FAIL fractional_precision_and_small_charge: Expected visible text 'Einen gültigen Betrag mit höchstens zwei Nachkommastellen eingeben.'; last observation: Locator.inner_text: Timeout 500ms exceeded.
+Call log:
+  - waiting for get_by_test_id("dialog-error")
+
+22/70 checks passed
