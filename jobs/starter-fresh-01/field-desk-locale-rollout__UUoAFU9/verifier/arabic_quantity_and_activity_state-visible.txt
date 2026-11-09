@@ -1,0 +1,51 @@
+Field Desk
+Operator
+Robin
+Amal
+Language
+English
+Deutsch
+العربية
+Work orders
+Dispatch
+Parts
+Billing
+Activity
+Reports
+Settings
+Help
+Parts inventory
+
+Reserve stock without changing part names.
+
+Adapter A
+
+2 parts available
+
+Reserve parts
+Valve B
+
+0 parts available
+
+Reserve parts
+Cable C
+
+1 part available
+
+Reserve parts
+Seal D
+
+2 parts available
+
+Reserve parts
+Bolt E
+
+11 parts available
+
+Reserve parts
+Clip F
+
+102 parts available
+
+Reserve parts
+Parts reservation saved

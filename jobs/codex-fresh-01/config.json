@@ -1,0 +1,19 @@
+{
+    "job_name": "codex-fresh-01",
+    "n_concurrent_trials": 1,
+    "agents": [
+        {
+            "name": "codex",
+            "model_name": "openai/gpt-6.1-sol",
+            "kwargs": {
+                "version": "0.167.0",
+                "reasoning_effort": "high"
+            }
+        }
+    ],
+    "tasks": [
+        {
+            "path": "field-desk-locale-rollout"
+        }
+    ]
+}

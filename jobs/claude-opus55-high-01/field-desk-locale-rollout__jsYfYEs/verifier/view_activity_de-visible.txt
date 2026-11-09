@@ -1,0 +1,21 @@
+Field Desk
+Bedienperson
+Robin
+Amal
+Sprache
+English
+Deutsch
+العربية
+Arbeitsaufträge
+Disposition
+Ersatzteile
+Abrechnung
+Aktivitäten
+Berichte
+Einstellungen
+Hilfe
+Aktivitätsprotokoll
+
+Ereignisse beschreiben Aktionen; Kundenwortlaut bleibt erhalten.
+
+Robin hat Ready for pickup geöffnet

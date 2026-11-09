@@ -1,0 +1,8 @@
+{
+    "job_name": "oracle-fresh-01",
+    "tasks": [
+        {
+            "path": "field-desk-locale-rollout"
+        }
+    ]
+}

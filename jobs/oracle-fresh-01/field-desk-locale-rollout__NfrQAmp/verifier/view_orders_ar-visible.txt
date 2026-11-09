@@ -1,0 +1,44 @@
+Field Desk
+المشغّل
+Robin
+Amal
+اللغة
+English
+Deutsch
+العربية
+أوامر العمل
+التوزيع
+قطع الغيار
+الفوترة
+النشاط
+التقارير
+الإعدادات
+المساعدة
+أوامر العمل
+
+خطط للعمل وعيّن الفرق واحتفظ بتفاصيل المهام.
+
+البحث في الأوامر
+تصفية الحالة
+جميع الحالات
+مفتوح
+مُعيّن
+مكتمل
+أمر عمل جديد
+إكمال المحدد
+
+لم يتم تحديد أي أمر عمل
+
+تحديد	العنوان	العميل	الحالة	الميزانية (EUR)	الإجراءات
+	Ready for pickup	Open House Ltd	مفتوح	‏1,251.00 €	تعديل
+	Workshop job 2	Customer 2	مفتوح	‏1,252.00 €	تعديل
+	Workshop job 3	Customer 3	مُعيّن	‏1,253.00 €	تعديل
+	Workshop job 4	Customer 4	مفتوح	‏1,254.00 €	تعديل
+	Workshop job 5	Customer 5	مفتوح	‏1,255.00 €	تعديل
+	Workshop job 6	Customer 6	مُعيّن	‏1,256.00 €	تعديل
+	Workshop job 7	Customer 7	مفتوح	‏1,257.00 €	تعديل
+	Workshop job 8	Customer 8	مفتوح	‏1,258.00 €	تعديل
+	Workshop job 9	Customer 9	مُعيّن	‏1,259.00 €	تعديل
+	Workshop job 10	Customer 10	مفتوح	‏1,260.00 €	تعديل
+	Workshop job 11	Customer 11	مفتوح	‏1,261.00 €	تعديل
+	Workshop job 12	Customer 12	مُعيّن	‏1,262.00 €	تعديل

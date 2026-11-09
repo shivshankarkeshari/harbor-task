@@ -1,0 +1,50 @@
+Field Desk
+Bedienperson
+Robin
+Amal
+Sprache
+English
+Deutsch
+العربية
+Arbeitsaufträge
+Disposition
+Ersatzteile
+Abrechnung
+Aktivitäten
+Berichte
+Einstellungen
+Hilfe
+Ersatzteilbestand
+
+Bestand reservieren und Teilenamen erhalten.
+
+Adapter A
+
+4 Teile verfügbar
+
+Teile reservieren
+Valve B
+
+0 Teile verfügbar
+
+Teile reservieren
+Cable C
+
+1 Teil verfügbar
+
+Teile reservieren
+Seal D
+
+2 Teile verfügbar
+
+Teile reservieren
+Bolt E
+
+11 Teile verfügbar
+
+Teile reservieren
+Clip F
+
+102 Teile verfügbar
+
+Teile reservieren

@@ -1,0 +1,13 @@
+{
+    "job_name": "starter-fresh-01",
+    "agents": [
+        {
+            "name": "nop"
+        }
+    ],
+    "tasks": [
+        {
+            "path": "field-desk-locale-rollout"
+        }
+    ]
+}

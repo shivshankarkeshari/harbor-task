@@ -1,0 +1,253 @@
+{
+  "locale": "ar",
+  "fields": [
+    {
+      "id": "operator",
+      "value": "robin",
+      "checked": null
+    },
+    {
+      "id": "language",
+      "value": "ar",
+      "checked": null
+    },
+    {
+      "id": "search",
+      "value": "",
+      "checked": false
+    },
+    {
+      "id": "filter",
+      "value": "ALL",
+      "checked": null
+    },
+    {
+      "id": "",
+      "value": "on",
+      "checked": false
+    },
+    {
+      "id": "",
+      "value": "on",
+      "checked": false
+    },
+    {
+      "id": "",
+      "value": "on",
+      "checked": false
+    },
+    {
+      "id": "",
+      "value": "on",
+      "checked": false
+    },
+    {
+      "id": "",
+      "value": "on",
+      "checked": false
+    },
+    {
+      "id": "",
+      "value": "on",
+      "checked": false
+    },
+    {
+      "id": "",
+      "value": "on",
+      "checked": false
+    },
+    {
+      "id": "",
+      "value": "on",
+      "checked": false
+    },
+    {
+      "id": "",
+      "value": "on",
+      "checked": false
+    },
+    {
+      "id": "",
+      "value": "on",
+      "checked": false
+    },
+    {
+      "id": "",
+      "value": "on",
+      "checked": false
+    },
+    {
+      "id": "",
+      "value": "on",
+      "checked": false
+    }
+  ],
+  "persisted": {
+    "orders": [
+      {
+        "id": 1,
+        "title": "Ready for pickup",
+        "customer": "Open House Ltd",
+        "status": "OPEN",
+        "budget_minor": 125100,
+        "crew_id": null
+      },
+      {
+        "id": 2,
+        "title": "Workshop job 2",
+        "customer": "Customer 2",
+        "status": "OPEN",
+        "budget_minor": 125200,
+        "crew_id": null
+      },
+      {
+        "id": 3,
+        "title": "Workshop job 3",
+        "customer": "Customer 3",
+        "status": "ASSIGNED",
+        "budget_minor": 125300,
+        "crew_id": 1
+      },
+      {
+        "id": 4,
+        "title": "Workshop job 4",
+        "customer": "Customer 4",
+        "status": "OPEN",
+        "budget_minor": 125400,
+        "crew_id": null
+      },
+      {
+        "id": 5,
+        "title": "Workshop job 5",
+        "customer": "Customer 5",
+        "status": "OPEN",
+        "budget_minor": 125500,
+        "crew_id": null
+      },
+      {
+        "id": 6,
+        "title": "Workshop job 6",
+        "customer": "Customer 6",
+        "status": "ASSIGNED",
+        "budget_minor": 125600,
+        "crew_id": 1
+      },
+      {
+        "id": 7,
+        "title": "Workshop job 7",
+        "customer": "Customer 7",
+        "status": "OPEN",
+        "budget_minor": 125700,
+        "crew_id": null
+      },
+      {
+        "id": 8,
+        "title": "Workshop job 8",
+        "customer": "Customer 8",
+        "status": "OPEN",
+        "budget_minor": 125800,
+        "crew_id": null
+      },
+      {
+        "id": 9,
+        "title": "Workshop job 9",
+        "customer": "Customer 9",
+        "status": "ASSIGNED",
+        "budget_minor": 125900,
+        "crew_id": 1
+      },
+      {
+        "id": 10,
+        "title": "Workshop job 10",
+        "customer": "Customer 10",
+        "status": "OPEN",
+        "budget_minor": 126000,
+        "crew_id": null
+      },
+      {
+        "id": 11,
+        "title": "Workshop job 11",
+        "customer": "Customer 11",
+        "status": "OPEN",
+        "budget_minor": 126100,
+        "crew_id": null
+      },
+      {
+        "id": 12,
+        "title": "Workshop job 12",
+        "customer": "Customer 12",
+        "status": "ASSIGNED",
+        "budget_minor": 126200,
+        "crew_id": 1
+      }
+    ],
+    "crews": [
+      {
+        "id": 1,
+        "name": "North crew",
+        "available": 1
+      },
+      {
+        "id": 2,
+        "name": "West crew",
+        "available": 0
+      }
+    ],
+    "parts": [
+      {
+        "id": 1,
+        "name": "Adapter A",
+        "stock": 4
+      },
+      {
+        "id": 2,
+        "name": "Valve B",
+        "stock": 0
+      },
+      {
+        "id": 3,
+        "name": "Cable C",
+        "stock": 1
+      },
+      {
+        "id": 4,
+        "name": "Seal D",
+        "stock": 2
+      },
+      {
+        "id": 5,
+        "name": "Bolt E",
+        "stock": 11
+      },
+      {
+        "id": 6,
+        "name": "Clip F",
+        "stock": 102
+      }
+    ],
+    "activity": [
+      {
+        "id": 1,
+        "kind": "opened",
+        "actor": "robin",
+        "payload": "{\"title\": \"Ready for pickup\"}"
+      }
+    ],
+    "charges": [],
+    "preferences": {
+      "operator": "robin",
+      "locale": "ar",
+      "notifications": 1
+    },
+    "operators": [
+      {
+        "id": "robin",
+        "name": "Robin"
+      },
+      {
+        "id": "amal",
+        "name": "Amal"
+      }
+    ]
+  }
+}

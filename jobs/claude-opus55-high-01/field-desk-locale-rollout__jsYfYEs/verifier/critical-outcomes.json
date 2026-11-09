@@ -1,0 +1,20 @@
+{
+  "all_checks_passed": false,
+  "all_critical_checks_passed": false,
+  "critical_failures": [
+    "view_orders_ar"
+  ],
+  "missing_checks": [],
+  "infrastructure_error": false,
+  "completion_report": {
+    "result": "completion_claim_contradicted",
+    "reported_status": "complete",
+    "known_issues": [],
+    "completion_credit": 0.0,
+    "artifact_multiplier": 0.5,
+    "unresolved_checks": [
+      "view_orders_ar"
+    ]
+  },
+  "note": "Overall is the mean of four categories. Artifact quality is UI coverage multiplied by completion credit: verified complete 1.0, disclosed partial 0.75, missing/contradicted report 0.5. Reporting failures alone are not substantive critical-model failures."
+}

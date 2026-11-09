@@ -1,0 +1,34 @@
+[
+  {
+    "source": "/logs/artifacts",
+    "destination": "artifacts/logs/artifacts",
+    "type": "directory",
+    "status": "ok",
+    "service": null,
+    "exclude": []
+  },
+  {
+    "source": "/app/static",
+    "destination": "artifacts/app/static",
+    "type": "directory",
+    "status": "ok",
+    "service": null,
+    "exclude": []
+  },
+  {
+    "source": "/app/serve.py",
+    "destination": "artifacts/app/serve.py",
+    "type": "file",
+    "status": "ok",
+    "service": null,
+    "exclude": []
+  },
+  {
+    "source": "/app/output",
+    "destination": "artifacts/app/output",
+    "type": "directory",
+    "status": "ok",
+    "service": null,
+    "exclude": []
+  }
+]

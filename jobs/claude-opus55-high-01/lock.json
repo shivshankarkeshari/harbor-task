@@ -1,0 +1,73 @@
+{
+    "schema_version": 3,
+    "created_at": "2026-11-09T07:00:57.297678Z",
+    "harbor": {
+        "version": "0.25.0",
+        "is_editable": false
+    },
+    "n_concurrent_trials": 1,
+    "retry": {
+        "max_retries": 0,
+        "exclude_exceptions": [
+            "RewardFileNotFoundError",
+            "RewardFileEmptyError",
+            "ModelNotFoundError",
+            "VerifierTimeoutError",
+            "VerifierOutputParseError",
+            "AgentSafetyRefusalError",
+            "AgentTimeoutError",
+            "AgentAuthenticationError",
+            "ApiUsageLimitError",
+            "UnsupportedModelParametersError"
+        ],
+        "wait_multiplier": 1.0,
+        "min_wait_sec": 1.0,
+        "max_wait_sec": 60.0
+    },
+    "trials": [
+        {
+            "schema_version": 2,
+            "task": {
+                "name": "field-desk-locale-rollout",
+                "type": "local",
+                "digest": "sha256:d25dfac5c2fb667f6248b9ae94f67eb070cb9297893c643ede8c180c6a5fea97",
+                "path": "field-desk-locale-rollout"
+            },
+            "install_only": false,
+            "timeout_multiplier": 1.0,
+            "agent": {
+                "name": "claude-code",
+                "model_name": "openrouter/anthropic/claude-opus-5.5",
+                "base_url": "https://openrouter.ai/api",
+                "model_api_key_name": "OPENROUTER_KEY",
+                "skip_model_parsing": false,
+                "skills": [],
+                "resume_trajectory": false,
+                "extra_allowed_hosts": [],
+                "kwargs": {
+                    "version": "2.1.319",
+                    "max_budget_usd": "35",
+                    "reasoning_effort": "high"
+                },
+                "mcp_servers": []
+            },
+            "bridge_inputs": {},
+            "skills": [],
+            "environment": {
+                "type": "docker",
+                "force_build": false,
+                "delete": true,
+                "stream": false,
+                "cpu_enforcement_policy": "auto",
+                "memory_enforcement_policy": "auto",
+                "extra_docker_compose": [],
+                "kwargs": {},
+                "extra_allowed_hosts": []
+            },
+            "verifier": {
+                "disable": false,
+                "environment_mode": "shared"
+            }
+        }
+    ]
+}

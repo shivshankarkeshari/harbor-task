@@ -1,0 +1,16 @@
+{
+    "task": {
+        "path": "field-desk-locale-rollout"
+    },
+    "trial_name": "field-desk-locale-rollout__sCKJjv8",
+    "trials_dir": "jobs/codex-fresh-01",
+    "agent": {
+        "name": "codex",
+        "model_name": "openai/gpt-6.1-sol",
+        "kwargs": {
+            "version": "0.167.0",
+            "reasoning_effort": "high"
+        }
+    },
+    "job_id": "d8af72c7-3729-41bd-a569-423718b788f5"
+}

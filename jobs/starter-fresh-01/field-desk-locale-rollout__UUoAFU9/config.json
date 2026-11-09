@@ -1,0 +1,11 @@
+{
+    "task": {
+        "path": "field-desk-locale-rollout"
+    },
+    "trial_name": "field-desk-locale-rollout__UUoAFU9",
+    "trials_dir": "jobs/starter-fresh-01",
+    "agent": {
+        "name": "nop"
+    },
+    "job_id": "08f0ade3-2d11-4a4f-8d20-d312a3fa149a"
+}

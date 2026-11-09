@@ -1,0 +1,30 @@
+Field Desk
+Bedienperson
+Robin
+Amal
+Sprache
+English
+Deutsch
+العربية
+Arbeitsaufträge
+Disposition
+Ersatzteile
+Abrechnung
+Aktivitäten
+Berichte
+Einstellungen
+Hilfe
+Teamdisposition
+
+Ein verfügbares Team einem bestehenden Auftrag zuweisen.
+
+North crew
+
+Verfügbar
+
+Team zuweisen →
+West crew
+
+Nicht verfügbar
+
+Team zuweisen →

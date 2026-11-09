@@ -1,0 +1,63 @@
+{
+    "id": "08f0ade3-2d11-4a4f-8d20-d312a3fa149a",
+    "started_at": "2026-11-09T11:40:54.026377",
+    "updated_at": "2026-11-09T11:44:13.213092",
+    "finished_at": "2026-11-09T11:44:13.213092",
+    "n_total_trials": 1,
+    "stats": {
+        "n_completed_trials": 1,
+        "n_errored_trials": 0,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "nop__adhoc": {
+                "n_trials": 1,
+                "n_errors": 0,
+                "metrics": [
+                    {
+                        "artifact_quality": 0.16326530612244897,
+                        "constraint_satisfaction": 0.4,
+                        "functional_correctness": 0.3333333333333333,
+                        "overall": 0.22414965986394558,
+                        "robustness": 0.0
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "overall": {
+                        "0.22414965986394558": [
+                            "field-desk-locale-rollout__UUoAFU9"
+                        ]
+                    },
+                    "functional_correctness": {
+                        "0.3333333333333333": [
+                            "field-desk-locale-rollout__UUoAFU9"
+                        ]
+                    },
+                    "constraint_satisfaction": {
+                        "0.4": [
+                            "field-desk-locale-rollout__UUoAFU9"
+                        ]
+                    },
+                    "robustness": {
+                        "0.0": [
+                            "field-desk-locale-rollout__UUoAFU9"
+                        ]
+                    },
+                    "artifact_quality": {
+                        "0.16326530612244897": [
+                            "field-desk-locale-rollout__UUoAFU9"
+                        ]
+                    }
+                },
+                "exception_stats": {}
+            }
+        },
+        "n_input_tokens": null,
+        "n_cache_tokens": null,
+        "n_output_tokens": null,
+        "cost_usd": null
+    }
+}

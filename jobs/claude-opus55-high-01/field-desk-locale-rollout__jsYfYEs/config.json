@@ -1,0 +1,19 @@
+{
+    "task": {
+        "path": "field-desk-locale-rollout"
+    },
+    "trial_name": "field-desk-locale-rollout__jsYfYEs",
+    "trials_dir": "jobs/claude-opus55-high-01",
+    "agent": {
+        "name": "claude-code",
+        "model_name": "openrouter/anthropic/claude-opus-5.5",
+        "base_url": "https://openrouter.ai/api",
+        "model_api_key_name": "OPENROUTER_KEY",
+        "kwargs": {
+            "version": "2.1.319",
+            "max_budget_usd": "35",
+            "reasoning_effort": "high"
+        }
+    },
+    "job_id": "76014563-d0a5-4942-85f0-e727d1bce62c"
+}

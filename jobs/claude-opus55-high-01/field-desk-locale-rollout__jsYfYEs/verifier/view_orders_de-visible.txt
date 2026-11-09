@@ -1,0 +1,44 @@
+Field Desk
+Bedienperson
+Robin
+Amal
+Sprache
+English
+Deutsch
+العربية
+Arbeitsaufträge
+Disposition
+Ersatzteile
+Abrechnung
+Aktivitäten
+Berichte
+Einstellungen
+Hilfe
+Arbeitsaufträge
+
+Arbeit planen, Teams zuweisen und Auftragsdetails erhalten.
+
+Aufträge suchen
+Statusfilter
+Alle Status
+Offen
+Zugewiesen
+Abgeschlossen
+Neuer Arbeitsauftrag
+Auswahl abschließen
+
+0 Arbeitsaufträge ausgewählt
+
+Auswählen	Titel	Kunde	Status	Budget (EUR)	Aktionen
+	Ready for pickup	Open House Ltd	Offen	1.251,00 €	Bearbeiten
+	Workshop job 2	Customer 2	Offen	1.252,00 €	Bearbeiten
+	Workshop job 3	Customer 3	Zugewiesen	1.253,00 €	Bearbeiten
+	Workshop job 4	Customer 4	Offen	1.254,00 €	Bearbeiten
+	Workshop job 5	Customer 5	Offen	1.255,00 €	Bearbeiten
+	Workshop job 6	Customer 6	Zugewiesen	1.256,00 €	Bearbeiten
+	Workshop job 7	Customer 7	Offen	1.257,00 €	Bearbeiten
+	Workshop job 8	Customer 8	Offen	1.258,00 €	Bearbeiten
+	Workshop job 9	Customer 9	Zugewiesen	1.259,00 €	Bearbeiten
+	Workshop job 10	Customer 10	Offen	1.260,00 €	Bearbeiten
+	Workshop job 11	Customer 11	Offen	1.261,00 €	Bearbeiten
+	Workshop job 12	Customer 12	Zugewiesen	1.262,00 €	Bearbeiten

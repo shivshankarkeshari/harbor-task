@@ -1,0 +1,31 @@
+Field Desk
+Bedienperson
+Robin
+Amal
+Sprache
+English
+Deutsch
+العربية
+Arbeitsaufträge
+Disposition
+Ersatzteile
+Abrechnung
+Aktivitäten
+Berichte
+Einstellungen
+Hilfe
+Betriebsberichte
+
+Fortschritt prüfen und stabile maschinenlesbare Daten exportieren.
+
+Aktive Aufträge
+
+12 aktive Arbeitsaufträge
+
+Geplantes Gesamtbudget
+
+15.078,00 €
+
+CSV exportieren
+
+CSV-Kopfzeilen, Statuscodes, Kundentexte und Centbeträge bleiben unverändert.

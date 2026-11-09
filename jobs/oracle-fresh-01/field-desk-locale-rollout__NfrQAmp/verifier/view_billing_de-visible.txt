@@ -1,0 +1,25 @@
+Field Desk
+Bedienperson
+Robin
+Amal
+Sprache
+English
+Deutsch
+العربية
+Arbeitsaufträge
+Disposition
+Ersatzteile
+Abrechnung
+Aktivitäten
+Berichte
+Einstellungen
+Hilfe
+Auftragsabrechnung
+
+Beträge in Euro erfassen; gespeichert werden ganze Cent.
+
+Betrag erfassen
+Summe erfasster Beträge
+0,00 €
+
+Keine Beträge erfasst
