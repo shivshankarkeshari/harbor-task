@@ -21,7 +21,7 @@ from grade import PLAN,CRITICAL,grade
 LOG=Path('/logs/verifier');LOG.mkdir(parents=True,exist_ok=True)
 APP=Path('/app');HERE=Path(__file__).parent
 CAT={code:json.loads((HERE/'catalogs'/f'{code}.json').read_text()) for code in ['en','de','ar']}
-CHECKS={};EXPECTED=PLAN;BROWSER=None;ACTIVE_CASE=None
+CHECKS={};EXPECTED=PLAN;BROWSER=None;ACTIVE_CASE=None;SCREENSHOT_WARNINGS={}
 
 
 def normalized(text):
@@ -116,6 +116,12 @@ def scene(name):
         page.goto(server.url)
         expect(page.get_by_test_id('language')).to_be_visible(timeout=6000)
         yield page,server
+        if ACTIVE_CASE and ACTIVE_CASE.startswith('view_'):
+            try:
+                page.screenshot(path=str(LOG/(ACTIVE_CASE+'.png')),full_page=True)
+                (LOG/(ACTIVE_CASE+'-visible.txt')).write_text(page.locator('body').inner_text(timeout=500))
+            except Exception as error:
+                SCREENSHOT_WARNINGS[ACTIVE_CASE]=str(error)
     except Exception:
         try:
             prefix=ACTIVE_CASE or name
@@ -387,9 +393,13 @@ if __name__=='__main__':
     try:main()
     except Exception as error:
         CHECKS['infrastructure']={'passed':False,'error':str(error),'traceback':traceback.format_exc()};print(traceback.format_exc(),flush=True)
-    rewards,verdict=grade(CHECKS)
+    try:
+        completion=json.loads((APP/'output/completion.json').read_text())
+    except (OSError,ValueError) as error:
+        completion={'_error':str(error)}
+    rewards,verdict=grade(CHECKS,completion)
     (LOG/'checks.json').write_text(json.dumps(CHECKS,indent=2,ensure_ascii=False)+'\n')
-    (LOG/'coverage.json').write_text(json.dumps({'required':len(EXPECTED),'executed':len(set(EXPECTED)&set(CHECKS)),'passed':sum(CHECKS.get(name,{}).get('passed') is True for name in EXPECTED),'cases':EXPECTED},indent=2)+'\n')
+    (LOG/'coverage.json').write_text(json.dumps({'required':len(EXPECTED),'executed':len(set(EXPECTED)&set(CHECKS)),'passed':sum(CHECKS.get(name,{}).get('passed') is True for name in EXPECTED),'cases':EXPECTED,'screenshot_warnings':SCREENSHOT_WARNINGS},indent=2)+'\n')
     (LOG/'reward.json').write_text(json.dumps(rewards,indent=2)+'\n')
     (LOG/'critical-outcomes.json').write_text(json.dumps(verdict,indent=2)+'\n')
     print(f'{sum(value.get("passed") is True for value in CHECKS.values())}/{len(EXPECTED)} checks passed',flush=True)

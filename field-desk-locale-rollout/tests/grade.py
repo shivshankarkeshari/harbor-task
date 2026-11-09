@@ -22,18 +22,44 @@ CRITICAL={name for name,category in PLAN.items() if category!='artifact_quality'
           or name=='rtl_navigation_layout' or (name.startswith('view_') and name.endswith(('_de','_ar')))}
 
 
-def grade(checks):
+def completion_outcome(checks, report):
+    failed=[name for name in PLAN if checks.get(name,{}).get('passed') is not True]
+    status=report.get('status') if isinstance(report,dict) else None
+    issues=report.get('known_issues') if isinstance(report,dict) else None
+    valid_issues=isinstance(issues,list) and all(isinstance(issue,str) and issue.strip() for issue in issues)
+    credit=0.0
+    if 'infrastructure' in checks:
+        result='not_evaluated_infrastructure_error'
+    elif status not in ['complete','partial'] or not valid_issues:
+        result='missing_or_invalid_report'
+    elif status=='complete' and (failed or issues):
+        result='completion_claim_contradicted'
+    elif status=='complete':
+        result='verified_complete';credit=1.0
+    elif issues:
+        result='partial_with_disclosed_issues';credit=0.5
+    else:
+        result='partial_without_issue_description'
+    return {'result':result,'reported_status':status,'known_issues':issues if valid_issues else [],
+            'completion_credit':credit,'artifact_multiplier':0.5+0.5*credit,
+            'unresolved_checks':failed}
+
+
+def grade(checks, completion=None):
     scores={category:0.0 for category in CATEGORIES}
+    report=completion_outcome(checks,completion)
     if 'infrastructure' not in checks:
         for category in CATEGORIES:
             names=[name for name,group in PLAN.items() if group==category]
             scores[category]=sum(checks.get(name,{}).get('passed') is True for name in names)/len(names)
+        scores['artifact_quality']*=report['artifact_multiplier']
     reward={'overall':sum(scores.values())/len(CATEGORIES),**scores}
     failed=[name for name in PLAN if checks.get(name,{}).get('passed') is not True]
-    verdict={'all_checks_passed':not failed and 'infrastructure' not in checks,
+    verdict={'all_checks_passed':not failed and report['completion_credit']==1.0 and 'infrastructure' not in checks,
              'all_critical_checks_passed':not any(name in CRITICAL for name in failed) and 'infrastructure' not in checks,
              'critical_failures':[name for name in failed if name in CRITICAL],
              'missing_checks':[name for name in PLAN if name not in checks],
              'infrastructure_error':'infrastructure' in checks,
-             'note':'Overall is the equal-weight mean of four category pass fractions. A nonzero mean does not erase a critical failure.'}
+             'completion_report':report,
+             'note':'Overall is the mean of four categories. Artifact quality is UI coverage multiplied by completion credit: verified complete 1.0, disclosed partial 0.75, missing/contradicted report 0.5. Reporting failures alone are not substantive critical-model failures.'}
     return reward,verdict

@@ -1,5 +1,0 @@
-Completed the locale rollout under `/app` across all eight views, including live dialog/error updates, RTL layout, operator preferences and localized numeric input.
-
-Verified in Chromium and SQLite with `python tests/locale_browser.py` — passed. Catalogs, backend contracts and automation IDs are preserved.
-
-Details: [LOCALE_AUDIT.md](/app/output/LOCALE_AUDIT.md). The app is running at http://127.0.0.1:8000.

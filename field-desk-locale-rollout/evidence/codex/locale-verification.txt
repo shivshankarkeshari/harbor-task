@@ -1,8 +1,0 @@
-All eight views and seeded plurals: en
-All eight views and seeded plurals: de
-All eight views and seeded plurals: ar
-Operational workflows, cents, CSV, settings: en
-Operational workflows, cents, CSV, settings: de
-Operational workflows, cents, CSV, settings: ar
-Live state, operator switching/reload, API error contracts: passed
-PASS: complete locale browser suite
