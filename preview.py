@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Preview a completed Codex job; --starter explicitly opens the unfinished input."""
+"""Preview a completed model job; --starter explicitly opens the unfinished input."""
 import argparse
 import json
 from pathlib import Path
@@ -16,7 +16,7 @@ def model_output(job=None):
     for result in sorted(candidates, key=lambda p: p.stat().st_mtime, reverse=True):
         data = json.loads(result.read_text())
         app = result.parent / 'artifacts/app'
-        if data.get('finished_at') and (data.get('agent_info') or {}).get('name') == 'codex' and (app / 'serve.py').is_file() and (app / 'static').is_dir():
+        if data.get('finished_at') and (data.get('agent_info') or {}).get('name') in ['codex','claude-code'] and (app / 'serve.py').is_file() and (app / 'static').is_dir():
             return app, result.parent.name
     raise SystemExit('No completed model output found. Finish a Harbor model job first, or use --starter.')
 

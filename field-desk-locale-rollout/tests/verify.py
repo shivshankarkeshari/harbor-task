@@ -215,7 +215,8 @@ def main():
                         if route=='orders':
                             labelled(page,'search','orders.search',locale);labelled(page,'filter','orders.filter',locale)
                             expect(page.get_by_test_id('search')).to_have_attribute('placeholder',CAT[locale]['orders.searchHint'])
-                            expect(page.get_by_test_id('select-1')).to_have_attribute('aria-label',message(page,locale,'orders.selectOne',title='Ready for pickup'))
+                            expected_label=message(page,locale,'orders.selectOne',title='Ready for pickup')
+                            eventually(page,lambda:normalized(page.get_by_test_id('select-1').get_attribute('aria-label') or '')==normalized(expected_label),'Wrong localized order-selection label')
                             text_is(page,page.get_by_test_id('new-order'),message(page,locale,'orders.new'))
                             text_is(page,page.get_by_test_id('bulk'),message(page,locale,'orders.complete'))
                             text_is(page,page.get_by_test_id('edit-1'),message(page,locale,'orders.edit'))
