@@ -1,0 +1,138 @@
+{
+  "id": "097956a8-87a9-4ee6-b460-e15030bafaaa",
+  "task_name": "collinear-candidate/field-desk-locale-rollout",
+  "trial_name": "field-desk-locale-rollout__jsYfYEs",
+  "trial_uri": "file:///Users/shivshankarkeshari/Documents/2026/col/harbor-field-desk/jobs/claude-opus55-high-01/field-desk-locale-rollout__jsYfYEs",
+  "task_id": {
+    "path": "field-desk-locale-rollout"
+  },
+  "source": null,
+  "task_checksum": "c209db64e48b9181a4db592c12c7220569d69b11245a90ae2c33550996d0361d",
+  "config": {
+    "task": {
+      "path": "field-desk-locale-rollout",
+      "git_url": null,
+      "git_commit_id": null,
+      "name": null,
+      "ref": null,
+      "overwrite": false,
+      "download_dir": null,
+      "source": null
+    },
+    "trial_name": "field-desk-locale-rollout__jsYfYEs",
+    "trials_dir": "jobs/claude-opus55-high-01",
+    "install_only": false,
+    "timeout_multiplier": 1.0,
+    "agent_timeout_multiplier": null,
+    "verifier_timeout_multiplier": null,
+    "agent_setup_timeout_multiplier": null,
+    "environment_build_timeout_multiplier": null,
+    "agent": {
+      "name": "claude-code",
+      "import_path": null,
+      "model_name": "openrouter/anthropic/claude-opus-5.5",
+      "base_url": "https://openrouter.ai/api",
+      "model_api_key_name": "OPENROUTER_KEY",
+      "model_api_format": null,
+      "skip_model_parsing": false,
+      "n_concurrent": null,
+      "concurrency_group": null,
+      "skills": [],
+      "override_timeout_sec": null,
+      "override_setup_timeout_sec": null,
+      "max_timeout_sec": null,
+      "resume_trajectory": false,
+      "load_trajectory": null,
+      "extra_allowed_hosts": [],
+      "kwargs": {
+        "version": "2.1.319",
+        "max_budget_usd": "35",
+        "reasoning_effort": "high"
+      },
+      "mcp_servers": []
+    },
+    "user_agent": null,
+    "environment": {
+      "type": "docker",
+      "import_path": null,
+      "force_build": false,
+      "delete": true,
+      "stream": false,
+      "cpu_enforcement_policy": "auto",
+      "memory_enforcement_policy": "auto",
+      "override_cpus": null,
+      "override_memory_mb": null,
+      "override_storage_mb": null,
+      "override_gpus": null,
+      "override_tpu": null,
+      "mounts": null,
+      "extra_docker_compose": [],
+      "kwargs": {},
+      "extra_allowed_hosts": []
+    },
+    "verifier": {
+      "override_timeout_sec": null,
+      "max_timeout_sec": null,
+      "disable": false
+    },
+    "artifacts": [],
+    "extra_instruction_paths": [],
+    "extra_instructions": [],
+    "job_id": "76014563-d0a5-4942-85f0-e727d1bce62c",
+    "source_trial": null
+  },
+  "agent_info": {
+    "name": "claude-code",
+    "version": "2.1.319",
+    "model_info": {
+      "name": "anthropic/claude-opus-5.5",
+      "provider": "openrouter"
+    }
+  },
+  "agent_result": {
+    "n_input_tokens": 1041296,
+    "n_cache_tokens": 973696,
+    "n_output_tokens": 31649,
+    "cost_usd": 1.1656832000000001,
+    "model_usage": {
+      "anthropic/claude-opus-5.5": {
+        "n_input_tokens": 1041296,
+        "n_cache_tokens": 973696,
+        "n_output_tokens": 31649,
+        "cost_usd": 0.0
+      }
+    },
+    "rollout_details": null,
+    "metadata": null
+  },
+  "verifier_result": {
+    "rewards": {
+      "overall": 0.8724489795918368,
+      "functional_correctness": 1.0,
+      "constraint_satisfaction": 1.0,
+      "robustness": 1.0,
+      "artifact_quality": 0.4897959183673469
+    }
+  },
+  "verifier_environment_mode": "shared",
+  "exception_info": null,
+  "started_at": "2026-11-09T07:00:57.326715Z",
+  "finished_at": "2026-11-09T07:10:35.884738Z",
+  "environment_setup": {
+    "started_at": "2026-11-09T07:00:57.373700Z",
+    "finished_at": "2026-11-09T07:01:49.513886Z"
+  },
+  "agent_setup": {
+    "started_at": "2026-11-09T07:01:49.513991Z",
+    "finished_at": "2026-11-09T07:04:12.158522Z"
+  },
+  "agent_execution": {
+    "started_at": "2026-11-09T07:04:12.160040Z",
+    "finished_at": "2026-11-09T07:09:46.179561Z"
+  },
+  "verifier": {
+    "started_at": "2026-11-09T07:09:47.349228Z",
+    "finished_at": "2026-11-09T07:10:25.408845Z"
+  },
+  "step_results": null
+}

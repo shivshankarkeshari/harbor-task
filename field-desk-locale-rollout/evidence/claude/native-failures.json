@@ -1,0 +1,14 @@
+{
+  "view_orders_ar": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": true,
+    "error": "Locator expected to have attribute 'تحديد Ready for pickup'\nActual value: تحديد ⁨Ready for pickup⁩ \nCall log:\n  - Expect \"to_have_attribute\" with timeout 5000ms\n  - waiting for get_by_test_id(\"select-1\")\n    9 × locator resolved to <input type=\"checkbox\" data-select=\"1\" data-testid=\"select-1\" aria-label=\"تحديد ⁨Ready for pickup⁩\"/>\n      - unexpected value \"تحديد ⁨Ready for pickup⁩\"\n",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 218, in page_case\n    expect(page.get_by_test_id('select-1')).to_have_attribute('aria-label',message(page,locale,'orders.selectOne',title='Ready for pickup'))\n  File \"/usr/local/lib/python3.12/site-packages/playwright/sync_api/_generated.py\", line 19333, in to_have_attribute\n    self._sync(\n  File \"/usr/local/lib/python3.12/site-packages/playwright/_impl/_sync_base.py\", line 115, in _sync\n    return task.result()\n           ^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 266, in to_have_attribute\n    await self._expect_impl(\n  File \"/usr/local/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 85, in _expect_impl\n    raise AssertionError(\nAssertionError: Locator expected to have attribute 'تحديد Ready for pickup'\nActual value: تحديد ⁨Ready for pickup⁩ \nCall log:\n  - Expect \"to_have_attribute\" with timeout 5000ms\n  - waiting for get_by_test_id(\"select-1\")\n    9 × locator resolved to <input type=\"checkbox\" data-select=\"1\" data-testid=\"select-1\" aria-label=\"تحديد ⁨Ready for pickup⁩\"/>\n      - unexpected value \"تحديد ⁨Ready for pickup⁩\"\n\n",
+    "evidence": [
+      "view_orders_ar.png",
+      "view_orders_ar-visible.txt",
+      "view_orders_ar-state.json"
+    ]
+  }
+}

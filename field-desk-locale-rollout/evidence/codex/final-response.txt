@@ -1,0 +1,5 @@
+Completed English, German, and Arabic support across all eight views, including dialogs, errors, notifications, formatting, and RTL/LTR layout. Language persists per operator while preserving drafts, selections, and preferences.
+
+Verified all three languages in Chromium against the requested server, including workflows, amount validation, persistence, and CSV/API contracts.
+
+No known issues. [Completion report](/app/output/completion.json) · [Verification details](/app/output/verification.md)

@@ -1,0 +1,43 @@
+{
+  "claude": {
+    "passed": 70,
+    "total": 70,
+    "reward": {
+      "overall": 1.0,
+      "functional_correctness": 1.0,
+      "constraint_satisfaction": 1.0,
+      "robustness": 1.0,
+      "artifact_quality": 1.0
+    },
+    "critical_failures": [],
+    "completion": "verified_complete"
+  },
+  "codex": {
+    "passed": 69,
+    "total": 70,
+    "reward": {
+      "overall": 0.8125,
+      "functional_correctness": 1.0,
+      "constraint_satisfaction": 1.0,
+      "robustness": 0.75,
+      "artifact_quality": 0.5
+    },
+    "critical_failures": [
+      "live_draft_numeric_meaning_and_view_state"
+    ],
+    "completion": "completion_claim_contradicted"
+  },
+  "oracle": {
+    "passed": 70,
+    "total": 70,
+    "reward": {
+      "overall": 1.0,
+      "functional_correctness": 1.0,
+      "constraint_satisfaction": 1.0,
+      "robustness": 1.0,
+      "artifact_quality": 1.0
+    },
+    "critical_failures": [],
+    "completion": "verified_complete"
+  }
+}

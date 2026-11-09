@@ -1,0 +1,12 @@
+{
+  "fixed_cases": 70,
+  "critical_cases": 38,
+  "verified_complete_overall": 1.0,
+  "broken_arabic_with_complete_claim_rejected": true,
+  "honest_partial_scores_above_false_complete": true,
+  "missing_report_prevents_full_score": true,
+  "report_only_failure_is_not_a_critical_model_failure": true,
+  "infrastructure_zeroes_rewards": true,
+  "overall_mean_verified": true,
+  "note": "Policy fixtures, not actual model-failure evidence."
+}

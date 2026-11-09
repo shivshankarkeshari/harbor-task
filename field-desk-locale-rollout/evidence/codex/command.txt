@@ -1,0 +1,1 @@
+CODEX_FORCE_AUTH_JSON=1 harbor run -p field-desk-locale-rollout -a codex -m openai/gpt-6.1-sol --effort high --ak version=0.167.0 -k 1 -n 1 --job-name codex-fresh-01

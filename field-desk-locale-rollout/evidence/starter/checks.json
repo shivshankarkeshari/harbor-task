@@ -1,0 +1,688 @@
+{
+  "machine_api_contracts": {
+    "passed": true,
+    "category": "constraint_satisfaction",
+    "critical": true
+  },
+  "view_orders_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_dispatch_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_parts_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_billing_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_activity_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_reports_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_settings_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_help_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_new-order_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_edit-order_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_bulk_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_assign_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_reserve_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_charge_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_export_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "validation_and_server_errors_en": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "quantity_plural_forms_en": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "bulk_workflow_en": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "money_and_memo_en": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "csv_contract_en": {
+    "passed": true,
+    "category": "constraint_satisfaction",
+    "critical": true
+  },
+  "empty_search_and_help_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_orders_de": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": true,
+    "error": "Missing UI copy app.operator: 'Bedienperson'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 209, in page_case\n    for key in ['app.operator','app.language',*['nav.'+name for name in PAGES],*keys]:has_copy(page,key,locale)\n                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy app.operator: 'Bedienperson'; last observation: False\n",
+    "evidence": [
+      "view_orders_de.png",
+      "view_orders_de-visible.txt",
+      "view_orders_de-state.json"
+    ]
+  },
+  "view_dispatch_de": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": true,
+    "error": "Missing UI copy app.operator: 'Bedienperson'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 209, in page_case\n    for key in ['app.operator','app.language',*['nav.'+name for name in PAGES],*keys]:has_copy(page,key,locale)\n                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy app.operator: 'Bedienperson'; last observation: False\n",
+    "evidence": [
+      "view_dispatch_de.png",
+      "view_dispatch_de-visible.txt",
+      "view_dispatch_de-state.json"
+    ]
+  },
+  "view_parts_de": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": true,
+    "error": "Missing UI copy app.operator: 'Bedienperson'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 209, in page_case\n    for key in ['app.operator','app.language',*['nav.'+name for name in PAGES],*keys]:has_copy(page,key,locale)\n                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy app.operator: 'Bedienperson'; last observation: False\n",
+    "evidence": [
+      "view_parts_de.png",
+      "view_parts_de-visible.txt",
+      "view_parts_de-state.json"
+    ]
+  },
+  "view_billing_de": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": true,
+    "error": "Missing UI copy app.operator: 'Bedienperson'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 209, in page_case\n    for key in ['app.operator','app.language',*['nav.'+name for name in PAGES],*keys]:has_copy(page,key,locale)\n                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy app.operator: 'Bedienperson'; last observation: False\n",
+    "evidence": [
+      "view_billing_de.png",
+      "view_billing_de-visible.txt",
+      "view_billing_de-state.json"
+    ]
+  },
+  "view_activity_de": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": true,
+    "error": "Missing UI copy app.operator: 'Bedienperson'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 209, in page_case\n    for key in ['app.operator','app.language',*['nav.'+name for name in PAGES],*keys]:has_copy(page,key,locale)\n                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy app.operator: 'Bedienperson'; last observation: False\n",
+    "evidence": [
+      "view_activity_de.png",
+      "view_activity_de-visible.txt",
+      "view_activity_de-state.json"
+    ]
+  },
+  "view_reports_de": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": true,
+    "error": "Missing UI copy app.operator: 'Bedienperson'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 209, in page_case\n    for key in ['app.operator','app.language',*['nav.'+name for name in PAGES],*keys]:has_copy(page,key,locale)\n                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy app.operator: 'Bedienperson'; last observation: False\n",
+    "evidence": [
+      "view_reports_de.png",
+      "view_reports_de-visible.txt",
+      "view_reports_de-state.json"
+    ]
+  },
+  "view_settings_de": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": true,
+    "error": "Missing UI copy app.operator: 'Bedienperson'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 209, in page_case\n    for key in ['app.operator','app.language',*['nav.'+name for name in PAGES],*keys]:has_copy(page,key,locale)\n                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy app.operator: 'Bedienperson'; last observation: False\n",
+    "evidence": [
+      "view_settings_de.png",
+      "view_settings_de-visible.txt",
+      "view_settings_de-state.json"
+    ]
+  },
+  "view_help_de": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": true,
+    "error": "Missing UI copy app.operator: 'Bedienperson'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 209, in page_case\n    for key in ['app.operator','app.language',*['nav.'+name for name in PAGES],*keys]:has_copy(page,key,locale)\n                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy app.operator: 'Bedienperson'; last observation: False\n",
+    "evidence": [
+      "view_help_de.png",
+      "view_help_de-visible.txt",
+      "view_help_de-state.json"
+    ]
+  },
+  "dialog_new-order_de": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": false,
+    "error": "Expected visible text 'Arbeitsauftrag erstellen'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 235, in dialog_case\n    text_is(page,page.get_by_test_id('dialog-title'),message(page,locale,title))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'Arbeitsauftrag erstellen'; last observation: False\n",
+    "evidence": [
+      "dialog_new-order_de.png",
+      "dialog_new-order_de-visible.txt",
+      "dialog_new-order_de-state.json"
+    ]
+  },
+  "dialog_edit-order_de": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": false,
+    "error": "Expected visible text 'Arbeitsauftrag bearbeiten'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 235, in dialog_case\n    text_is(page,page.get_by_test_id('dialog-title'),message(page,locale,title))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'Arbeitsauftrag bearbeiten'; last observation: False\n",
+    "evidence": [
+      "dialog_edit-order_de.png",
+      "dialog_edit-order_de-visible.txt",
+      "dialog_edit-order_de-state.json"
+    ]
+  },
+  "dialog_bulk_de": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": false,
+    "error": "Expected visible text 'Arbeitsaufträge abschließen'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 235, in dialog_case\n    text_is(page,page.get_by_test_id('dialog-title'),message(page,locale,title))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'Arbeitsaufträge abschließen'; last observation: False\n",
+    "evidence": [
+      "dialog_bulk_de.png",
+      "dialog_bulk_de-visible.txt",
+      "dialog_bulk_de-state.json"
+    ]
+  },
+  "dialog_assign_de": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": false,
+    "error": "Expected visible text 'Arbeitsauftrag zuweisen'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 235, in dialog_case\n    text_is(page,page.get_by_test_id('dialog-title'),message(page,locale,title))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'Arbeitsauftrag zuweisen'; last observation: False\n",
+    "evidence": [
+      "dialog_assign_de.png",
+      "dialog_assign_de-visible.txt",
+      "dialog_assign_de-state.json"
+    ]
+  },
+  "dialog_reserve_de": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": false,
+    "error": "Expected visible text 'Bestand reservieren'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 235, in dialog_case\n    text_is(page,page.get_by_test_id('dialog-title'),message(page,locale,title))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'Bestand reservieren'; last observation: False\n",
+    "evidence": [
+      "dialog_reserve_de.png",
+      "dialog_reserve_de-visible.txt",
+      "dialog_reserve_de-state.json"
+    ]
+  },
+  "dialog_charge_de": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": false,
+    "error": "Expected visible text 'Betrag erfassen'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 235, in dialog_case\n    text_is(page,page.get_by_test_id('dialog-title'),message(page,locale,title))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'Betrag erfassen'; last observation: False\n",
+    "evidence": [
+      "dialog_charge_de.png",
+      "dialog_charge_de-visible.txt",
+      "dialog_charge_de-state.json"
+    ]
+  },
+  "dialog_export_de": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": false,
+    "error": "Expected visible text 'Arbeitsaufträge exportieren'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 235, in dialog_case\n    text_is(page,page.get_by_test_id('dialog-title'),message(page,locale,title))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'Arbeitsaufträge exportieren'; last observation: False\n",
+    "evidence": [
+      "dialog_export_de.png",
+      "dialog_export_de-visible.txt",
+      "dialog_export_de-state.json"
+    ]
+  },
+  "validation_and_server_errors_de": {
+    "passed": false,
+    "category": "functional_correctness",
+    "critical": true,
+    "error": "Expected visible text 'Ein Auftragstitel ist erforderlich.'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 256, in errors\n    text_is(page,page.get_by_test_id('dialog-error'),message(page,locale,'error.TITLE_REQUIRED'))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'Ein Auftragstitel ist erforderlich.'; last observation: False\n",
+    "evidence": [
+      "validation_and_server_errors_de.png",
+      "validation_and_server_errors_de-visible.txt",
+      "validation_and_server_errors_de-state.json"
+    ]
+  },
+  "quantity_plural_forms_de": {
+    "passed": false,
+    "category": "functional_correctness",
+    "critical": true,
+    "error": "Expected visible text '4 Teile verfügbar'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 274, in stock_plurals\n    text_is(page,page.get_by_test_id('stock-'+str(part['id'])),message(page,locale,'parts.stock',count=part['stock']))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text '4 Teile verfügbar'; last observation: False\n",
+    "evidence": [
+      "quantity_plural_forms_de.png",
+      "quantity_plural_forms_de-visible.txt",
+      "quantity_plural_forms_de-state.json"
+    ]
+  },
+  "bulk_workflow_de": {
+    "passed": false,
+    "category": "functional_correctness",
+    "critical": true,
+    "error": "Expected visible text '0 Arbeitsaufträge ausgewählt'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 282, in bulk_flow\n    text_is(page,page.get_by_test_id('selection-count'),message(page,locale,'orders.selected',count=count))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text '0 Arbeitsaufträge ausgewählt'; last observation: False\n",
+    "evidence": [
+      "bulk_workflow_de.png",
+      "bulk_workflow_de-visible.txt",
+      "bulk_workflow_de-state.json"
+    ]
+  },
+  "money_and_memo_de": {
+    "passed": false,
+    "category": "functional_correctness",
+    "critical": true,
+    "error": "Locator expected to have count '0'\nActual value: 1 \nCall log:\n  - Expect \"to_have_count\" with timeout 5000ms\n  - waiting for get_by_role(\"dialog\")\n    9 × locator resolved to 1 element\n      - unexpected value \"1\"\n",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 296, in money_flow\n    expect(page.get_by_role('dialog')).to_have_count(0)\n  File \"/usr/local/lib/python3.12/site-packages/playwright/sync_api/_generated.py\", line 19582, in to_have_count\n    self._sync(self._impl_obj.to_have_count(count=count, timeout=timeout))\n  File \"/usr/local/lib/python3.12/site-packages/playwright/_impl/_sync_base.py\", line 115, in _sync\n    return task.result()\n           ^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 382, in to_have_count\n    await self._expect_impl(\n  File \"/usr/local/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 85, in _expect_impl\n    raise AssertionError(\nAssertionError: Locator expected to have count '0'\nActual value: 1 \nCall log:\n  - Expect \"to_have_count\" with timeout 5000ms\n  - waiting for get_by_role(\"dialog\")\n    9 × locator resolved to 1 element\n      - unexpected value \"1\"\n\n",
+    "evidence": [
+      "money_and_memo_de.png",
+      "money_and_memo_de-visible.txt",
+      "money_and_memo_de-state.json"
+    ]
+  },
+  "csv_contract_de": {
+    "passed": false,
+    "category": "constraint_satisfaction",
+    "critical": true,
+    "error": "Expected visible text 'CSV-Export bereit'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 315, in csv_flow\n    text_is(page,page.locator('#toast'),message(page,locale,'notice.exported'))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'CSV-Export bereit'; last observation: False\n",
+    "evidence": [
+      "csv_contract_de.png",
+      "csv_contract_de-visible.txt",
+      "csv_contract_de-state.json"
+    ]
+  },
+  "empty_search_and_help_de": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": false,
+    "error": "Missing UI copy orders.emptyTitle: 'Keine passenden Arbeitsaufträge'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 321, in empty_help\n    for key in ['orders.emptyTitle','orders.emptyBody','common.clear']:has_copy(page,key,locale)\n                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy orders.emptyTitle: 'Keine passenden Arbeitsaufträge'; last observation: False\n",
+    "evidence": [
+      "empty_search_and_help_de.png",
+      "empty_search_and_help_de-visible.txt",
+      "empty_search_and_help_de-state.json"
+    ]
+  },
+  "view_orders_ar": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": true,
+    "error": "Missing UI copy app.operator: 'المشغّل'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 209, in page_case\n    for key in ['app.operator','app.language',*['nav.'+name for name in PAGES],*keys]:has_copy(page,key,locale)\n                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy app.operator: 'المشغّل'; last observation: False\n",
+    "evidence": [
+      "view_orders_ar.png",
+      "view_orders_ar-visible.txt",
+      "view_orders_ar-state.json"
+    ]
+  },
+  "view_dispatch_ar": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": true,
+    "error": "Missing UI copy app.operator: 'المشغّل'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 209, in page_case\n    for key in ['app.operator','app.language',*['nav.'+name for name in PAGES],*keys]:has_copy(page,key,locale)\n                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy app.operator: 'المشغّل'; last observation: False\n",
+    "evidence": [
+      "view_dispatch_ar.png",
+      "view_dispatch_ar-visible.txt",
+      "view_dispatch_ar-state.json"
+    ]
+  },
+  "view_parts_ar": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": true,
+    "error": "Missing UI copy app.operator: 'المشغّل'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 209, in page_case\n    for key in ['app.operator','app.language',*['nav.'+name for name in PAGES],*keys]:has_copy(page,key,locale)\n                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy app.operator: 'المشغّل'; last observation: False\n",
+    "evidence": [
+      "view_parts_ar.png",
+      "view_parts_ar-visible.txt",
+      "view_parts_ar-state.json"
+    ]
+  },
+  "view_billing_ar": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": true,
+    "error": "Missing UI copy app.operator: 'المشغّل'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 209, in page_case\n    for key in ['app.operator','app.language',*['nav.'+name for name in PAGES],*keys]:has_copy(page,key,locale)\n                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy app.operator: 'المشغّل'; last observation: False\n",
+    "evidence": [
+      "view_billing_ar.png",
+      "view_billing_ar-visible.txt",
+      "view_billing_ar-state.json"
+    ]
+  },
+  "view_activity_ar": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": true,
+    "error": "Missing UI copy app.operator: 'المشغّل'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 209, in page_case\n    for key in ['app.operator','app.language',*['nav.'+name for name in PAGES],*keys]:has_copy(page,key,locale)\n                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy app.operator: 'المشغّل'; last observation: False\n",
+    "evidence": [
+      "view_activity_ar.png",
+      "view_activity_ar-visible.txt",
+      "view_activity_ar-state.json"
+    ]
+  },
+  "view_reports_ar": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": true,
+    "error": "Missing UI copy app.operator: 'المشغّل'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 209, in page_case\n    for key in ['app.operator','app.language',*['nav.'+name for name in PAGES],*keys]:has_copy(page,key,locale)\n                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy app.operator: 'المشغّل'; last observation: False\n",
+    "evidence": [
+      "view_reports_ar.png",
+      "view_reports_ar-visible.txt",
+      "view_reports_ar-state.json"
+    ]
+  },
+  "view_settings_ar": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": true,
+    "error": "Missing UI copy app.operator: 'المشغّل'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 209, in page_case\n    for key in ['app.operator','app.language',*['nav.'+name for name in PAGES],*keys]:has_copy(page,key,locale)\n                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy app.operator: 'المشغّل'; last observation: False\n",
+    "evidence": [
+      "view_settings_ar.png",
+      "view_settings_ar-visible.txt",
+      "view_settings_ar-state.json"
+    ]
+  },
+  "view_help_ar": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": true,
+    "error": "Missing UI copy app.operator: 'المشغّل'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 209, in page_case\n    for key in ['app.operator','app.language',*['nav.'+name for name in PAGES],*keys]:has_copy(page,key,locale)\n                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy app.operator: 'المشغّل'; last observation: False\n",
+    "evidence": [
+      "view_help_ar.png",
+      "view_help_ar-visible.txt",
+      "view_help_ar-state.json"
+    ]
+  },
+  "dialog_new-order_ar": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": false,
+    "error": "Expected visible text 'إنشاء أمر عمل'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 235, in dialog_case\n    text_is(page,page.get_by_test_id('dialog-title'),message(page,locale,title))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'إنشاء أمر عمل'; last observation: False\n",
+    "evidence": [
+      "dialog_new-order_ar.png",
+      "dialog_new-order_ar-visible.txt",
+      "dialog_new-order_ar-state.json"
+    ]
+  },
+  "dialog_edit-order_ar": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": false,
+    "error": "Expected visible text 'تعديل أمر العمل'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 235, in dialog_case\n    text_is(page,page.get_by_test_id('dialog-title'),message(page,locale,title))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'تعديل أمر العمل'; last observation: False\n",
+    "evidence": [
+      "dialog_edit-order_ar.png",
+      "dialog_edit-order_ar-visible.txt",
+      "dialog_edit-order_ar-state.json"
+    ]
+  },
+  "dialog_bulk_ar": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": false,
+    "error": "Expected visible text 'إكمال أوامر العمل'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 235, in dialog_case\n    text_is(page,page.get_by_test_id('dialog-title'),message(page,locale,title))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'إكمال أوامر العمل'; last observation: False\n",
+    "evidence": [
+      "dialog_bulk_ar.png",
+      "dialog_bulk_ar-visible.txt",
+      "dialog_bulk_ar-state.json"
+    ]
+  },
+  "dialog_assign_ar": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": false,
+    "error": "Expected visible text 'تعيين أمر العمل'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 235, in dialog_case\n    text_is(page,page.get_by_test_id('dialog-title'),message(page,locale,title))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'تعيين أمر العمل'; last observation: False\n",
+    "evidence": [
+      "dialog_assign_ar.png",
+      "dialog_assign_ar-visible.txt",
+      "dialog_assign_ar-state.json"
+    ]
+  },
+  "dialog_reserve_ar": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": false,
+    "error": "Expected visible text 'حجز المخزون'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 235, in dialog_case\n    text_is(page,page.get_by_test_id('dialog-title'),message(page,locale,title))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'حجز المخزون'; last observation: False\n",
+    "evidence": [
+      "dialog_reserve_ar.png",
+      "dialog_reserve_ar-visible.txt",
+      "dialog_reserve_ar-state.json"
+    ]
+  },
+  "dialog_charge_ar": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": false,
+    "error": "Expected visible text 'تسجيل رسوم'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 235, in dialog_case\n    text_is(page,page.get_by_test_id('dialog-title'),message(page,locale,title))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'تسجيل رسوم'; last observation: False\n",
+    "evidence": [
+      "dialog_charge_ar.png",
+      "dialog_charge_ar-visible.txt",
+      "dialog_charge_ar-state.json"
+    ]
+  },
+  "dialog_export_ar": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": false,
+    "error": "Expected visible text 'تصدير أوامر العمل'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 235, in dialog_case\n    text_is(page,page.get_by_test_id('dialog-title'),message(page,locale,title))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'تصدير أوامر العمل'; last observation: False\n",
+    "evidence": [
+      "dialog_export_ar.png",
+      "dialog_export_ar-visible.txt",
+      "dialog_export_ar-state.json"
+    ]
+  },
+  "validation_and_server_errors_ar": {
+    "passed": false,
+    "category": "functional_correctness",
+    "critical": true,
+    "error": "Expected visible text 'عنوان أمر العمل مطلوب.'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 256, in errors\n    text_is(page,page.get_by_test_id('dialog-error'),message(page,locale,'error.TITLE_REQUIRED'))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'عنوان أمر العمل مطلوب.'; last observation: False\n",
+    "evidence": [
+      "validation_and_server_errors_ar.png",
+      "validation_and_server_errors_ar-visible.txt",
+      "validation_and_server_errors_ar-state.json"
+    ]
+  },
+  "quantity_plural_forms_ar": {
+    "passed": false,
+    "category": "functional_correctness",
+    "critical": true,
+    "error": "Expected visible text '4 قطع متاحة'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 274, in stock_plurals\n    text_is(page,page.get_by_test_id('stock-'+str(part['id'])),message(page,locale,'parts.stock',count=part['stock']))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text '4 قطع متاحة'; last observation: False\n",
+    "evidence": [
+      "quantity_plural_forms_ar.png",
+      "quantity_plural_forms_ar-visible.txt",
+      "quantity_plural_forms_ar-state.json"
+    ]
+  },
+  "bulk_workflow_ar": {
+    "passed": false,
+    "category": "functional_correctness",
+    "critical": true,
+    "error": "Expected visible text 'لم يتم تحديد أي أمر عمل'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 282, in bulk_flow\n    text_is(page,page.get_by_test_id('selection-count'),message(page,locale,'orders.selected',count=count))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'لم يتم تحديد أي أمر عمل'; last observation: False\n",
+    "evidence": [
+      "bulk_workflow_ar.png",
+      "bulk_workflow_ar-visible.txt",
+      "bulk_workflow_ar-state.json"
+    ]
+  },
+  "money_and_memo_ar": {
+    "passed": false,
+    "category": "functional_correctness",
+    "critical": true,
+    "error": "Locator expected to have count '0'\nActual value: 1 \nCall log:\n  - Expect \"to_have_count\" with timeout 5000ms\n  - waiting for get_by_role(\"dialog\")\n    9 × locator resolved to 1 element\n      - unexpected value \"1\"\n",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 296, in money_flow\n    expect(page.get_by_role('dialog')).to_have_count(0)\n  File \"/usr/local/lib/python3.12/site-packages/playwright/sync_api/_generated.py\", line 19582, in to_have_count\n    self._sync(self._impl_obj.to_have_count(count=count, timeout=timeout))\n  File \"/usr/local/lib/python3.12/site-packages/playwright/_impl/_sync_base.py\", line 115, in _sync\n    return task.result()\n           ^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 382, in to_have_count\n    await self._expect_impl(\n  File \"/usr/local/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 85, in _expect_impl\n    raise AssertionError(\nAssertionError: Locator expected to have count '0'\nActual value: 1 \nCall log:\n  - Expect \"to_have_count\" with timeout 5000ms\n  - waiting for get_by_role(\"dialog\")\n    9 × locator resolved to 1 element\n      - unexpected value \"1\"\n\n",
+    "evidence": [
+      "money_and_memo_ar.png",
+      "money_and_memo_ar-visible.txt",
+      "money_and_memo_ar-state.json"
+    ]
+  },
+  "csv_contract_ar": {
+    "passed": false,
+    "category": "constraint_satisfaction",
+    "critical": true,
+    "error": "Expected visible text 'تصدير CSV جاهز'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 315, in csv_flow\n    text_is(page,page.locator('#toast'),message(page,locale,'notice.exported'))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'تصدير CSV جاهز'; last observation: False\n",
+    "evidence": [
+      "csv_contract_ar.png",
+      "csv_contract_ar-visible.txt",
+      "csv_contract_ar-state.json"
+    ]
+  },
+  "empty_search_and_help_ar": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": false,
+    "error": "Missing UI copy orders.emptyTitle: 'لا توجد أوامر عمل مطابقة'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 321, in empty_help\n    for key in ['orders.emptyTitle','orders.emptyBody','common.clear']:has_copy(page,key,locale)\n                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy orders.emptyTitle: 'لا توجد أوامر عمل مطابقة'; last observation: False\n",
+    "evidence": [
+      "empty_search_and_help_ar.png",
+      "empty_search_and_help_ar-visible.txt",
+      "empty_search_and_help_ar-state.json"
+    ]
+  },
+  "live_draft_numeric_meaning_and_view_state": {
+    "passed": false,
+    "category": "robustness",
+    "critical": true,
+    "error": "Expected visible text 'تعديل أمر العمل'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 332, in live_draft\n    language(page,'ar');text_is(page,page.get_by_test_id('dialog-title'),message(page,'ar','order.editTitle'))\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'تعديل أمر العمل'; last observation: False\n",
+    "evidence": [
+      "live_draft_numeric_meaning_and_view_state.png",
+      "live_draft_numeric_meaning_and_view_state-visible.txt",
+      "live_draft_numeric_meaning_and_view_state-state.json"
+    ]
+  },
+  "live_error_and_confirmation_retranslation": {
+    "passed": false,
+    "category": "robustness",
+    "critical": true,
+    "error": "Expected visible text 'Ein Auftragstitel ist erforderlich.'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 346, in live_errors\n    language(page,'de');text_is(page,page.get_by_test_id('dialog-error'),message(page,'de','error.TITLE_REQUIRED'))\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'Ein Auftragstitel ist erforderlich.'; last observation: False\n",
+    "evidence": [
+      "live_error_and_confirmation_retranslation.png",
+      "live_error_and_confirmation_retranslation-visible.txt",
+      "live_error_and_confirmation_retranslation-state.json"
+    ]
+  },
+  "operator_locale_persistence_and_preference_isolation": {
+    "passed": false,
+    "category": "constraint_satisfaction",
+    "critical": true,
+    "error": "Missing UI copy orders.title: 'أوامر العمل'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 355, in preferences\n    language(page,'ar');page.reload();expect(page.locator('html')).to_have_attribute('lang','ar');has_copy(page,'orders.title','ar')\n                                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 65, in has_copy\n    eventually(page,lambda:normalized(expected) in normalized(page.locator('body').inner_text()),f'Missing UI copy {key}: {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Missing UI copy orders.title: 'أوامر العمل'; last observation: False\n",
+    "evidence": [
+      "operator_locale_persistence_and_preference_isolation.png",
+      "operator_locale_persistence_and_preference_isolation-visible.txt",
+      "operator_locale_persistence_and_preference_isolation-state.json"
+    ]
+  },
+  "rtl_navigation_layout": {
+    "passed": false,
+    "category": "artifact_quality",
+    "critical": true,
+    "error": "Locator expected to have attribute 'rtl'\nActual value: ltr \nCall log:\n  - Expect \"to_have_attribute\" with timeout 5000ms\n  - waiting for locator(\"html\")\n    9 × locator resolved to <html lang=\"ar\" dir=\"ltr\">…</html>\n      - unexpected value \"ltr\"\n",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 368, in rtl\n    language(page,locale);expect(page.locator('html')).to_have_attribute('dir','rtl' if locale=='ar' else 'ltr')\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/playwright/sync_api/_generated.py\", line 19333, in to_have_attribute\n    self._sync(\n  File \"/usr/local/lib/python3.12/site-packages/playwright/_impl/_sync_base.py\", line 115, in _sync\n    return task.result()\n           ^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 266, in to_have_attribute\n    await self._expect_impl(\n  File \"/usr/local/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 85, in _expect_impl\n    raise AssertionError(\nAssertionError: Locator expected to have attribute 'rtl'\nActual value: ltr \nCall log:\n  - Expect \"to_have_attribute\" with timeout 5000ms\n  - waiting for locator(\"html\")\n    9 × locator resolved to <html lang=\"ar\" dir=\"ltr\">…</html>\n      - unexpected value \"ltr\"\n\n",
+    "evidence": [
+      "rtl_navigation_layout.png",
+      "rtl_navigation_layout-visible.txt",
+      "rtl_navigation_layout-state.json"
+    ]
+  },
+  "arabic_quantity_and_activity_state": {
+    "passed": false,
+    "category": "robustness",
+    "critical": true,
+    "error": "Expected visible text 'قطعتان متاحتان'; last observation: False",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 378, in reserve_digits\n    text_is(page,page.get_by_test_id('stock-1'),message(page,'ar','parts.stock',count=2))\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'قطعتان متاحتان'; last observation: False\n",
+    "evidence": [
+      "arabic_quantity_and_activity_state.png",
+      "arabic_quantity_and_activity_state-visible.txt",
+      "arabic_quantity_and_activity_state-state.json"
+    ]
+  },
+  "fractional_precision_and_small_charge": {
+    "passed": false,
+    "category": "robustness",
+    "critical": true,
+    "error": "Expected visible text 'Einen gültigen Betrag mit höchstens zwei Nachkommastellen eingeben.'; last observation: Locator.inner_text: Timeout 500ms exceeded.\nCall log:\n  - waiting for get_by_test_id(\"dialog-error\")\n",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 385, in fractional_rejection\n    text_is(page,page.get_by_test_id('dialog-error'),message(page,'de','error.AMOUNT_INVALID'));assert not server.bootstrap()['charges']\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/verify.py\", line 60, in text_is\n    eventually(page,lambda:normalized(locator.inner_text(timeout=500))==normalized(expected),f'Expected visible text {expected!r}')\n  File \"/tests/verify.py\", line 56, in eventually\n    raise AssertionError(description+'; last observation: '+str(last))\nAssertionError: Expected visible text 'Einen gültigen Betrag mit höchstens zwei Nachkommastellen eingeben.'; last observation: Locator.inner_text: Timeout 500ms exceeded.\nCall log:\n  - waiting for get_by_test_id(\"dialog-error\")\n\n",
+    "evidence": [
+      "fractional_precision_and_small_charge.png",
+      "fractional_precision_and_small_charge-visible.txt",
+      "fractional_precision_and_small_charge-state.json"
+    ]
+  }
+}

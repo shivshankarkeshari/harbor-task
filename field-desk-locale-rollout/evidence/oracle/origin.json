@@ -1,0 +1,51 @@
+{
+  "job": "oracle-fresh-01",
+  "trial": "field-desk-locale-rollout__NfrQAmp",
+  "evaluation_kind": "saved artifact re-evaluation under the final corrected verifier; no additional model call",
+  "native_agent": {
+    "name": "oracle",
+    "version": "1.0.0",
+    "model_info": null
+  },
+  "reasoning_effort": null,
+  "started_at": "2026-11-09T06:10:56.201576Z",
+  "finished_at": "2026-11-09T06:11:49.441998Z",
+  "native_task_checksum": "2f8724d8944a99dcfab211cdcfd655189716f4fc7e61125225d2054c6844c5cb",
+  "native_rewards": {
+    "overall": 1.0,
+    "functional_correctness": 1.0,
+    "constraint_satisfaction": 1.0,
+    "robustness": 1.0,
+    "artifact_quality": 1.0
+  },
+  "corrected_rewards": {
+    "overall": 1.0,
+    "functional_correctness": 1.0,
+    "constraint_satisfaction": 1.0,
+    "robustness": 1.0,
+    "artifact_quality": 1.0
+  },
+  "critical_failures": [],
+  "native_exception": null,
+  "source_files_sha256": {
+    "serve.py": "5f5ad895e12c17f706bcb7b59d040b4c9512584416eafc32cc9da710ef3a6197",
+    "static/index.html": "737d0dbdc98818c0e660dfecf447fa288efa40b0ac6c05df6fe7aa0002328430",
+    "static/style.css": "3e75b92920260ab37968a21585b61ab2ca36e1891114ff918e09298993f28be4",
+    "static/app.js": "d86426b3d4f2601131446d7439bd284cd4657e70b9974580ca0757805be8f137",
+    "static/locales/de.json": "1361e066e40a099fcd4a37dc8e36b2190c4d92232f248e88aef1de2afe4dc081",
+    "static/locales/en.json": "4fbb7552e50aafae5e430ee46e88b5defb947b50aa1a0e2a28e769e37ef406fe",
+    "static/locales/ar.json": "2445953ead859efdc2861e7e1770f46fa2c9669cb15dc746afd96c1983a27b67",
+    "static/core/shell.js": "f6983e1fbc60d2782224b2aea7350b12b34e9988c0b1f908e59b82bc428cb5d9",
+    "static/core/format.js": "1488bbb43dcba92d830a26f86b5135fb6ee26dfc0cef1fe3df47e066e57e7f99",
+    "static/core/state.js": "9d36aaa0b07a2dfcfefc71c7c61cb0784fc909e11d4e5c1bc0b8a554c313a7a7",
+    "static/core/locale.js": "55c3e51071c27cc353069b607d07c63c77ce8c1aa31dabce5d96c195c1c06aee",
+    "static/views/dispatch.js": "7a3ba883b0490498fdf823b8ea68183685bbb19d150d9628cc07619fb2c5693c",
+    "static/views/orders.js": "4176792e7aa4a876ef0cf46f76800af1bd53b27d1b99d33f6b4d955926e0d9bd",
+    "static/views/activity.js": "5846d10d6efa0e91a1a444c1bcf771dccb4d2ee01dd5b34b5c6195fd4cdfc92a",
+    "static/views/billing.js": "3242e697d52ddf1f20f6076ef8c769f5d9beef521776550d2308a4fdfe3254b0",
+    "static/views/help.js": "3a83babef99984475061514411ffd121526e37fdedb5e11ba30ef6f62fc0ffed",
+    "static/views/parts.js": "aec2ab9e7d822b088fb5aa500b8764e7ad6aaff8c4fc5b2cbf1057f986b1e062",
+    "static/views/reports.js": "55e4f5caea85ba39eb14420141098aaa91bd56a008d2b19cb047c78d60ed5c91",
+    "static/views/settings.js": "30731c71971b050d94288c2cbf0a5c6f9edc6b9de88af840f0f743bfe4e58984"
+  }
+}

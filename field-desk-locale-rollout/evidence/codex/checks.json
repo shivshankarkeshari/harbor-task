@@ -1,0 +1,359 @@
+{
+  "machine_api_contracts": {
+    "passed": true,
+    "category": "constraint_satisfaction",
+    "critical": true
+  },
+  "view_orders_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_dispatch_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_parts_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_billing_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_activity_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_reports_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_settings_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_help_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_new-order_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_edit-order_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_bulk_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_assign_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_reserve_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_charge_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_export_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "validation_and_server_errors_en": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "quantity_plural_forms_en": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "bulk_workflow_en": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "money_and_memo_en": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "csv_contract_en": {
+    "passed": true,
+    "category": "constraint_satisfaction",
+    "critical": true
+  },
+  "empty_search_and_help_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_orders_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_dispatch_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_parts_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_billing_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_activity_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_reports_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_settings_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_help_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "dialog_new-order_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_edit-order_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_bulk_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_assign_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_reserve_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_charge_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_export_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "validation_and_server_errors_de": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "quantity_plural_forms_de": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "bulk_workflow_de": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "money_and_memo_de": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "csv_contract_de": {
+    "passed": true,
+    "category": "constraint_satisfaction",
+    "critical": true
+  },
+  "empty_search_and_help_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_orders_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_dispatch_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_parts_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_billing_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_activity_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_reports_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_settings_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_help_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "dialog_new-order_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_edit-order_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_bulk_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_assign_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_reserve_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_charge_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_export_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "validation_and_server_errors_ar": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "quantity_plural_forms_ar": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "bulk_workflow_ar": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "money_and_memo_ar": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "csv_contract_ar": {
+    "passed": true,
+    "category": "constraint_satisfaction",
+    "critical": true
+  },
+  "empty_search_and_help_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "live_draft_numeric_meaning_and_view_state": {
+    "passed": false,
+    "category": "robustness",
+    "critical": true,
+    "error": "Locator expected to have count '0'\nActual value: 1 \nCall log:\n  - Expect \"to_have_count\" with timeout 5000ms\n  - waiting for get_by_role(\"dialog\")\n    9 × locator resolved to 1 element\n      - unexpected value \"1\"\n",
+    "traceback": "Traceback (most recent call last):\n  File \"/tests/verify.py\", line 142, in check\n    function();CHECKS[name]={'passed':True,'category':category,'critical':name in CRITICAL};print('PASS '+name,flush=True)\n    ^^^^^^^^^^\n  File \"/tests/verify.py\", line 352, in live_draft\n    page.get_by_test_id('submit').click();expect(page.get_by_role('dialog')).to_have_count(0)\n                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/playwright/sync_api/_generated.py\", line 19582, in to_have_count\n    self._sync(self._impl_obj.to_have_count(count=count, timeout=timeout))\n  File \"/usr/local/lib/python3.12/site-packages/playwright/_impl/_sync_base.py\", line 115, in _sync\n    return task.result()\n           ^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 382, in to_have_count\n    await self._expect_impl(\n  File \"/usr/local/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 85, in _expect_impl\n    raise AssertionError(\nAssertionError: Locator expected to have count '0'\nActual value: 1 \nCall log:\n  - Expect \"to_have_count\" with timeout 5000ms\n  - waiting for get_by_role(\"dialog\")\n    9 × locator resolved to 1 element\n      - unexpected value \"1\"\n\n",
+    "evidence": [
+      "live_draft_numeric_meaning_and_view_state.png",
+      "live_draft_numeric_meaning_and_view_state-visible.txt",
+      "live_draft_numeric_meaning_and_view_state-state.json"
+    ]
+  },
+  "live_error_and_confirmation_retranslation": {
+    "passed": true,
+    "category": "robustness",
+    "critical": true
+  },
+  "operator_locale_persistence_and_preference_isolation": {
+    "passed": true,
+    "category": "constraint_satisfaction",
+    "critical": true
+  },
+  "rtl_navigation_layout": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "arabic_quantity_and_activity_state": {
+    "passed": true,
+    "category": "robustness",
+    "critical": true
+  },
+  "fractional_precision_and_small_charge": {
+    "passed": true,
+    "category": "robustness",
+    "critical": true
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "variant": "keyboard_pending_preferences_edit",
+  "attempt": 1,
+  "passed": false,
+  "draft_before_submit": {
+    "form": {
+      "id": 1,
+      "title": "Open House: keep this wording",
+      "customer": "Ready for pickup",
+      "status": "OPEN",
+      "budget_minor": 125100,
+      "crew_id": null,
+      "budget": "1.234,51",
+      "amountLocale": "ar"
+    },
+    "locale": "ar",
+    "focused": "budget"
+  },
+  "persisted_after_submit": {
+    "id": 1,
+    "title": "Ready for pickup",
+    "customer": "Open House Ltd",
+    "status": "OPEN",
+    "budget_minor": 125100,
+    "crew_id": null
+  },
+  "dialog_count": 1
+}

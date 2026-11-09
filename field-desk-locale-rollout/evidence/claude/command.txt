@@ -1,0 +1,1 @@
+harbor run -p field-desk-locale-rollout -a claude-code -m openrouter/anthropic/claude-opus-5.5 --effort high --ak version=2.1.319 --ak 'max_budget_usd="35"' --base-url https://openrouter.ai/api --api-key-name OPENROUTER_KEY --env-file ../.env -k 1 -n 1 --job-name claude-opus55-high-01

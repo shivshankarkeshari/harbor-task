@@ -1,0 +1,1 @@
+harbor run -p field-desk-locale-rollout -a oracle --job-name oracle-fresh-01

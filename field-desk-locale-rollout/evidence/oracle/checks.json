@@ -1,0 +1,352 @@
+{
+  "machine_api_contracts": {
+    "passed": true,
+    "category": "constraint_satisfaction",
+    "critical": true
+  },
+  "view_orders_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_dispatch_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_parts_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_billing_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_activity_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_reports_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_settings_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_help_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_new-order_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_edit-order_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_bulk_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_assign_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_reserve_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_charge_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_export_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "validation_and_server_errors_en": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "quantity_plural_forms_en": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "bulk_workflow_en": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "money_and_memo_en": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "csv_contract_en": {
+    "passed": true,
+    "category": "constraint_satisfaction",
+    "critical": true
+  },
+  "empty_search_and_help_en": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_orders_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_dispatch_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_parts_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_billing_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_activity_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_reports_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_settings_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_help_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "dialog_new-order_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_edit-order_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_bulk_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_assign_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_reserve_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_charge_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_export_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "validation_and_server_errors_de": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "quantity_plural_forms_de": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "bulk_workflow_de": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "money_and_memo_de": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "csv_contract_de": {
+    "passed": true,
+    "category": "constraint_satisfaction",
+    "critical": true
+  },
+  "empty_search_and_help_de": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "view_orders_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_dispatch_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_parts_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_billing_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_activity_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_reports_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_settings_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "view_help_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "dialog_new-order_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_edit-order_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_bulk_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_assign_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_reserve_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_charge_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "dialog_export_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "validation_and_server_errors_ar": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "quantity_plural_forms_ar": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "bulk_workflow_ar": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "money_and_memo_ar": {
+    "passed": true,
+    "category": "functional_correctness",
+    "critical": true
+  },
+  "csv_contract_ar": {
+    "passed": true,
+    "category": "constraint_satisfaction",
+    "critical": true
+  },
+  "empty_search_and_help_ar": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": false
+  },
+  "live_draft_numeric_meaning_and_view_state": {
+    "passed": true,
+    "category": "robustness",
+    "critical": true
+  },
+  "live_error_and_confirmation_retranslation": {
+    "passed": true,
+    "category": "robustness",
+    "critical": true
+  },
+  "operator_locale_persistence_and_preference_isolation": {
+    "passed": true,
+    "category": "constraint_satisfaction",
+    "critical": true
+  },
+  "rtl_navigation_layout": {
+    "passed": true,
+    "category": "artifact_quality",
+    "critical": true
+  },
+  "arabic_quantity_and_activity_state": {
+    "passed": true,
+    "category": "robustness",
+    "critical": true
+  },
+  "fractional_precision_and_small_charge": {
+    "passed": true,
+    "category": "robustness",
+    "critical": true
+  }
+}

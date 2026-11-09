@@ -1,0 +1,8 @@
+{
+  "job": "starter-fresh-01",
+  "trial": "field-desk-locale-rollout__UUoAFU9",
+  "evaluation_kind": "native negative control before focus/bidi verifier corrections; not represented as a final-revision evaluation",
+  "passed": 22,
+  "total": 70,
+  "native_task_checksum": "2f8724d8944a99dcfab211cdcfd655189716f4fc7e61125225d2054c6844c5cb"
+}

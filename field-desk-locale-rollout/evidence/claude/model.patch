@@ -1,0 +1,442 @@
+--- a/static/app.js
++++ b/static/app.js
+@@ -1,6 +1,6 @@
+ import {state, api, reload} from './core/state.js';
+-import {loadCatalogs, t, setLanguage, applyDirection} from './core/locale.js';
+-import {parseAmount, inputAmount} from './core/format.js';
++import {loadCatalogs, t, setLanguage, supported} from './core/locale.js';
++import {parseAmount, inputAmount, parseWhole} from './core/format.js';
+ import {header, navigation} from './core/shell.js';
+ import * as orders from './views/orders.js';
+ import * as dispatch from './views/dispatch.js';
+@@ -12,6 +12,7 @@
+ import * as help from './views/help.js';
+ 
+ const views = {orders,dispatch,parts,billing,activity,reports,settings,help};
++const AMOUNT_FIELDS = ['budget','amount'];
+ function render() {
+   const active = document.activeElement;
+   const focus = active?.id;
+@@ -33,10 +34,14 @@
+ function open(kind, form={}) {state.modal=kind;state.form=form;state.error=null;render();}
+ function close() {state.modal=null;state.form={};state.error=null;render();}
+ function notice(key,args={}) {state.notice={key,args};}
+-function whole(raw) {
+-  const text=String(raw).trim().replace(/[٠-٩]/g,ch=>String(ch.charCodeAt(0)-0x660));
+-  return /^\d+$/.test(text)?Number(text):null;
++function amountOf(field) {
++  const amount=parseAmount(state.form[field],state.form.amountLocale||state.locale);
++  if (amount===null) throw {code:'AMOUNT_INVALID'};
++  return amount;
+ }
++/** The operator's saved locale, falling back to English for unknown values. */
++const savedLocale = () => supported(state.data?.preferences?.locale) ? state.data.preferences.locale : 'en';
++
+ async function action(name, id) {
+   state.error=null;
+   try {
+@@ -53,36 +58,62 @@
+     if (name==='charge') return open('charge',{order_id:state.data.orders[0].id,amount:inputAmount(0),amountLocale:state.locale,memo:''});
+     if (name==='export') return open('export');
+     if (name==='save-order') {
+-      const amount=parseAmount(state.form.budget,state.form.amountLocale);
+-      if (amount===null) throw {code:'AMOUNT_INVALID'};
++      const amount=amountOf('budget');
+       await api('order',{id:state.form.id,title:state.form.title,customer:state.form.customer,budget_minor:amount});
+       notice('notice.saved',{title:state.form.title});
+     } else if (name==='save-assignment') {
+       await api('assign',{order_id:Number(state.form.order_id),crew_id:state.form.crew_id});notice('notice.assigned');
+     } else if (name==='save-reservation') {
+-      await api('reserve',{part_id:state.form.part_id,units:whole(state.form.units)});notice('notice.reserved');
++      await api('reserve',{part_id:state.form.part_id,units:parseWhole(state.form.units)});notice('notice.reserved');
+     } else if (name==='save-charge') {
+-      const amount=parseAmount(state.form.amount,state.form.amountLocale);
+-      if (amount===null) throw {code:'AMOUNT_INVALID'};
++      const amount=amountOf('amount');
+       await api('charge',{order_id:Number(state.form.order_id),amount_minor:amount,memo:state.form.memo});notice('notice.charged');
+     } else if (name==='complete') {
+       await api('complete',{ids:state.selected});notice('notice.completed',{count:state.selected.length});state.selected=[];
+     } else if (name==='save-settings') {
+       const notifications=document.getElementById('notifications').checked;
+-      await api('preferences',{locale:state.locale,notifications});notice('notice.preferences');
++      await api('preferences',{locale:state.locale,notifications});
++      state.data.preferences={...state.data.preferences,locale:state.locale,notifications:notifications?1:0};
++      state.notificationsDraft=null;notice('notice.preferences');
+     } else if (name==='download') {
+       const response=await fetch('/api/export');
+       const url=URL.createObjectURL(await response.blob());
+       const link=document.createElement('a');link.href=url;link.download='work-orders.csv';link.click();URL.revokeObjectURL(url);
+       notice('notice.exported');
+     } else if (name==='copy-help') {
+-      const text="Field Desk: plan, assign, reserve, record, and export.";
++      const text=t('help.copyText');
+       if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(text);
+-      notice('common.copied');render();
+-      document.querySelector('[data-testid="help-copy-result"]').textContent="Copied to clipboard";return;
++      notice('common.copied');state.helpCopied=true;return render();
+     } else return;
+     await reload();close();
+   } catch (error) {state.error=error;render();}
++}
++
++/** Re-express open amount drafts in the new locale so their numeric meaning is unchanged. */
++function convertDrafts(locale) {
++  for (const field of AMOUNT_FIELDS) {
++    if (!(field in state.form)) continue;
++    const minor=parseAmount(state.form[field],state.form.amountLocale||state.locale);
++    // Unparseable drafts keep their text and original locale, so they are still read with their original meaning.
++    if (minor!==null) {state.form[field]=inputAmount(minor,locale);state.form.amountLocale=locale;}
++  }
++}
++async function changeLanguage(locale) {
++  if (!supported(locale) || locale===state.locale) return;
++  convertDrafts(locale);
++  setLanguage(locale);render();
++  const operator=state.operator;
++  try {
++    // Persist for this operator while keeping the saved (not draft) notification preference.
++    await api('preferences',{locale,notifications:Boolean(state.data.preferences.notifications)});
++    if (state.operator===operator) state.data.preferences={...state.data.preferences,locale};
++  } catch (error) {notice('error.REQUEST_FAILED');render();}
++}
++async function switchOperator(operator) {
++  state.operator=operator;localStorage.setItem('field-desk.operator',state.operator);
++  state.modal=null;state.form={};state.notice=null;state.error=null;state.selected=[];
++  state.notificationsDraft=null;state.helpCopied=false;
++  await reload();setLanguage(savedLocale());render();
+ }
+ 
+ document.addEventListener('click',event=>{
+@@ -93,23 +124,26 @@
+   const element=event.target;
+   if (element.dataset.field) {
+     state.form[element.dataset.field]=element.value;
+-    if (['budget','amount'].includes(element.dataset.field)) state.form.amountLocale=state.locale;
++    if (AMOUNT_FIELDS.includes(element.dataset.field)) state.form.amountLocale=state.locale;
+   }
+   if (element.dataset.viewField) {state[element.dataset.viewField]=element.value;render();}
+ });
+ document.addEventListener('change',async event=>{
+   const element=event.target;
+-  if (element.id==='language') {
+-    await setLanguage(element.value);
+-  } else if (element.id==='operator') {
+-    state.operator=element.value;localStorage.setItem('field-desk.operator',state.operator);
+-    state.modal=null;state.notice=null;state.error=null;state.selected=[];
+-    await reload();state.locale=localStorage.getItem('field-desk.locale')||'en';applyDirection();render();
+-  } else if (element.dataset.select) {
++  if (element.id==='language') await changeLanguage(element.value);
++  else if (element.id==='operator') await switchOperator(element.value);
++  else if (element.id==='notifications') state.notificationsDraft=element.checked;
++  else if (element.dataset.select) {
+     const id=Number(element.dataset.select);
+     state.selected=element.checked?[...new Set([...state.selected,id])]:state.selected.filter(value=>value!==id);render();
+-  } else if (element.dataset.field) state.form[element.dataset.field]=element.value;
++  } else if (element.dataset.field && element.tagName==='SELECT') state.form[element.dataset.field]=element.value;
++  // Text fields are captured by `input` events; a late `change` could restore pre-conversion amount text.
+   else if (element.dataset.viewField) {state[element.dataset.viewField]=element.value;render();}
+ });
+-window.addEventListener('hashchange',()=>{state.route=location.hash.slice(1)||'orders';state.modal=null;state.error=null;render();});
+-await loadCatalogs();await reload();state.locale=localStorage.getItem('field-desk.locale')||'en';applyDirection();render();
++window.addEventListener('hashchange',()=>{state.route=location.hash.slice(1)||'orders';state.modal=null;state.error=null;state.helpCopied=false;render();});
++await loadCatalogs();
++try {await reload();} catch {
++  // A stale stored operator id falls back to the default operator.
++  state.operator='robin';localStorage.setItem('field-desk.operator',state.operator);await reload();
++}
++setLanguage(savedLocale());render();
+--- a/static/core/format.js
++++ b/static/core/format.js
+@@ -1,7 +1,39 @@
+-export const money=minor=>new Intl.NumberFormat('en',{style:'currency',currency:'EUR'}).format(minor/100);
+-export const number=value=>new Intl.NumberFormat('en').format(value);
+-export function parseAmount(raw) {
+-  const text=String(raw).trim().replace(/,/g,'');
+-  return /^\d+(?:\.\d{1,2})?$/.test(text)?Math.round(Number(text)*100):null;
++import {state} from './state.js';
++import {intlTag} from './locale.js';
++const MAX_MINOR = 99999999;
++const MARKS = /[\u200e\u200f\u061c\u202a-\u202e\u2066-\u2069]/g;
++export const money = (minor, locale=state.locale) =>
++  new Intl.NumberFormat(intlTag(locale), {style:'currency', currency:'EUR'}).format(minor / 100);
++export const number = (value, locale=state.locale) => new Intl.NumberFormat(intlTag(locale)).format(value);
++export function asciiDigits(text) {
++  return String(text).replace(/[٠-٩]/g, ch => String(ch.charCodeAt(0) - 0x660))
++    .replace(/[۰-۹]/g, ch => String(ch.charCodeAt(0) - 0x6f0));
+ }
+-export function inputAmount(minor) {return (minor/100).toFixed(2);}
++// Grouping and decimal separators accepted per locale (sets are disjoint so input is unambiguous).
++const SEPARATORS = {
++  en: {group: [','], decimal: ['.']},
++  de: {group: ['.'], decimal: [',']},
++  ar: {group: ['٬', ','], decimal: ['٫', '.']},
++};
++/** Parse a locale-formatted euro amount into integer cents, or null when malformed/out of range. */
++export function parseAmount(raw, locale=state.locale) {
++  const separators = SEPARATORS[locale] || SEPARATORS.en;
++  let text = asciiDigits(String(raw ?? '').replace(MARKS, '').trim());
++  text = [...text].map(ch => separators.group.includes(ch) ? 'G' : separators.decimal.includes(ch) ? 'D' : ch).join('');
++  const match = /^(\d{1,3}(?:G\d{3})+|\d+)(?:D(\d{1,2}))?$/.exec(text);
++  if (!match) return null;
++  const whole = match[1].replace(/G/g, '').replace(/^0+(?=\d)/, '');
++  if (whole.length > 6) return null;
++  const minor = Number(whole) * 100 + Number((match[2] || '').padEnd(2, '0'));
++  return minor <= MAX_MINOR ? minor : null;
++}
++/** Format integer cents for an editable amount field in the given locale (no grouping). */
++export function inputAmount(minor, locale=state.locale) {
++  return new Intl.NumberFormat(intlTag(locale), {minimumFractionDigits:2, maximumFractionDigits:2, useGrouping:false})
++    .format(minor / 100).replace(MARKS, '');
++}
++/** Parse a positive-or-zero whole quantity, accepting Arabic-Indic digits; null when malformed. */
++export function parseWhole(raw) {
++  const text = asciiDigits(String(raw ?? '').replace(MARKS, '').trim());
++  return /^\d+$/.test(text) ? Number(text) : null;
++}
+--- a/static/core/locale.js
++++ b/static/core/locale.js
+@@ -1,20 +1,42 @@
+-import {state} from './state.js';
++import {state, escape} from './state.js';
++export const LOCALES = ['en','de','ar'];
++export const RTL = new Set(['ar']);
+ export const catalogs = {};
+ export async function loadCatalogs() {
+-  for (const locale of ['en','de','ar']) catalogs[locale] = await (await fetch(`/locales/${locale}.json`)).json();
++  await Promise.all(LOCALES.map(async locale => {catalogs[locale] = await (await fetch(`/locales/${locale}.json`)).json();}));
+ }
+-export function t(key, args={}) {
+-  let text=catalogs.en[key];
+-  if (typeof text==='object') text=text[new Intl.PluralRules('en').select(args.count)] ?? text.other;
+-  return text.replace(/\{(\w+)\}/g,(_,name)=>typeof args[name]==='number'?new Intl.NumberFormat('en').format(args[name]):String(args[name]??`{${name}}`));
++export const supported = locale => LOCALES.includes(locale);
++/** BCP 47 tag used for Intl formatting; Arabic uses Arabic-Indic digits consistently across engines. */
++export const intlTag = (locale=state.locale) => locale === 'ar' ? 'ar-u-nu-arab' : locale;
++export const isRtl = (locale=state.locale) => RTL.has(locale);
++const FSI = '\u2068', PDI = '\u2069';
++export function t(key, args={}, locale=state.locale) {
++  if (!supported(locale)) locale = 'en';
++  let text = catalogs[locale]?.[key] ?? catalogs.en?.[key];
++  if (text === undefined) return key;
++  if (typeof text === 'object') {
++    const count = Number(args?.count);
++    text = text[new Intl.PluralRules(locale).select(Number.isFinite(count) ? count : 0)] ?? text.other;
++  }
++  return text.replace(/\{(\w+)\}/g, (_, name) => {
++    const value = args?.[name];
++    if (typeof value === 'number') return new Intl.NumberFormat(intlTag(locale)).format(value);
++    if (value === undefined || value === null) return `{${name}}`;
++    // Isolate user/domain data so Latin text does not reorder the surrounding RTL sentence.
++    return isRtl(locale) ? FSI + String(value) + PDI : String(value);
++  });
+ }
++/** HTML-escaped translation, for use inside template markup. */
++export const te = (key, args={}) => escape(t(key, args));
+ export function applyDirection() {
+-  document.documentElement.lang=state.locale;
+-  document.documentElement.dir='ltr';
++  document.documentElement.lang = state.locale;
++  document.documentElement.dir = isRtl() ? 'rtl' : 'ltr';
+ }
+-export async function setLanguage(locale) {
+-  state.locale=locale;
+-  localStorage.setItem('field-desk.locale',locale);
++export function setLanguage(locale) {
++  state.locale = supported(locale) ? locale : 'en';
+   applyDirection();
+ }
+-export function errorText(error) {return t(`error.${error?.code || 'REQUEST_FAILED'}`,error || {});}
++export function errorText(error) {
++  const code = error?.code && catalogs.en[`error.${error.code}`] !== undefined ? error.code : 'REQUEST_FAILED';
++  return t(`error.${code}`, typeof error === 'object' && error ? error : {});
++}
+--- a/static/core/shell.js
++++ b/static/core/shell.js
+@@ -1,19 +1,15 @@
+ import {state, escape} from './state.js';
+-import {t, errorText} from './locale.js';
++import {t, te, errorText} from './locale.js';
+ export function header() {
+-  return `<h1>Field Desk</h1><label>Operator<select id="operator" data-testid="operator">${state.data.operators.map(user=>`<option value="${user.id}" ${state.operator===user.id?'selected':''}>${escape(user.name)}</option>`).join('')}</select></label>
+-    <label>Language<select id="language" data-testid="language">${[['en','English'],['de','Deutsch'],['ar','العربية']].map(([code,name])=>`<option value="${code}" ${state.locale===code?'selected':''}>${name}</option>`).join('')}</select></label>`;
++  return `<h1>Field Desk</h1><label>${te('app.operator')}<select id="operator" data-testid="operator">${state.data.operators.map(user=>`<option value="${user.id}" ${state.operator===user.id?'selected':''}>${escape(user.name)}</option>`).join('')}</select></label>
++    <label>${te('app.language')}<select id="language" data-testid="language">${[['en','English'],['de','Deutsch'],['ar','العربية']].map(([code,name])=>`<option value="${code}" lang="${code}" ${state.locale===code?'selected':''}>${name}</option>`).join('')}</select></label>`;
+ }
+ export function navigation() {
+-  const links = [
+-    ['orders', "Work orders"], ['dispatch', "Dispatch"], ['parts', "Parts"],
+-    ['billing', "Billing"], ['activity', "Activity"], ['reports', "Reports"],
+-    ['settings', "Settings"], ['help', "Help"],
+-  ];
+-  return links.map(([route,label])=>`<a data-testid="nav-${route}" href="#${route}" class="${state.route===route?'active':''}">${label}</a>`).join('');
++  const routes = ['orders','dispatch','parts','billing','activity','reports','settings','help'];
++  return routes.map(route=>`<a data-testid="nav-${route}" href="#${route}" class="${state.route===route?'active':''}"${state.route===route?' aria-current="page"':''}>${te(`nav.${route}`)}</a>`).join('');
+ }
+-export function status(code) {return t(`status.${code}`);}
++export function status(code) {return te(`status.${code}`);}
+ export function modal(title, body, action) {
+-  return `<div class="modal-overlay"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="dialog-title"><button class="close" data-action="close" data-testid="dialog-x" aria-label="Close">×</button><h2 id="dialog-title" data-testid="dialog-title">${title}</h2>${body}<div role="alert" data-testid="dialog-error" class="error">${state.error?escape(errorText(state.error)):''}</div><div class="modal-actions"><button data-action="close" data-testid="cancel">Cancel</button><button class="primary" data-action="${action}" data-testid="submit">Confirm</button></div></section></div>`;
++  return `<div class="modal-overlay"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="dialog-title"><button class="close" data-action="close" data-testid="dialog-x" aria-label="${te('common.close')}">×</button><h2 id="dialog-title" data-testid="dialog-title">${title}</h2>${body}<div role="alert" data-testid="dialog-error" class="error">${state.error?escape(errorText(state.error)):''}</div><div class="modal-actions"><button data-action="close" data-testid="cancel">${te('common.cancel')}</button><button class="primary" data-action="${action}" data-testid="submit">${te('common.confirm')}</button></div></section></div>`;
+ }
+ export function orderOptions() {return state.data.orders.map(order=>`<option value="${order.id}" ${String(state.form.order_id)===String(order.id)?'selected':''}>#${order.id} ${escape(order.title)}</option>`).join('');}
+--- a/static/core/state.js
++++ b/static/core/state.js
+@@ -2,6 +2,7 @@
+   operator: localStorage.getItem('field-desk.operator') || 'robin', locale: 'en',
+   route: location.hash.slice(1) || 'orders', search: '', filter: 'ALL', selected: [],
+   data: null, modal: null, form: {}, error: null, notice: null,
++  notificationsDraft: null, helpCopied: false,
+ };
+ export async function api(path, body) {
+   const response = await fetch(`/api/${path}`, body === undefined ? {} : {
+--- a/static/style.css
++++ b/static/style.css
+@@ -1 +1 @@
+-:root{font:16px system-ui,sans-serif;color:#1d2939;background:#f4f6fa}*{box-sizing:border-box}body{margin:0}header{position:relative;z-index:20;display:flex;align-items:center;gap:18px;background:#162536;color:white;padding:18px 24px}header h1{margin:0;margin-inline-end:auto;font-size:22px}label{display:inline-flex;flex-direction:column;gap:6px}button,input,select,textarea{font:inherit;padding:9px;border:1px solid #a9b6c5;border-radius:6px}button{background:white;color:#143558;cursor:pointer}button:hover{background:#e6effb}button.primary{background:#225fa3;color:white}button:disabled{opacity:.5;cursor:default}.layout{display:flex;min-height:85vh;direction:ltr}nav{width:205px;flex-shrink:0;padding:20px;background:#e5eaf2}nav a{display:block;padding:12px;color:#173c68;text-decoration:none;border-radius:7px}nav a.active{background:#c8daf0;font-weight:700}main{padding:28px;flex:1;min-width:0}h2{margin-top:0}.toolbar,.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0}.card{background:white;border:1px solid #d8e0e9;border-radius:10px;padding:20px;margin:16px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}table{width:100%;border-collapse:collapse;background:white}th,td{text-align:start;border-bottom:1px solid #e3e7ed;padding:12px}small,.muted{color:#5a6d83}.badge{border-radius:20px;background:#e8eff7;padding:4px 10px}.modal-overlay{position:fixed;inset:0;background:#16253666;display:flex;align-items:center;justify-content:center;z-index:10}.modal{width:min(600px,92vw);max-height:90vh;overflow:auto;background:white;border-radius:12px;padding:24px}.modal label{display:flex;margin:12px 0}.modal-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:20px}.error{color:#b32035;padding:9px;background:#fff0f2;min-height:1em}.success{color:#196b43}.close{float:right}.link-arrow{display:inline-block}#toast:empty{display:none}#toast{position:fixed;bottom:20px;right:24px;padding:16px;background:#132f4d;color:white;border-radius:10px;z-index:15}pre{white-space:pre-wrap}.help-list li{margin:10px 0}textarea{min-height:70px}.money{font-variant-numeric:tabular-nums}
++:root{font:16px system-ui,sans-serif;color:#1d2939;background:#f4f6fa}*{box-sizing:border-box}body{margin:0}header{position:relative;z-index:20;display:flex;align-items:center;gap:18px;background:#162536;color:white;padding:18px 24px}header h1{margin:0;margin-inline-end:auto;font-size:22px}label{display:inline-flex;flex-direction:column;gap:6px}button,input,select,textarea{font:inherit;padding:9px;border:1px solid #a9b6c5;border-radius:6px}button{background:white;color:#143558;cursor:pointer}button:hover{background:#e6effb}button.primary{background:#225fa3;color:white}button:disabled{opacity:.5;cursor:default}.layout{display:flex;min-height:85vh}nav{width:205px;flex-shrink:0;padding:20px;background:#e5eaf2}nav a{display:block;padding:12px;color:#173c68;text-decoration:none;border-radius:7px}nav a.active{background:#c8daf0;font-weight:700}main{padding:28px;flex:1;min-width:0}h2{margin-top:0}.toolbar,.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0}.card{background:white;border:1px solid #d8e0e9;border-radius:10px;padding:20px;margin:16px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}table{width:100%;border-collapse:collapse;background:white}th,td{text-align:start;border-bottom:1px solid #e3e7ed;padding:12px}small,.muted{color:#5a6d83}.badge{border-radius:20px;background:#e8eff7;padding:4px 10px}.modal-overlay{position:fixed;inset:0;background:#16253666;display:flex;align-items:center;justify-content:center;z-index:10}.modal{width:min(600px,92vw);max-height:90vh;overflow:auto;background:white;border-radius:12px;padding:24px}.modal label{display:flex;margin:12px 0}.modal-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:20px}.error{color:#b32035;padding:9px;background:#fff0f2;min-height:1em}.success{color:#196b43}.close{float:right}[dir=rtl] .close{float:left}.link-arrow{display:inline-block}[dir=rtl] .link-arrow{transform:scaleX(-1)}.user-content{unicode-bidi:isolate}#toast:empty{display:none}#toast{position:fixed;bottom:20px;inset-inline-end:24px;padding:16px;background:#132f4d;color:white;border-radius:10px;z-index:15}pre{white-space:pre-wrap}.help-list li{margin:10px 0}textarea{min-height:70px}.money{font-variant-numeric:tabular-nums}
+--- a/static/views/activity.js
++++ b/static/views/activity.js
+@@ -1,5 +1,7 @@
+-import {state, escape} from '../core/state.js';
+-import {t} from '../core/locale.js';
++import {state} from '../core/state.js';
++import {te} from '../core/locale.js';
++const actorName = actor => actor==='robin'?'Robin':actor==='amal'?'Amal':actor;
++function payload(raw) {try {return JSON.parse(raw) || {};} catch {return {};}}
+ export function render() {
+-  return `<h2 data-testid="page-title">Activity log</h2><p>Events describe actions; customer wording stays unchanged.</p><section class="card"><ul>${state.data.activity.map(event=>`<li data-testid="event-${event.id}">${escape(t(`event.${event.kind}`,{...JSON.parse(event.payload),actor:event.actor==='robin'?'Robin':'Amal'}))}</li>`).join('')}</ul></section>`;
++  return `<h2 data-testid="page-title">${te('activity.title')}</h2><p>${te('activity.subtitle')}</p><section class="card"><ul>${state.data.activity.map(event=>`<li data-testid="event-${event.id}">${te(`event.${event.kind}`,{...payload(event.payload),actor:actorName(event.actor)})}</li>`).join('')}</ul></section>`;
+ }
+--- a/static/views/billing.js
++++ b/static/views/billing.js
+@@ -1,14 +1,14 @@
+ import {state, escape, value} from '../core/state.js';
+-import {t} from '../core/locale.js';
++import {te} from '../core/locale.js';
+ import {money} from '../core/format.js';
+ import {modal, orderOptions} from '../core/shell.js';
+ export function render() {
+-  return `<h2 data-testid="page-title">Work-order billing</h2><p>Record charges in euros; stored amounts use integer cents.</p><button data-action="charge" data-testid="charge">Record charge</button>
+-    <section class="card"><h3>Total recorded charges</h3><strong data-testid="charge-total" class="money">${money(state.data.charges.reduce((total,row)=>total+row.amount_minor,0))}</strong></section>
+-    ${state.data.charges.length?`<table><thead><tr><th>Work order</th><th>Amount (EUR)</th><th>Internal memo</th></tr></thead><tbody>${state.data.charges.map(row=>`<tr><td>#${row.order_id}</td><td>${money(row.amount_minor)}</td><td class="user-content">${escape(row.memo)}</td></tr>`).join('')}</tbody></table>`:`<p data-testid="charges-empty">No charges recorded</p>`}`;
++  return `<h2 data-testid="page-title">${te('billing.title')}</h2><p>${te('billing.subtitle')}</p><button data-action="charge" data-testid="charge">${te('billing.record')}</button>
++    <section class="card"><h3>${te('billing.total')}</h3><strong data-testid="charge-total" class="money">${money(state.data.charges.reduce((total,row)=>total+row.amount_minor,0))}</strong></section>
++    ${state.data.charges.length?`<table><thead><tr><th>${te('field.order')}</th><th>${te('billing.amount')}</th><th>${te('billing.memo')}</th></tr></thead><tbody>${state.data.charges.map(row=>`<tr><td>#${row.order_id}</td><td class="money">${money(row.amount_minor)}</td><td class="user-content" dir="auto">${escape(row.memo)}</td></tr>`).join('')}</tbody></table>`:`<p data-testid="charges-empty">${te('billing.empty')}</p>`}`;
+ }
+ export function dialog() {
+-  return modal("Record a charge",`<label>Work order<select id="order-id" data-field="order_id" data-testid="order-id">${orderOptions()}</select></label>
+-    <label>Amount (EUR)<input id="amount" data-field="amount" data-testid="amount" value="${value('amount')}" inputmode="decimal"></label>
+-    <label>Internal memo<textarea id="memo" data-field="memo" data-testid="memo" placeholder="Keep the customer's wording">${value('memo')}</textarea></label>`,'save-charge');
++  return modal(te('billing.dialogTitle'),`<label>${te('field.order')}<select id="order-id" data-field="order_id" data-testid="order-id">${orderOptions()}</select></label>
++    <label>${te('billing.amount')}<input id="amount" data-field="amount" data-testid="amount" value="${value('amount')}" inputmode="decimal"></label>
++    <label>${te('billing.memo')}<textarea id="memo" data-field="memo" data-testid="memo" dir="auto" placeholder="${te('billing.memoHint')}">${value('memo')}</textarea></label>`,'save-charge');
+ }
+--- a/static/views/dispatch.js
++++ b/static/views/dispatch.js
+@@ -1,10 +1,10 @@
+ import {state, escape} from '../core/state.js';
+-import {t} from '../core/locale.js';
++import {te} from '../core/locale.js';
+ import {modal, orderOptions} from '../core/shell.js';
+ export function render() {
+-  return `<h2 data-testid="page-title">Crew dispatch</h2><p>Assign an available crew to an existing work order.</p><div class="grid">${state.data.crews.map(crew=>`<article class="card"><h3 class="user-content">${escape(crew.name)}</h3><p data-testid="crew-${crew.id}-status">${crew.available?"Available":"Unavailable"}</p><button data-action="assign" data-id="${crew.id}" data-testid="assign-${crew.id}">Assign crew <span class="link-arrow">→</span></button></article>`).join('')}</div>`;
++  return `<h2 data-testid="page-title">${te('dispatch.title')}</h2><p>${te('dispatch.subtitle')}</p><div class="grid">${state.data.crews.map(crew=>`<article class="card"><h3 class="user-content" dir="auto">${escape(crew.name)}</h3><p data-testid="crew-${crew.id}-status">${crew.available?te('dispatch.available'):te('dispatch.unavailable')}</p><button data-action="assign" data-id="${crew.id}" data-testid="assign-${crew.id}">${te('dispatch.assign')} <span class="link-arrow" aria-hidden="true">→</span></button></article>`).join('')}</div>`;
+ }
+ export function dialog() {
+   const crew = state.data.crews.find(row=>row.id===state.form.crew_id);
+-  return modal("Assign work order",`<p>${t('dispatch.assignTo',{name:crew.name})}</p><label>Work order<select id="order-id" data-field="order_id" data-testid="order-id">${orderOptions()}</select></label>`,'save-assignment');
++  return modal(te('dispatch.dialogTitle'),`<p>${te('dispatch.assignTo',{name:crew?.name??''})}</p><label>${te('field.order')}<select id="order-id" data-field="order_id" data-testid="order-id">${orderOptions()}</select></label>`,'save-assignment');
+ }
+--- a/static/views/help.js
++++ b/static/views/help.js
+@@ -1,5 +1,6 @@
+-import {t} from '../core/locale.js';
++import {state} from '../core/state.js';
++import {te} from '../core/locale.js';
+ export function render() {
+-  const topics = ["Create or edit a work order without losing customer text.","Unavailable crews cannot receive assignments.","Stock reservations require a positive whole quantity.","Charges are stored as integer cents, regardless of language.","Exported CSV uses the same machine format in every language."];
+-  return `<h2 data-testid="page-title">Using Field Desk</h2><p>A short guide to the operational workflow.</p><ul class="help-list">${topics.map(text=>`<li>${text}</li>`).join('')}</ul><button data-action="copy-help" data-testid="copy-help">Copy quick guide</button><p data-testid="help-copy-result"></p>`;
++  const topics = ['orders','dispatch','parts','billing','export'];
++  return `<h2 data-testid="page-title">${te('help.title')}</h2><p>${te('help.subtitle')}</p><ul class="help-list">${topics.map(key=>`<li>${te(`help.${key}`)}</li>`).join('')}</ul><button data-action="copy-help" data-testid="copy-help">${te('help.copy')}</button><p data-testid="help-copy-result" role="status">${state.helpCopied?te('common.copied'):''}</p>`;
+ }
+--- a/static/views/orders.js
++++ b/static/views/orders.js
+@@ -1,23 +1,23 @@
+ import {state, escape, value} from '../core/state.js';
+-import {t} from '../core/locale.js';
++import {te} from '../core/locale.js';
+ import {money} from '../core/format.js';
+ import {modal, status} from '../core/shell.js';
+ export function render() {
+   const rows = state.data.orders.filter(order=>(state.filter==='ALL'||order.status===state.filter)
+     && `${order.title} ${order.customer}`.toLowerCase().includes(state.search.toLowerCase()));
+-  return `<h2 data-testid="page-title">Work orders</h2><p data-testid="orders-subtitle">Plan work, assign crews, and preserve the job details.</p>
+-    <div class="toolbar"><label>Search orders<input id="search" data-testid="search" data-view-field="search" value="${escape(state.search)}" placeholder="Search title or customer"></label>
+-    <label>Status filter<select id="filter" data-testid="filter" data-view-field="filter">${[['ALL',"All statuses"],['OPEN',status('OPEN')],['ASSIGNED',status('ASSIGNED')],['DONE',status('DONE')]].map(([v,l])=>`<option value="${v}" ${state.filter===v?'selected':''}>${l}</option>`).join('')}</select></label>
+-    <button data-action="new-order" data-testid="new-order">New work order</button><button data-action="bulk" data-testid="bulk">Complete selected</button></div>
+-    <p data-testid="selection-count">${t('orders.selected',{count:state.selected.length})}</p>
+-    ${rows.length?`<table><thead><tr><th>Select</th><th>Title</th><th>Customer</th><th>Status</th><th>Budget (EUR)</th><th>Actions</th></tr></thead><tbody>${rows.map(order=>`<tr data-testid="order-${order.id}"><td><input type="checkbox" data-select="${order.id}" data-testid="select-${order.id}" ${state.selected.includes(order.id)?'checked':''} aria-label="${escape(t('orders.selectOne',{title:order.title}))}"></td><td class="user-content">${escape(order.title)}</td><td class="user-content">${escape(order.customer)}</td><td data-testid="status-${order.id}" class="badge">${status(order.status)}</td><td class="money">${money(order.budget_minor)}</td><td><button data-action="edit-order" data-id="${order.id}" data-testid="edit-${order.id}">Edit</button></td></tr>`).join('')}</tbody></table>`:`<section class="card" data-testid="empty"><h3>No matching work orders</h3><p>Try a different search or clear the filters.</p><button data-action="clear-search" data-testid="clear-search">Clear search</button></section>`}`;
++  return `<h2 data-testid="page-title">${te('orders.title')}</h2><p data-testid="orders-subtitle">${te('orders.subtitle')}</p>
++    <div class="toolbar"><label>${te('orders.search')}<input id="search" data-testid="search" data-view-field="search" dir="auto" value="${escape(state.search)}" placeholder="${te('orders.searchHint')}"></label>
++    <label>${te('orders.filter')}<select id="filter" data-testid="filter" data-view-field="filter">${[['ALL',te('orders.all')],['OPEN',status('OPEN')],['ASSIGNED',status('ASSIGNED')],['DONE',status('DONE')]].map(([v,l])=>`<option value="${v}" ${state.filter===v?'selected':''}>${l}</option>`).join('')}</select></label>
++    <button data-action="new-order" data-testid="new-order">${te('orders.new')}</button><button data-action="bulk" data-testid="bulk">${te('orders.complete')}</button></div>
++    <p data-testid="selection-count">${te('orders.selected',{count:state.selected.length})}</p>
++    ${rows.length?`<table><thead><tr><th>${te('orders.choose')}</th><th>${te('field.title')}</th><th>${te('field.customer')}</th><th>${te('field.status')}</th><th>${te('field.budget')}</th><th>${te('field.actions')}</th></tr></thead><tbody>${rows.map(order=>`<tr data-testid="order-${order.id}"><td><input type="checkbox" data-select="${order.id}" data-testid="select-${order.id}" ${state.selected.includes(order.id)?'checked':''} aria-label="${te('orders.selectOne',{title:order.title})}"></td><td class="user-content" dir="auto">${escape(order.title)}</td><td class="user-content" dir="auto">${escape(order.customer)}</td><td data-testid="status-${order.id}" class="badge">${status(order.status)}</td><td class="money">${money(order.budget_minor)}</td><td><button data-action="edit-order" data-id="${order.id}" data-testid="edit-${order.id}">${te('orders.edit')}</button></td></tr>`).join('')}</tbody></table>`:`<section class="card" data-testid="empty"><h3>${te('orders.emptyTitle')}</h3><p>${te('orders.emptyBody')}</p><button data-action="clear-search" data-testid="clear-search">${te('common.clear')}</button></section>`}`;
+ }
+ export function orderDialog() {
+-  return modal(state.form.id?"Edit work order":"Create work order",
+-    `<label>Title<input id="title" data-field="title" data-testid="title" value="${value('title')}" placeholder="Describe the work"></label>
+-    <label>Customer<input id="customer" data-field="customer" data-testid="customer" value="${value('customer')}"></label>
+-    <label>Budget (EUR)<input id="budget" data-field="budget" data-testid="budget" value="${value('budget')}" inputmode="decimal"></label><small data-testid="amount-hint">Use your language's decimal separator; at most two decimal places.</small>`, 'save-order');
++  return modal(state.form.id?te('order.editTitle'):te('order.createTitle'),
++    `<label>${te('field.title')}<input id="title" data-field="title" data-testid="title" dir="auto" value="${value('title')}" placeholder="${te('order.titleHint')}"></label>
++    <label>${te('field.customer')}<input id="customer" data-field="customer" data-testid="customer" dir="auto" value="${value('customer')}"></label>
++    <label>${te('field.budget')}<input id="budget" data-field="budget" data-testid="budget" value="${value('budget')}" inputmode="decimal"></label><small data-testid="amount-hint">${te('order.amountHint')}</small>`, 'save-order');
+ }
+ export function bulkDialog() {
+-  return modal("Complete work orders",`<p data-testid="bulk-question">${t('bulk.question',{count:state.selected.length})}</p><p>Customer titles and stored codes will not be changed.</p>`,'complete');
++  return modal(te('bulk.title'),`<p data-testid="bulk-question">${te('bulk.question',{count:state.selected.length})}</p><p>${te('bulk.warning')}</p>`,'complete');
+ }
+--- a/static/views/parts.js
++++ b/static/views/parts.js
+@@ -1,10 +1,10 @@
+ import {state, escape, value} from '../core/state.js';
+-import {t} from '../core/locale.js';
++import {te} from '../core/locale.js';
+ import {modal} from '../core/shell.js';
+ export function render() {
+-  return `<h2 data-testid="page-title">Parts inventory</h2><p>Reserve stock without changing part names.</p><div class="grid">${state.data.parts.map(part=>`<article class="card"><h3 class="user-content">${escape(part.name)}</h3><p data-testid="stock-${part.id}">${t('parts.stock',{count:part.stock})}</p><button data-action="reserve" data-id="${part.id}" data-testid="reserve-${part.id}">Reserve parts</button></article>`).join('')}</div>`;
++  return `<h2 data-testid="page-title">${te('parts.title')}</h2><p>${te('parts.subtitle')}</p><div class="grid">${state.data.parts.map(part=>`<article class="card"><h3 class="user-content" dir="auto">${escape(part.name)}</h3><p data-testid="stock-${part.id}">${te('parts.stock',{count:part.stock})}</p><button data-action="reserve" data-id="${part.id}" data-testid="reserve-${part.id}">${te('parts.reserve')}</button></article>`).join('')}</div>`;
+ }
+ export function dialog() {
+   const part = state.data.parts.find(row=>row.id===state.form.part_id);
+-  return modal("Reserve inventory",`<p class="user-content">${escape(part.name)}</p><label>Quantity<input id="units" data-field="units" data-testid="units" value="${value('units')}" inputmode="numeric"></label><small>Enter a positive whole quantity.</small>`,'save-reservation');
++  return modal(te('parts.dialogTitle'),`<p class="user-content" dir="auto">${escape(part?.name)}</p><label>${te('parts.quantity')}<input id="units" data-field="units" data-testid="units" value="${value('units')}" inputmode="numeric"></label><small>${te('parts.hint')}</small>`,'save-reservation');
+ }
+--- a/static/views/reports.js
++++ b/static/views/reports.js
+@@ -1,9 +1,9 @@
+ import {state} from '../core/state.js';
+-import {t} from '../core/locale.js';
++import {te} from '../core/locale.js';
+ import {money} from '../core/format.js';
+ import {modal} from '../core/shell.js';
+ export function render() {
+-  return `<h2 data-testid="page-title">Operational reports</h2><p>Review progress and export stable machine-readable data.</p><div class="grid"><section class="card"><h3>Active work</h3><p data-testid="open-count">${t('reports.count',{count:state.data.orders.filter(row=>row.status!=='DONE').length})}</p></section><section class="card"><h3>Total planned budget</h3><p class="money">${money(state.data.orders.reduce((n,row)=>n+row.budget_minor,0))}</p></section></div>
+-    <button data-action="export" data-testid="export">Export CSV</button><p data-testid="export-note">CSV headers, status codes, user text, and cent amounts stay unchanged.</p>`;
++  return `<h2 data-testid="page-title">${te('reports.title')}</h2><p>${te('reports.subtitle')}</p><div class="grid"><section class="card"><h3>${te('reports.open')}</h3><p data-testid="open-count">${te('reports.count',{count:state.data.orders.filter(row=>row.status!=='DONE').length})}</p></section><section class="card"><h3>${te('reports.budget')}</h3><p class="money">${money(state.data.orders.reduce((n,row)=>n+row.budget_minor,0))}</p></section></div>
++    <button data-action="export" data-testid="export">${te('reports.export')}</button><p data-testid="export-note">${te('reports.exportNote')}</p>`;
+ }
+-export function dialog() {return modal("Export work orders",`<p>Download all work orders using the documented CSV contract.</p>`,'download');}
++export function dialog() {return modal(te('reports.dialogTitle'),`<p>${te('reports.dialogBody')}</p>`,'download');}
+--- a/static/views/settings.js
++++ b/static/views/settings.js
+@@ -1,5 +1,6 @@
+ import {state} from '../core/state.js';
+-import {t} from '../core/locale.js';
++import {te} from '../core/locale.js';
+ export function render() {
+-  return `<h2 data-testid="page-title">Operator preferences</h2><p>Preferences belong to the selected operator.</p><section class="card"><label><span>Show operational notifications</span><input type="checkbox" data-testid="notifications" id="notifications" ${state.data.preferences.notifications?'checked':''}></label><p>Changing language must preserve this setting.</p><button data-action="save-settings" data-testid="save-settings">Save preferences</button></section><small data-testid="settings-operator">${t('settings.operatorNote',{name:state.operator==='robin'?'Robin':'Amal'})}</small>`;
++  const enabled = state.notificationsDraft ?? Boolean(state.data.preferences.notifications);
++  return `<h2 data-testid="page-title">${te('settings.title')}</h2><p>${te('settings.subtitle')}</p><section class="card"><label><span>${te('settings.notifications')}</span><input type="checkbox" data-testid="notifications" id="notifications" ${enabled?'checked':''}></label><p>${te('settings.notificationsHint')}</p><button data-action="save-settings" data-testid="save-settings">${te('common.save')}</button></section><small data-testid="settings-operator">${te('settings.operatorNote',{name:state.data.operators.find(user=>user.id===state.operator)?.name??state.operator})}</small>`;
+ }

@@ -1,0 +1,33 @@
+Field Desk now works fully in English, German and Arabic. Arabic is right-to-left, and each operator's language is saved to the server and comes back on navigation, reload and operator switching. I tested all eight views, the dialogs and the main flows in Chromium (Playwright) in every language, and found no errors. `/app/output/completion.json` is written with status `complete` and an empty `known_issues` list. I left the changes uncommitted.
+
+**What changed (all in `/app/static`)**
+- **Translation core (`core/locale.js`)**: text now comes from the selected language's catalog instead of always English, with an English fallback for missing keys. Plurals follow each language's rules, including the six Arabic forms, and numbers inside messages are formatted for the language. Arabic uses Arabic-Indic digits. In Arabic, inserted user data (titles, names) is wrapped in invisible direction marks so Latin text doesn't scramble the sentence. The page's `lang` and direction are set from the language.
+- **Formatting (`core/format.js`)**:
+  - Euro amounts and quantities are shown in the selected language's format.
+  - Money input is parsed strictly per language and stored as integer cents: English `1,234.50`, German `1.234,50` and Arabic `١٬٢٣٤٫٥٠` all give 123450.
+  - Malformed input (bad grouping, three decimals, negatives, over 99999999 cents) is rejected rather than truncated.
+  - Quantities accept Arabic-Indic digits.
+- **Views and shell**: every hard-coded English string is now a catalog key, covering navigation, headings, table headers, labels, placeholders, accessibility labels, empty states, dialogs, errors, notifications, activity events and the help "copy" text and result. I used the supplied catalog entries unchanged and didn't need to add any new keys. Translated text is HTML-escaped, which also fixes a spot where a crew name was inserted unescaped. User-entered fields detect their own text direction.
+- **App logic (`app.js`)**:
+  - Changing language saves it through the existing preferences API while keeping the operator's saved notification setting. It keeps the route, search, filter, selected orders, open dialogs, errors and notifications on screen.
+  - An open amount draft is rewritten in the new language's format with the same value. A draft that can't be parsed is kept as typed and still read with its original meaning.
+  - The old shared browser-stored language setting is gone.
+  - An unsaved notifications checkbox now survives a language change.
+  - One bug I found while testing is fixed: a late `change` event could put the old amount text back after it had been converted.
+- **Styles (`style.css`)**: removed the forced left-to-right layout so the navigation moves to the right in Arabic. The close button, toast position and the arrow on the "Assign crew" button now flip for right-to-left.
+
+**What I verified**
+- Number parsing on 18 valid and invalid inputs.
+- The seeded stock counts show all six Arabic plural forms.
+- Each language survives reload, and switching between Robin and Amal restores each one's own language. The saved notification setting was unchanged after language changes.
+- Error messages, notifications, the selection count, the bulk-complete question and an open draft all update in place when the language changes.
+- A saved draft was stored as `123450` cents.
+- A text scan of every view in German and Arabic found no leftover English.
+- The CSV export is unchanged (filename, columns, status codes, cents).
+- I checked screenshots of the layout in both directions.
+
+**Behaviours you might trip over**
+- Turning off notifications doesn't hide the notification pop-ups. It never did, and I left that alone because it isn't part of the language work.
+- Order numbers like `#12` stay in Latin digits even in Arabic, because they're identifiers rather than amounts.
+
+The dev server is running on port 8000 with a fresh copy of the seed data in `/tmp/field-desk-dev`.

@@ -1,0 +1,191 @@
+[
+  {
+    "variant": "frozen_case",
+    "attempt": 1,
+    "passed": true,
+    "category": "robustness",
+    "critical": true
+  },
+  {
+    "variant": "frozen_case",
+    "attempt": 2,
+    "passed": true,
+    "category": "robustness",
+    "critical": true
+  },
+  {
+    "variant": "frozen_case",
+    "attempt": 3,
+    "passed": true,
+    "category": "robustness",
+    "critical": true
+  },
+  {
+    "variant": "keyboard_normal",
+    "attempt": 1,
+    "passed": true,
+    "draft_before_submit": {
+      "form": {
+        "id": 1,
+        "title": "Open House: keep this wording",
+        "customer": "Ready for pickup",
+        "status": "OPEN",
+        "budget_minor": 125100,
+        "crew_id": null,
+        "budget": "1234.50",
+        "amountLocale": "ar"
+      },
+      "locale": "ar",
+      "focused": "language"
+    },
+    "persisted_after_submit": {
+      "id": 1,
+      "title": "Open House: keep this wording",
+      "customer": "Ready for pickup",
+      "status": "OPEN",
+      "budget_minor": 123450,
+      "crew_id": null
+    },
+    "dialog_count": 0
+  },
+  {
+    "variant": "keyboard_normal",
+    "attempt": 2,
+    "passed": true,
+    "draft_before_submit": {
+      "form": {
+        "id": 1,
+        "title": "Open House: keep this wording",
+        "customer": "Ready for pickup",
+        "status": "OPEN",
+        "budget_minor": 125100,
+        "crew_id": null,
+        "budget": "1234.50",
+        "amountLocale": "ar"
+      },
+      "locale": "ar",
+      "focused": "language"
+    },
+    "persisted_after_submit": {
+      "id": 1,
+      "title": "Open House: keep this wording",
+      "customer": "Ready for pickup",
+      "status": "OPEN",
+      "budget_minor": 123450,
+      "crew_id": null
+    },
+    "dialog_count": 0
+  },
+  {
+    "variant": "keyboard_normal",
+    "attempt": 3,
+    "passed": true,
+    "draft_before_submit": {
+      "form": {
+        "id": 1,
+        "title": "Open House: keep this wording",
+        "customer": "Ready for pickup",
+        "status": "OPEN",
+        "budget_minor": 125100,
+        "crew_id": null,
+        "budget": "1234.50",
+        "amountLocale": "ar"
+      },
+      "locale": "ar",
+      "focused": "language"
+    },
+    "persisted_after_submit": {
+      "id": 1,
+      "title": "Open House: keep this wording",
+      "customer": "Ready for pickup",
+      "status": "OPEN",
+      "budget_minor": 123450,
+      "crew_id": null
+    },
+    "dialog_count": 0
+  },
+  {
+    "variant": "keyboard_pending_preferences",
+    "attempt": 1,
+    "passed": true,
+    "draft_before_submit": {
+      "form": {
+        "id": 1,
+        "title": "Open House: keep this wording",
+        "customer": "Ready for pickup",
+        "status": "OPEN",
+        "budget_minor": 125100,
+        "crew_id": null,
+        "budget": "1234.50",
+        "amountLocale": "ar"
+      },
+      "locale": "ar",
+      "focused": "budget"
+    },
+    "persisted_after_submit": {
+      "id": 1,
+      "title": "Open House: keep this wording",
+      "customer": "Ready for pickup",
+      "status": "OPEN",
+      "budget_minor": 123450,
+      "crew_id": null
+    },
+    "dialog_count": 0
+  },
+  {
+    "variant": "keyboard_pending_preferences",
+    "attempt": 2,
+    "passed": true,
+    "draft_before_submit": {
+      "form": {
+        "id": 1,
+        "title": "Open House: keep this wording",
+        "customer": "Ready for pickup",
+        "status": "OPEN",
+        "budget_minor": 125100,
+        "crew_id": null,
+        "budget": "1234.50",
+        "amountLocale": "ar"
+      },
+      "locale": "ar",
+      "focused": "budget"
+    },
+    "persisted_after_submit": {
+      "id": 1,
+      "title": "Open House: keep this wording",
+      "customer": "Ready for pickup",
+      "status": "OPEN",
+      "budget_minor": 123450,
+      "crew_id": null
+    },
+    "dialog_count": 0
+  },
+  {
+    "variant": "keyboard_pending_preferences",
+    "attempt": 3,
+    "passed": true,
+    "draft_before_submit": {
+      "form": {
+        "id": 1,
+        "title": "Open House: keep this wording",
+        "customer": "Ready for pickup",
+        "status": "OPEN",
+        "budget_minor": 125100,
+        "crew_id": null,
+        "budget": "1234.50",
+        "amountLocale": "ar"
+      },
+      "locale": "ar",
+      "focused": "budget"
+    },
+    "persisted_after_submit": {
+      "id": 1,
+      "title": "Open House: keep this wording",
+      "customer": "Ready for pickup",
+      "status": "OPEN",
+      "budget_minor": 123450,
+      "crew_id": null
+    },
+    "dialog_count": 0
+  }
+]

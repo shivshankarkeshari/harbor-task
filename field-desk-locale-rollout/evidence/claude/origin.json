@@ -1,0 +1,57 @@
+{
+  "job": "claude-opus55-high-01",
+  "trial": "field-desk-locale-rollout__jsYfYEs",
+  "evaluation_kind": "saved artifact re-evaluation under the final corrected verifier; no additional model call",
+  "native_agent": {
+    "name": "claude-code",
+    "version": "2.1.319",
+    "model_info": {
+      "name": "anthropic/claude-opus-5.5",
+      "provider": "openrouter"
+    }
+  },
+  "reasoning_effort": "high",
+  "started_at": "2026-11-09T07:00:57.326715Z",
+  "finished_at": "2026-11-09T07:10:35.884738Z",
+  "native_task_checksum": "c209db64e48b9181a4db592c12c7220569d69b11245a90ae2c33550996d0361d",
+  "native_rewards": {
+    "overall": 0.8724489795918368,
+    "functional_correctness": 1.0,
+    "constraint_satisfaction": 1.0,
+    "robustness": 1.0,
+    "artifact_quality": 0.4897959183673469
+  },
+  "corrected_rewards": {
+    "overall": 1.0,
+    "functional_correctness": 1.0,
+    "constraint_satisfaction": 1.0,
+    "robustness": 1.0,
+    "artifact_quality": 1.0
+  },
+  "critical_failures": [],
+  "native_exception": null,
+  "source_files_sha256": {
+    "serve.py": "5f5ad895e12c17f706bcb7b59d040b4c9512584416eafc32cc9da710ef3a6197",
+    "static/index.html": "737d0dbdc98818c0e660dfecf447fa288efa40b0ac6c05df6fe7aa0002328430",
+    "static/style.css": "c90e6a4054f0e0aceb37b5d16b86b3b3eb5c22bd1b0710aa4729b3c42ca90bcd",
+    "static/app.js": "615377a3d611ef9d4feb1650e1217a8953303e4a3fa04fe093e667b995319eba",
+    "static/locales/de.json": "1361e066e40a099fcd4a37dc8e36b2190c4d92232f248e88aef1de2afe4dc081",
+    "static/locales/en.json": "4fbb7552e50aafae5e430ee46e88b5defb947b50aa1a0e2a28e769e37ef406fe",
+    "static/locales/ar.json": "2445953ead859efdc2861e7e1770f46fa2c9669cb15dc746afd96c1983a27b67",
+    "static/core/shell.js": "103c650396ae7f6103dbfbc1f63396e967c5414bdf1cc9c79a07dbc18d11216a",
+    "static/core/format.js": "7511ed42ab61685aca10a6575aec6b564bfbcbaa115a13880a48cccccf305ea6",
+    "static/core/state.js": "663e9db6a72bb9e5c4487f71b6db179192b98be05dc275e48286b0c63d0cfbc5",
+    "static/core/locale.js": "67add300bfd5c79451b9dcdd833ee1ff7bac9f7e02be9021204ba6f2797ecdd2",
+    "static/views/dispatch.js": "97b088716b60d7210ff276c6cb3a65bd3571fe29294570266e594d96c356f057",
+    "static/views/orders.js": "04f62dbe3fa576a96c2e9bca78fbaa057150e8a0641f2641416b69ba9bdc302a",
+    "static/views/activity.js": "31b81961ca8e3eb37f5dbb0adf2af554ddfe40d986ce6a08ed5e64e1e911e168",
+    "static/views/billing.js": "701d1f127351f572d4c7bdfd42b2acee584540e2fdd2ea03ea458a3924e10a9b",
+    "static/views/help.js": "4b9b63521d4bf8956ff9a7d0777558cdf8570e53f79e7280ae05329a9e33b707",
+    "static/views/parts.js": "6cbb54ada477dadd6db1c46162b1cad529e67576b4ccb64c9d97d5222d84ff48",
+    "static/views/reports.js": "357503656a4a0488286e40b12959d30c63c1fbc36580ade36b679d6b989367e7",
+    "static/views/settings.js": "d0ef8b57a19c6615a649dc6d0ebd560006381c3de97490da55e5d84319d44159"
+  },
+  "native_verifier_failure_invalidated": true,
+  "invalidated_failure_reason": "Arabic FSI/PDI isolation marks were allowed by the public contract but one aria-label assertion compared raw bytes.",
+  "harness_reported_cost_usd": 1.1656832000000001
+}
