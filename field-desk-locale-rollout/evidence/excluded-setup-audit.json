@@ -22,7 +22,8 @@
   "frozen_source": {
     "verified": true,
     "checked_files": 33,
-    "changed_or_missing_files": []
+    "changed_or_missing_files": [],
+    "unexpected_task_files": []
   },
   "failure_requirement_met": false,
   "rubric": {
